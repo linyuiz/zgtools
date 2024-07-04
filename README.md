@@ -5,14 +5,14 @@
 
 模块：
 
+           #Survey【基因组-Survey】
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
-           | #Survey【基因组-Survey】                             |
            | survey                --Survey Pipeline             |
            | nt                    --NT Blast                    |
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
- 
+
+           #Assembly【基因组-组装与纠错】
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
-           | #Assembly【基因组-组装与纠错】                        |
            | methods               --Assembler List              |
            | hifiasm               --Hifiasm Assemble            |
            | n50plot               --N50 & Contig Length Plot    |
@@ -20,9 +20,9 @@
            | nextpolish2           --T2T Polish(Nextpolish2)     |
            | purge                 --Purge Dups                  |
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
-                                           
+
+           #Assessment【基因组-评估】      
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
-           | #Assessment【基因组-评估】                           |    
            | mappingdata           --Mapping Assessment          |
            | qv                    --QV Assessment               |
            | BUSCO                 --BUSCO Assessment            |
@@ -32,8 +32,8 @@
            | compleasm[Update]     --Compleasm Assessment        |
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
 
+           #HiC & Syntenic【基因组-HIC挂载与共线性】    
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
-           | #HiC & Syntenic【基因组-HIC挂载与共线性】             |
            | hicup_nt              --HiCUP Truncater + NT Blast  |
            | haphic                --HapHiC Scaffolding Pipeline |
            | hicup                 --HiCUP Assessment            |
@@ -46,36 +46,23 @@
            | subphaser             --SubPhaser Phase Subgenomes  |
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
 
-           * — — — — — — — — — — — — — — — — — — — — — — — — — — *
-           | #Gene Annotation【基因组-基因注释】                   |
-           | homoAnno[Update]      --Homo Annotation             |
-           | transAnno[Update]     --Transcript Annotation       |
-           | denovoAnno[Update]    --Denovo Annotation           |
-           | repeatAnno[Update]    --Repeat Annotation           |
-           | integration[Update]   --Intergrate Annotation       |
-           * — — — — — — — — — — — — — — — — — — — — — — — — — — *
 
+           #Evolution【基因组-进化分析】       
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
-           | #Func Annotation【基因组-功能注释】                 |
-           | funcAnno[Update]      --Function Annotation         |
-           * — — — — — — — — — — — — — — — — — — — — — — — — — — *
-
-           * — — — — — — — — — — — — — — — — — — — — — — — — — — *
-           | #Evolution【基因组-进化分析】                       |
            | dupgene[Update]       --Find DupGene + Whisker Plot |
            | genetribe             --Allele Gene Identification  |
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
 
+           #T2T【基因组-T2T组装与分析】   
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
-           | #T2T【基因组-T2T组装与分析】                          |
            | homotools             --T2T Tools                   |
            | genomeview            --Genomeview                  |
            | telomere              --Telomere Count              |
            | centromere            --Centromere Identification   |
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
 
+           #Others【杂项】
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
-           | #Others【杂项】                                      |
            | n50                   --N50 Stat                    |
            | centromere            --Centromere Identification   |
            | getpep                --Deal With Genome And GFF3   |
@@ -87,4 +74,3 @@
            | tips                  --Some Little Commands        |
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
 
-           
