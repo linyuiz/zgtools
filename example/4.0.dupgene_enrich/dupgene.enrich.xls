@@ -1,0 +1,51 @@
+DupGene	Func	Count
+DSD	peptidyl-prolyl cis-trans isomerase activity	29
+DSD	RNA binding	159
+DSD	iron-sulfur cluster binding	18
+DSD	microtubule-based movement	27
+DSD	endonuclease activity	20
+DSD	chloroplast membrane	16
+DSD	ATP hydrolysis activity	73
+DSD	zinc ion binding	142
+DSD	mismatch repair	10
+DSD	solute:proton antiporter activity	12
+PD	response to oxidative stress	14
+PD	hydrogen peroxide catabolic process	13
+PD	beta-glucosidase activity	7
+PD	peroxidase activity	13
+PD	oligopeptide transmembrane transporter activity	5
+PD	defense response	15
+PD	ADP binding	11
+PD	heme binding	18
+PD	extracellular region	14
+PD	protein kinase activity	23
+TD	defense response	47
+TD	ADP binding	35
+TD	UDP-glycosyltransferase activity	26
+TD	heme binding	52
+TD	carbohydrate binding	34
+TD	recognition of pollen	21
+TD	oxidoreductase activity, acting on paired donors, with incorporation or reduction of molecular oxygen	33
+TD	apoplast	28
+TD	monooxygenase activity	32
+TD	polysaccharide binding	13
+TRD	DNA integration	22
+TRD	nucleic acid binding	37
+TRD	ADP binding	19
+TRD	defense response	23
+TRD	zinc ion binding	41
+TRD	pyruvate dehydrogenase (acetyl-transferring) activity	4
+TRD	acetyl-CoA biosynthetic process from pyruvate	4
+TRD	phosphorelay signal transduction system	7
+TRD	glycolytic process	6
+TRD	transcription coactivator activity	3
+WGD	DNA-binding transcription factor activity	218
+WGD	sequence-specific DNA binding	88
+WGD	regulation of transcription, DNA-templated	166
+WGD	structural constituent of ribosome	131
+WGD	translation	125
+WGD	GTPase activity	91
+WGD	actin binding	33
+WGD	calmodulin binding	37
+WGD	ribosome	98
+WGD	auxin-activated signaling pathway	39

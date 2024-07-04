@@ -1,0 +1,30 @@
+The task: 【polish】 starts at Tue Jun 11 09:43:06 CST 2024
+[01;35m#######Data#######[0m
+Genome: 02.assembly/03.nextdenovo/00.chubu_busco/nd.asm.fasta
+Data Type: HIFI_NGS
+TGS Align Mode: map-hifi
+TGS Data: 00.data/3rd/filter/02.hifi/tmp_of_mapping/clean_ccs.fa
+NGS Data: 00.data/2nd/rawdata/Clean_Insect_R1.fq.gz, 00.data/2nd/rawdata/Clean_Insect_R2.fq.gz
+
+[01;35m#######Run#######[0m
+1.the first polish ...
+2.the second polish ...
+3.the third polish ...
+4.the only once polish ...
+4.1.bwa index ...
+ref_seq_len = 1367122288
+count = 0, 452067361, 683561144, 915054927, 1367122288
+BWT[393423450] = 4
+CP_SHIFT = 6, CP_MASK = 63
+sizeof CP_OCC = 64
+max_occ_ind = 21361285
+4.2.bwa mem ...
+4.3.samtools index bam ...
+4.4.plion working ...
+
+[01;35m#######Result#######[0m
+file         num_seqs  sum_len      N50        GC(%)
+raw          404       685,330,133  2,822,405  33.92
+racon        404       683,561,144  2,816,357  33.87
+racon+pilon  404       683,463,998  2,815,060  33.87
+The task: 【polish】 ends at Tue Jun 11 12:03:03 CST 2024

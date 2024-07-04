@@ -1,0 +1,58 @@
+The task: 【subphaser】 starts at Wed Jun  5 17:21:16 CST 2024
+[01;35m#######Data#######[0m
+Genome: new.ragtag.genome.fa
+Phaser config: phaser.config
+Min Freq(q>=30): 200
+
+[01;35m#######Run#######[0m
+1.subphaser ...
+[01;35m#######Result#######[0m
+#chrom  subgenome  bootstrap
+Chr01A  SG1        100
+Chr02A  SG1        100
+Chr03A  SG1        100
+Chr04A  SG1        100
+Chr05A  SG1        100
+Chr06A  SG1        100
+Chr07A  SG1        100
+Chr08A  SG1        100
+Chr09A  SG1        100
+Chr10A  SG1        100
+Chr11A  SG1        100
+Chr12A  SG1        100
+Chr01B  SG2        100
+Chr02B  SG2        100
+Chr03B  SG2        100
+Chr04B  SG2        100
+Chr05B  SG2        100
+Chr06B  SG2        100
+Chr07B  SG2        100
+Chr08B  SG2        100
+Chr09B  SG2        100
+Chr10B  SG2        100
+Chr11B  SG2        100
+Chr12B  SG2        100
+Fig 1: 同源染色体组之间差异k-mer的直方图。
+Fig 2: 差异k-mer的热图和聚类。
+       x轴: 差异k-mer; y轴: 染色体;
+       垂直颜色条: 每条染色体被分配到哪个亚基因组;
+       水平颜色条: 每个k-mer特定于哪个亚基因组(非特定k-mer为空白);
+Fig 3: 差异k-mer的主成分分析(PCA)。点表示染色体。
+Fig 4: 圈图(窗口大小:1Mb)。从外到内依次为:
+       (1) 通过k-Means算法分配的亚基因组。
+       (2) 亚基因组特异性k-mer的显著富集(非富集窗口为空白)。
+       (3) 亚基因组特异性k-mer的归一化比例。
+       (4-5) 每个亚基因组特异性k-mer集的密度分布(计数)。
+       (6) 亚基因组特异性LTR-RTs和其他LTR-RTs的密度分布(计数)(最外层，灰色)。
+       (7) 每个同源染色体组的同源区段。
+Fig 5-6: 亚基因组特异性LTR-RTs的插入时间。
+Fig 7-8: 1000个随机抽样的LTR/Gypsy元件的系统发育树。
+Plot 01.k15_q200.kmer_freq.png
+Plot 02.k15_q200.kmer_mat.png
+Plot 03.k15_q200.kmer_PCA.png
+Plot 04.k15_q200.circos.png
+Plot 05.k15_q200.LTR.Insert.density.png
+Plot 06.k15_q200.LTR.Insert.histo.png
+Plot 07.k15_q200.LTR-Gypsy.tree.png
+Plot 08.k15_q200.LTR-Copia.tree.png
+The task: 【subphaser】 ends at Wed Jun  5 17:21:58 CST 2024

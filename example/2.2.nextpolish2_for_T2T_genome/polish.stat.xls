@@ -1,0 +1,4 @@
+file               num_seqs  sum_len        N50          GC(%)
+before_polish      31        3,037,607,219  118,809,908  43.18
+nextpolish2_once   31        3,037,454,526  118,809,838  43.18
+nextpolish2_twice  31        3,037,449,243  118,809,838  43.18

@@ -1,0 +1,18 @@
+
+######################
+## INPUT PROCESSING ##
+######################
+
+######################
+## INPUT PROCESSING ##
+######################
+
+#############
+## SUMMARY ##
+#############
+detecting two smudges at the same positions, not enough data for this number of bins lowering number of bins to 	35
+detecting two smudges at the same positions, not enough data for this number of bins lowering number of bins to 	30
+
+##########
+## PLOT ##
+##########

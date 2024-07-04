@@ -1,0 +1,4 @@
+Genome                   Seq_Num  Total_Length   N50         GC(%)
+HIFI_HIC.hap1.ctg.fa     1,421    2,216,996,267  52,723,956  39.48
+HIFI_HIC.hap2.ctg.fa     951      2,132,414,199  55,826,879  39.57
+HIFI_HIC.primary.ctg.fa  5,215    2,393,275,469  52,962,337  39.63

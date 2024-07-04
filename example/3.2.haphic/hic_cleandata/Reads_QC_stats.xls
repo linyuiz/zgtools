@@ -1,0 +1,2 @@
+Sample	Raw_reads	Raw_bases	Clean_reads	Clean_bases	Q20_rate	Q30_rate
+HiC	985,216,356	147,782,453,400	983,298,348	146,231,076,766	98.111%	93.655%

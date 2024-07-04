@@ -1,0 +1,15 @@
+GenomeScope version 2.0
+input file = kmer.histo
+output directory = ./
+p = 2
+k = 19
+initial kmercov estimate = 80
+
+property                      min               max               
+Homozygous (aa)               99.8751%          99.8999%          
+Heterozygous (ab)             0.100104%         0.124879%         
+Genome Haploid Length         710,613,012 bp    711,181,517 bp    
+Genome Repeat Length          326,869,689 bp    327,131,191 bp    
+Genome Unique Length          383,743,323 bp    384,050,325 bp    
+Model Fit                     58.7259%          93.125%           
+Read Error Rate               0.144661%         0.144661%         

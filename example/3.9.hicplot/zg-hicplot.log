@@ -1,0 +1,25 @@
+The task: 【hicplot】 starts at Wed Jun 19 10:25:04 CST 2024
+[01;35m#######Data#######[0m
+Genome: 000.T2T/11.collinearity/02.no_gap/no_gap.chronly.fa
+HiC Data: 000.T2T/03.hic/01.hunhe_hic/02.hic_hz/Result/hic_cleandata/test_R1.clean.fq.gz, 000.T2T/03.hic/01.hunhe_hic/02.hic_hz/Result/hic_cleandata/test_R2.clean.fq.gz
+vMin: 10, vMax: 10000
+fontsize: 5
+binsize: 1000000
+
+[01;35m#######Run#######[0m
+1. bwa index genome
+2. bwa mem hic fastq R1
+3. bwa mem hic fastq R2
+4. run HiCExplorer
+
+[01;35m#######Results#######[0m
+Output: 000.T2T/11.collinearity/02.no_gap/03.hicplot/output_of_hicplot/
+.
+├── hic_plot_line.svg(png/pdf)          HiCExplorer生成的HIC热图（含染色体边界线）
+├── each_chr.all.hicplot.svg(png/pdf）  所有染色体的HIC热图
+├── each_hicplot                        每条染色体的单独HIC热图
+│   └── *.hicplot.svg(png/pdf)
+├── hic_matrix.h5                       用于生成HIC热图的矩阵文件
+├── hic_plot.svg(png/pdf)               HiCExplorer生成的HIC热图
+└── readme.txt
+The task: 【hicplot】 ends at Wed Jun 19 10:25:14 CST 2024

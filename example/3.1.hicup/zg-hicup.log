@@ -1,0 +1,27 @@
+The task:【hicup】starts at 2024年06月28日12:00:28
+[01;35m#######Data#######[0m
+Genome: 02.assembly/04.report/Results/genome.contigs.fasta
+HiC R1 Data: 03.hic/02.hic_hz/01.haphic/output_of_haphic/hic_cleandata/HiC_R1.clean.fq.gz
+HiC R2 Data: 03.hic/02.hic_hz/01.haphic/output_of_haphic/hic_cleandata/HiC_R2.clean.fq.gz
+Restriction Enzymes: ^GATC,MboI
+Threads: 60
+FASTQ format: Sanger
+Whether Deleta Sam And Fastq: do_delete
+[01;35m
+#######Run#######[0m
+1. bowtie2-build ---threads 60 ...
+2. restriction enzymes: ^GATC,MboI , hicup_digester --re1 ^GATC,MboI ...
+3. hicup and check valid pairs ...
+4. get hicup.html and hic.map.stat
+5. delete *sam and *fastq of hicup
+[01;35m
+#######Result#######[0m
+本项目 HIC 数据评估结果如下:
+(1)本项目 Valid Rate 比例为 92.38% , 达到建库合格的质控标准。HIC 建库测序中, 一般使用Valid Rate比例来评估文库是否合格, Valid Rate>50%, 表明 HIC 建库合格。
+(2)本项目 Unique Mapped ratio 为 20.3% , 一般被用来 计算有效 HIC 数据覆盖基因组乘数。 Unique Mapped ratio 指标和 HIC 建库没有关系, 通常会和基因组组装质量以及物种特异性等有关。为满足 HIC 测序辅助挂载基因组分析的需求, 基因组的有效 HIC 数据至少大于  10x(极端情况下大于5x)。对于 Unique Mapped ratio 指标较低的项目, 推荐排查基因组组装的指标或者通过加测数据来解决。
+Output: 03.hic/02.hic_hz/01.haphic/hicup/output_of_hicup/
+.
+├── HiC.map_stat.xls                 HIC测序数据与基因组比对结果统计表
+├── HiCUP_summary_report.html        HiCUP质控报告
+└── Valid.Paired-end.Read.stat.xls   Hi-C测序数据各类型数量统计表
+The task:【hicup】ends at 2024年06月28日12:00:43

@@ -1,0 +1,2 @@
+file                                                                                                                                               format  type   num_seqs          sum_len  min_len   avg_len  max_len      Q1      Q2      Q3  sum_gap     N50  Q20(%)  Q30(%)  AvgQual  GC(%)
+00.data/3rd/filter/02.hifi/tmp_of_mapping/clean_ccs.fa  FASTA   DNA   5,976,135  121,116,497,978      135  20,266.7   74,723  16,149  19,033  23,236        0  20,624       0       0        0  33.92

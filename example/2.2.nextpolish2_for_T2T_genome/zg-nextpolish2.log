@@ -1,0 +1,25 @@
+The task: 【nextpolish2】 starts at Mon Jun 17 14:34:31 CST 2024
+[01;35m#######Data#######[0m
+Genome: 000.T2T/11.collinearity/02.no_gap/no_gap.chronly.fa
+HiFi Data: 00.data/3rd/hifi/all_ccs.fa
+NGS Data: 01.survey/output/01.cleandata/yak2A_clean_R1.fq.gz, 01.survey/output/01.cleandata/yak2A_clean_R2.fq.gz
+Align Software: minimap2
+
+[01;35m#######Run#######[0m
+1.first HiFi mapping genome
+2.prepare k-mer dataset files (yak)
+2.1.produce a 21-mer dataset
+2.2.produce a 31-mer dataset
+3.run first NextPolish2
+4.second HiFi mapping genome
+4.1.pigz genome
+4.2.minimap2 align
+4.3.samtols index
+5.run second NextPolish2
+
+[01;35m#######Results#######[0m
+file               num_seqs  sum_len        N50          GC(%)
+before_polish      31        3,037,607,219  118,809,908  43.18
+nextpolish2_once   31        3,037,454,526  118,809,838  43.18
+nextpolish2_twice  31        3,037,449,243  118,809,838  43.18
+The task: 【nextpolish2】 ends at Mon Jun 17 19:39:55 CST 2024

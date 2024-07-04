@@ -1,0 +1,44 @@
+The task:【qv】starts at 2024年07月02日17:10:45
+[01;35m#######Data#######[0m
+Genome: 04.purge_dups/final_result/final_purge.genome.fa
+Meryl_DB: 04.new_qv/01.polish_qv/tmp_of_qv/02.meryl_db/db.meryl
+
+[01;35m#######Run#######[0m
+1. get best kmer...
+1.1. kmer size: 20
+2. meryl db...
+2.1. get db: 04.new_qv/01.polish_qv/tmp_of_qv/02.meryl_db/db.meryl 
+3. calculate QV...
+4. get results...
+[01;35m
+#######Result#######[0m
+QV Stat:
+ID                  Length       N50        QV       Num
+final_purge.genome  748,350,946  4,953,408  42.5327  277
+Each QV(The first nine reads in order of length):
+ID            Length      QV
+ptg000039l_1  29,567,161  41.7673
+ptg000027l_1  18,513,991  49.9888
+ptg000053l_1  13,125,798  46.0922
+ptg000055l_1  13,113,113  40.2667
+ptg000016l_1  12,985,877  41.3410
+ptg000057l_1  12,690,388  45.0967
+ptg000007l_1  12,636,209  41.2698
+ptg000154l_1  12,194,438  46.5997
+ptg000130l_1  11,561,113  45.1399
+Each QV(The last nine reads in order of length):
+ID                Length  QV
+hap_ptg000692l_1  51,094  +inf
+ptg000669l_1      49,310  +inf
+ptg000628l_1      47,174  43.8332
+ptg000694l_1      46,128  +inf
+ptg000686l_1      45,555  42.6897
+ptg000675l_1      45,331  42.5805
+ptg000712l_1      39,244  +inf
+ptg000601l_1      33,837  41.5779
+ptg000256l_1      19,451  44.4327
+Completeness:
+Assembly  k-mers SET used  Assembly solid k-mers  Total solid k-mers  Completeness
+genome    all              436463321              498613467           87.5354
+output: 05.final_qv/output_of_qv/
+The task:【qv】ends at 2024年07月02日17:53:03

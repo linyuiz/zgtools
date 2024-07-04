@@ -1,0 +1,34 @@
+The task:【syntenic】starts at 2024年07月04日17:42:16
+[01;35m#######Data#######[0m
+Ref Genome: ref/ref_chronly.fa
+Query Genome: 08.hifi_polish/output_of_nextpolish2/02.nextpolish2_twice.fasta
+Nucmer Mincluster: 500
+Delta Fliter Length: 500
+Minimum Alignment identity: 95
+Mummerplot Filter Length: 500
+JCVI INV Filter Length: 10000
+
+[01;35m#######Run#######[0m
+1. mummer4 align
+2. plotsr syri
+3. mummer plot
+4. gap plot
+5. jcvi plot
+5.1. filter less than 10000 bp INV
+5.2. python3 -m jcvi.graphics.karyotype --keep-chrlabels ...
+5.3. python3 -m jcvi.graphics.karyotype --nocircles ...
+
+[01;35m#######Result#######[0m
+Output:11.collinearity/03.after_polish/output_of_syntenic/each_gapplot/
+.
+├── each_gapplot           每条染色体的Syri图(含Gap展示, Gap为红点)
+│   └── *_gapplot.png      每条染色体的Syri图(含Gap展示, Gap为红点)
+├── each_mummerplot        每条染色体的Mummerplot图
+│   └── *_mummerplot.png   每条染色体的Mummerplot图
+├── each_syri              每条染色体的Syri图(常规展示, 无Gap标记)
+│   └── *_syri.png         每条染色体的Syri图(常规展示, 无Gap标记)
+├── gapplot.*              所有染色体的Syri图(含Gap展示, Gap为红点) 
+├── mummerplot.*           所有染色体的Mummerplot图
+├── jcvi.*                 所有染色体的JCVI图(红色为按照>=10000bp过滤的倒位INV)
+└── syri.*                 所有染色体的Syri图
+The task:【syntenic】ends at 2024年07月04日17:53:53

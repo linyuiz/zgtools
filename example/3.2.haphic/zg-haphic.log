@@ -1,0 +1,28 @@
+The task:【haphic】starts at 2024年06月27日09:09:26
+[01;35m#######Data#######[0m
+Genome: 02.assembly/04.report/Results/genome.contigs.fasta
+Chr Num: 19
+HiC R1 Data: 00.data/hic_data/rawdata/S17_R1.fq.gz
+HiC R2 Data: 00.data/hic_data/rawdata/S17_R2.fq.gz
+HiC Modify: GATC
+Threads: 64
+Filter HiC Data: do_fastp
+Filter Bam: MapQ 1
+NM Edit Distance Cutoff: <5
+Run View Mode: quick
+Juicebox Curation: juicer
+Juicebox MapQ Filter: MapQ 1
+
+[01;35m#######Run#######[0m
+1. Bwa index genome and fastp HiC data
+1.1. Fastp results:
+Sample  Raw_reads    Raw_bases        Clean_reads  Clean_bases      Q20_rate  Q30_rate
+HiC     985,216,356  147,782,453,400  983,298,348  146,231,076,766  98.111%   93.655%
+2. Align Hi-C data to the assembly, remove PCR duplicates and filter out secondary and supplementary alignments
+3. Filter the alignments with MAPQ 1 (mapping quality ≥ 1) and NM 5 (edit distance < 5)
+4. HapHiC Quick View Mode: Use the fast sorting to order and orient all contigs without clustering
+4.1. JuiceBox: Generate the .assembly and .hic files without the need for re-aligning
+
+[01;35m#######Results#######[0m
+Please check the juicer.quick.{q1.hic,assembly} in 03.hic/02.hic_hz/01.haphic/output_of_haphic/juicer_YaHS/
+The task:【haphic】ends at 2024年06月27日12:28:58

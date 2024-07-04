@@ -1,0 +1,74 @@
+The task: 【survey】 starts at Tue Jun 11 11:11:03 CST 2024
+[01;35m#######Data#######[0m
+Kmer size: 19
+Smudgeplot: skip_smudgeplot
+Ploid type: 2
+Input Data: 00.data/2nd/rawdata/Clean_Insect_R1.fq.gz, 
+Sample Name: Clean
+
+[01;35m#######步骤1：检查原始数据#######[0m
+rawdata R1:
+00.data/2nd/rawdata/Clean_Insect_R1.fq.gz
+rawdata R2:
+00.data/2nd/rawdata/Clean_Insect_R2.fq.gz
+
+[01;35m#######步骤2：过滤原始数据并质控#######[0m
+[01;35m#######FASTA格式数据不过滤, 只统计数据量#######[0m
+cleandata R1:
+01.survey/02.2nd/tmp_of_survey/01.fastp_qc/Clean.clean_R1.fastq.gz
+cleandata R2:
+01.survey/02.2nd/tmp_of_survey/01.fastp_qc/Clean.clean_R2.fastq.gz
+data statistics:
+Data_Type   Total_Reads  Total_Bases     Q20_Bases       Q30_Bases       Q20_Rate(%)  Q30_Rate(%)  GC_Content(%)
+raw_data    432,270,194  64,840,529,100  63,124,542,193  60,094,474,359  97.35        92.68        34.45
+clean_data  432,270,182  63,854,227,086  62,178,902,710  59,212,549,908  97.38        92.73        34.37
+
+[01;35m#######步骤3：jellyfish统计kmer#######[0m
+Rscript plot_kmer.R kmer.histo 200 5
+如果Kmer图有问题，请自行修改:
+Rscript plot_kmer.R kmer.histo max_depth(X轴最大限制) low_depth(过滤错误kmer)
+Kmer分布图：kmer_depth_and_frequencey_distribution.png
+输入数据量: none
+
+[01;35m#######步骤4：gce 和 genomescope2.0#######[0m
+数据量: 63.85 G
+gce analyze finish.
+gce_kmer.stat.xls:
+Kmer_Size  Total_Kmer      Kmer_Depth  Genome_Size  H_Ratio(%)  D_Ratio(%)  Clean_Data(G)  Seq_Depth(X)
+19         49,285,051,292  67.61       728,960,972  0.15        40.05       63.85          87.59
+Title说明:
+Kmer_Size：   kmer大小, 一般是19;                   Heterozygous_Ratio:  杂合度;
+Total_Kmer:   kmer总数(kmer频数xkmer种类的和);      Duplication_Ratio:   重复度;
+Kmer_Depth:   主峰深度;                             Clean_Data:          二代原始数据过滤后的数据量;
+Genome_Size:  预估基因组大小;                       Seq_Depth:           测序深度;
+
+[01;35m######Genomescope2.0#######[0m
+genomescope p=2 ...
+纯合模式
+genomescope2.0 analyze finish.
+genomescope_kmer.stat.xls:
+Kmer_Size  Total_Kmer      Kmer_Depth  Genome_Size  H_Ratio(%)  D_Ratio(%)  Clean_Data(G)  Seq_Depth(X)
+19         49,390,181,048  67.60       730,623,980  0.17        45.47       63.85          87.39
+Title说明:
+Kmer_Size：   kmer大小, 一般是19;                   Heterozygous_Ratio:  杂合度;
+Total_Kmer:   kmer总数(kmer频数xkmer种类的和);      Duplication_Ratio:   重复度;
+Kmer_Depth:   主峰深度;                             Clean_Data:          二代原始数据过滤后的数据量;
+Genome_Size:  预估基因组大小;                       Seq_Depth:           测序深度;
+
+[01;35m######Summary#######[0m
+gce_kmer.stat.xls:
+Kmer_Size  Total_Kmer      Kmer_Depth  Genome_Size  H_Ratio(%)  D_Ratio(%)  Clean_Data(G)  Seq_Depth(X)
+19         49,285,051,292  67.61       728,960,972  0.15        40.05       63.85          87.59
+genomescope_kmer.stat.xls:
+Kmer_Size  Total_Kmer      Kmer_Depth  Genome_Size  H_Ratio(%)  D_Ratio(%)  Clean_Data(G)  Seq_Depth(X)
+19         49,390,181,048  67.60       730,623,980  0.17        45.47       63.85          87.39
+Title说明:
+Kmer_Size：   kmer大小, 一般是19;                   Heterozygous_Ratio:  杂合度;
+Total_Kmer:   kmer总数(kmer频数xkmer种类的和);      Duplication_Ratio:   重复度;
+Kmer_Depth:   主峰深度;                             Clean_Data:          二代原始数据过滤后的数据量;
+Genome_Size:  预估基因组大小;                       Seq_Depth:           测序深度;
+
+跳过倍型分析
+Survey分析已全部完成!
+结果整理完成！
+The task: 【survey】 ends at Tue Jun 11 11:11:55 CST 2024

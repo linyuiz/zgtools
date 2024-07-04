@@ -1,0 +1,64 @@
+The task: 【ragtag】 starts at Thu Jun 13 12:37:52 CST 2024
+[01;35m#######Data#######[0m
+Ref Genome: 02.assembly/ref/cse_autosome.chronly.fa
+Query Genome: 000.T2T/02.primary_hic/02.hic_hz/01.quick_view/out_of_haphic/3D-DNA_SALSA/makechr/01.syri/T2T_hhc_primary.chr.fa
+Ref Chr Num: all
+Query Chr Num: all
+
+[01;35m#######Run#######[0m
+1.get chronly genome
+2.ragtag scaffold ...
+NewID  OldID  Direction
+chr1   chr2   +
+chr2   chr3   +
+chr3   chr4   -
+chr4   chr7   -
+chr5   chr6   -
+chr6   chr9   -
+chr7   chr11  +
+chr8   chr12  -
+chr9   chr8   -
+chr10  chr15  -
+chr11  chr13  -
+chr12  chr17  +
+chr13  chr14  -
+chr14  chr10  -
+chr15  chr18  -
+chr16  chr20  -
+chr17  chr22  -
+chr18  chr16  -
+chr19  chr19  -
+chr20  chr21  +
+chrZ   chr5   +
+chrW   chr1   +
+3.make new .assembly file
+3.1.make new genome file
+
+[01;35m#######Results#######[0m
+file           num_seqs  sum_len      N50         GC(%)
+ragtag.genome  22        569,753,672  24,771,627  40.13
+Each Chr:
+ID     Length
+chr1   38,325,100
+chr2   36,332,897
+chr3   31,507,705
+chr4   25,457,082
+chr5   26,509,377
+chr6   24,771,627
+chr7   24,177,329
+chr8   23,488,446
+chr9   24,935,087
+chr10  22,736,860
+chr11  23,304,770
+chr12  21,114,843
+chr13  23,018,831
+chr14  24,615,850
+chr15  20,800,100
+chr16  18,703,026
+chr17  18,379,249
+chr18  21,148,398
+chr19  19,999,835
+chr20  18,656,591
+chrZ   30,264,866
+chrW   51,505,803
+The task: 【ragtag】 ends at Thu Jun 13 12:43:57 CST 2024

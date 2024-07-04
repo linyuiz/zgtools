@@ -1,0 +1,35 @@
+The task:【newLAI】starts at 2024年07月02日23:06:55
+[01;35m#######Data#######[0m
+Genome: data/04.T2T_genome/T2T.fasta
+Species Evolution Rate: 7e-9
+LTR_FINDER Results: 01.LAI/tmp_of_LAI/01.LTR_FINDER_parallel/used.genome.fa.finder.combine.scn
+LTR_Harvert Type: skip_LTRharvest
+LAI Split Type: split
+Threads: 64
+Parallel Task: 8
+
+[01;35m#######Run#######[0m
+1. LTR_FINDER_parallel and LTRharvest make .combine.scn
+2. LTR_retriever make .out.LAI
+3. Plot LAI and LTR-insertion-time
+4. TE Evolution
+4.1. TEsorter with db rexdb-plant, processors 64
+4.2. Extract RT domain sequences and align with MAFFT
+4.3. Reconduct the phylogenetic tree with IQTREE
+4.4. Plot TE tree by ggtree, treeio
+5. Patch all plot
+
+[01;35m#######Results#######[0m
+Output: 03.split_LAI/output_of_LAI/
+
+├── LTR_InsertionTime+LAI+LTR_Tree.*    LAI评估+LTR插入时间+LTR系统发育树图
+├── LAI.pdf(svg/png)                    LAI评估圈图（含标准差）
+├── LAI.xls                             LAI评估表
+├── LTR_InsertionTime.pdf(svg/png)      LTR插入时间图
+├── LTRtime.xls                         LTR插入时间表格
+├── LTR-Tree.pdf(svg/png)               LTR-RTs的最大似然法建树图
+├── LTR-Superfamily.xls                 LTR子家族统计表
+├── LTR-Superfamily.gff3                LTR注释文件（GFF3格式）
+├── LTR-RTs.treefile                    LTR-RTs建树结果（使用iqtree做最大似然法建树）
+└── readme.txt
+The task:【newLAI】ends at 2024年07月03日00:07:08

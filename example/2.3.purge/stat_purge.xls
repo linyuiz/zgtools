@@ -1,0 +1,4 @@
+file           num_seqs  sum_len        N50         GC(%)
+before_purge   1,717     2,143,533,925  13,523,913  36.04
+purged_genome  468       1,455,466,701  16,264,067  35.89
+useless_part   1,291     688,067,224    6,342,801   36.36

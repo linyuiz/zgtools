@@ -1,0 +1,70 @@
+The task: 【busco】 starts at Mon Jun 17 16:10:15 CST 2024
+[01;35m#######Data#######[0m
+Input Data: 02.assembly/01.hifiasm/00.chubu_busco/ye2.p_ctg.fa
+Data Type: geno
+Busco Mode: miniprot
+Busco Database: /public/database/new_tag/busco/2022-03-14/embryophyta_odb10
+
+[01;35m#######Run#######[0m
+1. busco miniprot with /public/database/new_tag/busco/2022-03-14/embryophyta_odb10
+2024-06-17 16:10:35 INFO:	***** Start a BUSCO v5.7.1 analysis, current time: 06/17/2024 16:10:35 *****
+2024-06-17 16:10:35 INFO:	Configuring BUSCO with local environment
+2024-06-17 16:10:35 INFO:	Running genome mode
+2024-06-17 16:10:36 INFO:	Input file is 02.assembly/01.hifiasm/00.chubu_busco/ye2.p_ctg.fa
+2024-06-17 16:10:36 INFO:	Using local lineages directory /public/database/new_tag/busco/2022-03-14/embryophyta_odb10
+2024-06-17 16:10:36 WARNING:	Option long was provided but is not used in the selected run mode, euk_genome_min
+2024-06-17 16:10:40 INFO:	Running BUSCO using lineage dataset embryophyta_odb10 (eukaryota, 2020-09-10)
+2024-06-17 16:10:40 INFO:	Running 1 job(s) on bbtools, starting at 06/17/2024 16:10:40
+2024-06-17 16:10:45 INFO:	[bbtools]	1 of 1 task(s) completed
+2024-06-17 16:10:45 INFO:	Running 1 job(s) on miniprot_index, starting at 06/17/2024 16:10:45
+2024-06-17 16:10:53 INFO:	[miniprot_index]	1 of 1 task(s) completed
+2024-06-17 16:10:53 INFO:	Running 1 job(s) on miniprot_align, starting at 06/17/2024 16:10:53
+2024-06-17 16:12:29 INFO:	[miniprot_align]	1 of 1 task(s) completed
+2024-06-17 16:14:29 INFO:	***** Run HMMER on gene sequences *****
+2024-06-17 16:14:30 INFO:	Running 1614 job(s) on hmmsearch, starting at 06/17/2024 16:14:30
+2024-06-17 16:15:18 INFO:	[hmmsearch]	162 of 1614 task(s) completed
+2024-06-17 16:15:36 INFO:	[hmmsearch]	323 of 1614 task(s) completed
+2024-06-17 16:15:54 INFO:	[hmmsearch]	485 of 1614 task(s) completed
+2024-06-17 16:16:10 INFO:	[hmmsearch]	646 of 1614 task(s) completed
+2024-06-17 16:16:27 INFO:	[hmmsearch]	808 of 1614 task(s) completed
+2024-06-17 16:16:44 INFO:	[hmmsearch]	969 of 1614 task(s) completed
+2024-06-17 16:17:00 INFO:	[hmmsearch]	1130 of 1614 task(s) completed
+2024-06-17 16:17:17 INFO:	[hmmsearch]	1292 of 1614 task(s) completed
+2024-06-17 16:17:32 INFO:	[hmmsearch]	1453 of 1614 task(s) completed
+2024-06-17 16:17:48 INFO:	[hmmsearch]	1614 of 1614 task(s) completed
+2024-06-17 16:18:12 INFO:	16 candidate overlapping regions found
+2024-06-17 16:18:12 INFO:	16075 exons in total
+2024-06-17 16:18:14 WARNING:	37 of 1590 Complete matches (2.3%) contain internal stop codons in Miniprot gene predictions
+2024-06-17 16:18:35 INFO:	
+
+    -------------------------------------------------------------------------------------------
+    |Results from dataset embryophyta_odb10                                                    |
+    -------------------------------------------------------------------------------------------
+    |C:98.6%[S:90.5%,D:8.1%],F:1.4%,M:0.0%,n:1614,E:2.3%                                       |
+    |1590    Complete BUSCOs (C)    (of which 37 contain internal stop codons)                 |
+    |1460    Complete and single-copy BUSCOs (S)                                               |
+    |130    Complete and duplicated BUSCOs (D)                                                 |
+    |22    Fragmented BUSCOs (F)                                                               |
+    |2    Missing BUSCOs (M)                                                                   |
+    |1614    Total BUSCO groups searched                                                       |
+    -------------------------------------------------------------------------------------------
+2024-06-17 16:18:36 INFO:	BUSCO analysis done with WARNING(s). Total running time: 480 seconds
+
+***** Summary of warnings: *****
+2024-06-17 16:10:36 WARNING:busco.BuscoConfig	Option long was provided but is not used in the selected run mode, euk_genome_min
+2024-06-17 16:18:14 WARNING:busco.busco_tools.hmmer	37 of 1590 Complete matches (2.3%) contain internal stop codons in Miniprot gene predictions
+
+2024-06-17 16:18:36 INFO:	Results written in 02.assembly/01.hifiasm/00.chubu_busco/tmp_of_busco/result
+2024-06-17 16:18:36 INFO:	For assistance with interpreting the results, please consult the userguide: https://busco.ezlab.org/busco_userguide.html
+
+2024-06-17 16:18:36 INFO:	Visit this page https://gitlab.com/ezlab/busco#how-to-cite-busco to see how to cite BUSCO
+2. busco plot ...
+[01;35m#######Result#######[0m
+Item                                 Number  Percent(%)
+Complete BUSCOs (C)                  1590    98.6
+Complete and single-copy BUSCOs (S)  1460    90.5
+Complete and duplicated BUSCOs (D)   130     8.1
+Fragmented BUSCOs (F)                22      1.4
+Missing BUSCOs (M)                   2       0.0
+Total BUSCO groups searched          1614    100
+The task: 【busco】 ends at Mon Jun 17 16:19:15 CST 2024

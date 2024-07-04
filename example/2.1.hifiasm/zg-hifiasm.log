@@ -1,0 +1,21 @@
+The task:【hifiasm】starts at 2024年07月04日20:17:28
+[01;35m#######Data#######[0m
+Method: HIFI_HIC
+Threads: 64
+Purge level: 0
+Remove tip unitigs composed of <=INT reads: 3
+Round of correction: 3
+Number of bits for bloom filter: 37
+HIFI ccs data: 00.data/3rd/hifiall_ccs.fa
+Hi-C R1: 00.data/hic_data/rawdata/dayeshuweicao_hic_R1.fq.gz
+Hi-C R2: 00.data/hic_data/rawdata/dayeshuweicao_hic_R2.fq.gz
+
+[01;35m#######Run#######[0m
+1. hifiasm -l 0 -n 3 -r 3 -t 64 ...
+1.1 plot kmer count-depth distribution
+[01;35m#######Result#######[0m
+Genome                   Seq_Num  Total_Length   N50         GC(%)
+HIFI_HIC.hap1.ctg.fa     1,421    2,216,996,267  52,723,956  39.48
+HIFI_HIC.hap2.ctg.fa     951      2,132,414,199  55,826,879  39.57
+HIFI_HIC.primary.ctg.fa  5,215    2,393,275,469  52,962,337  39.63
+The task:【hifiasm】ends at 2024年07月04日20:18:01

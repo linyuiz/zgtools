@@ -1,0 +1,20 @@
+The task: 【purge】 starts at Mon Jun 24 11:32:48 CST 2024
+[01;35m#######Data#######[0m
+Genome: 02.assembly/01.hifiasm/00.chubu_busco/S17.p_ctg.fa
+Cutoff_Depth: auto_cutoff
+Data_Type: hifi
+Input_Data: 00.data/3rd/hifi/all_ccs.fa
+
+[01;35m#######Run#######[0m
+1.genome align hifi data
+2.split genome and mapping self
+3.purge haplotigs and overlap
+4.get purge fa and plot
+4.1 Rscript plot.R ../03.purge_haplotigs_overlap/base.stat 5 106 420 400
+
+[01;35m#######Result#######[0m
+file           num_seqs  sum_len        N50         GC(%)
+before_purge   1,717     2,143,533,925  13,523,913  36.04
+purged_genome  468       1,455,466,701  16,264,067  35.89
+useless_part   1,291     688,067,224    6,342,801   36.36
+The task: 【purge】 ends at Mon Jun 24 14:14:21 CST 2024
