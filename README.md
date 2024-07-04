@@ -5,7 +5,7 @@
 
 示例：
 
-           .
+           example
            ├──  1.1.survey                      Survey流程
            ├──  1.2.nt                          NT比对, 去细菌污染
            ├──  2.1.hifiasm                     hifiasm组装
