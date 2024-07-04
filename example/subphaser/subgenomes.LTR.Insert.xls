@@ -1,0 +1,4 @@
+# Summary of LTR insertion age (million years)
+#subgenome	mean	median	standard_deviation	75%-CI	95%-CI	99%-CI
+SG1	2.258	1.982	1.553	0.693-3.797	0.162-6.766	0.054-8.384
+SG2	1.498	1.190	1.423	0.255-2.708	0.065-5.868	0.015-8.079
