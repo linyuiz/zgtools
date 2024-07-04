@@ -25,7 +25,8 @@
            ├──  3.7.align                       minimap2比对出dotploty图
            ├──  3.8.genomeview                  检测基因组的rDNA/端粒/Gap并出图
            ├──  3.9.hicplot                     HIC热图
-           └──  4.0.dupgene_enrich              DupGene富集图
+           ├──  4.0.dupgene_enrich              DupGene富集图
+           └──  5.0.centromere                  着丝粒预测(优于市面上所有的软件)  
 
 模块：
 
