@@ -1,7 +1,10 @@
-# zgtools流程（待更新示例结果文件，要求作图与结果均达到CNS水平）
+# zgtools流程
+待更新示例结果文件，要求作图与结果均达到CNS水平
 
-Module:
-   
+欢迎交流，需要代做分析可联系 QQ：1954616586
+
+模块：
+
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
            | #Survey【基因组-Survey】                            |
            | survey                --Survey Pipeline             |
@@ -72,7 +75,7 @@ Module:
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
 
            * — — — — — — — — — — — — — — — — — — — — — — — — — — *
-           | #Others【杂项-小工具】                              |
+           | #Others【杂项】                              |
            | n50                   --N50 Stat                    |
            | centromere            --Centromere Identification   |
            | getpep                --Deal With Genome And GFF3   |
