@@ -1,4 +1,4 @@
-![image](https://github.com/linyuiz/zgtools-pipeline/assets/168809032/396b24cf-8141-4d39-be26-f25c276181d7)![image](https://github.com/linyuiz/zgtools-pipeline/assets/168809032/fd797544-75aa-47f0-8625-62984b6e0a3a)# zgtools流程
+# zgtools流程
 zgtools-T2T流程图：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/%E6%B5%81%E7%A8%8B%E5%9B%BE.svg)
 
