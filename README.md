@@ -5,7 +5,7 @@ T2T测序策略：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg)
 
 结果文件请见示例【example】，要求作图与结果均达到CNS水平
-欢迎交流，需要代做分析（主做T2T）可联系 QQ：1954616586 （从事基因组分析达一千年的生信老妖怪）
+欢迎交流，需要代做分析（主做T2T）可联系 QQ：1954616586 （从事生信分析长达1千年的老生信）
 
 ①着丝粒预测：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/chrA01.CCR.Final_plot.png)
