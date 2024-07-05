@@ -3,6 +3,7 @@ zgtools-T2T流程图：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/%E6%B5%81%E7%A8%8B%E5%9B%BE.svg)
 
 结果文件请见示例【example】，要求作图与结果均达到CNS水平
+欢迎交流，需要代做分析（主做T2T）可联系 QQ：1954616586
 
 ①着丝粒预测：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/chrA01.CCR.Final_plot.png)
@@ -25,7 +26,10 @@ zgtools-T2T流程图：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/1.1.survey/02.jellyfish_count_kmer/kmer_depth_and_frequencey_distribution.svg)
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/1.2.nt/ntkingdom.pie.png)
 
-欢迎交流，需要代做分析（主做T2T）可联系 QQ：1954616586
+⑦组装：
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/2.1.hifiasm/kmer_depth.distribution.png)
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/2.4.busco/busco_figure.png)
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/2.5.qv/genome.genome.spectra-cn.fl.png)
 
 示例：
 
