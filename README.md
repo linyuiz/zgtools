@@ -1,8 +1,6 @@
 # zgtools流程
 zgtools-T2T流程图：
-
-![](C:\Users\zyl_bena\Desktop\绘图.svg)
-
+![My Image]([https://example.com/image.png](https://github.com/linyuiz/zgtools-pipeline/blob/master/%E6%B5%81%E7%A8%8B%E5%9B%BE.png))
 结果文件请见示例【example】，要求作图与结果均达到CNS水平
 
 欢迎交流，需要代做分析（主做T2T）可联系 QQ：1954616586
