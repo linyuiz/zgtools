@@ -1,8 +1,29 @@
-# zgtools流程
+![image](https://github.com/linyuiz/zgtools-pipeline/assets/168809032/396b24cf-8141-4d39-be26-f25c276181d7)![image](https://github.com/linyuiz/zgtools-pipeline/assets/168809032/fd797544-75aa-47f0-8625-62984b6e0a3a)# zgtools流程
 zgtools-T2T流程图：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/%E6%B5%81%E7%A8%8B%E5%9B%BE.svg)
 
 结果文件请见示例【example】，要求作图与结果均达到CNS水平
+
+①着丝粒预测：
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/chrA01.CCR.Final_plot.png)
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/all_chromosome.png)
+
+②LAI评估+LTR插入时间分析+LTR-RTs系统发育树：
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/2.7.LAI%2BLTRinsertTime/LTR_InsertionTime%2BLAI%2BLTR_Tree.png)
+
+③重复基因鉴定+Ks分析+富集图：
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/4.0.dupgene_enrich/dupgene_plot.png)
+
+④Subphaser亚基因组分析：
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.4.subphaser/00.subphaser_allplot.png)
+
+⑤多种共线性分析：
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.6.syntenic/jcvi.have_chrlabels.png)
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.6.syntenic/gapplot.png)
+
+⑥Survey分析+NT比对：
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/1.1.survey/02.jellyfish_count_kmer/kmer_depth_and_frequencey_distribution.svg)
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/1.2.nt/ntkingdom.pie.png)
 
 欢迎交流，需要代做分析（主做T2T）可联系 QQ：1954616586
 
