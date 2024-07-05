@@ -6,6 +6,7 @@ T2T测序策略：
 
 结果文件请见示例【example】，要求作图与结果均达到CNS水平
 欢迎交流，需要代做分析（主做T2T，包括动物的T2T-Y组装）可联系 QQ：1954616586 
+目前可做的分析，请见底部的【模块】↓
 
 ①着丝粒预测：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/chrA01.CCR.Final_plot.png)
