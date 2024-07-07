@@ -31,16 +31,17 @@ T2T共线性图（浅蓝色：5S rDNA；深蓝色：45S rDNA；黄色：Gap；�
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.6.syntenic/T2T_syn.png)
 
 其他可交付：
-①着丝粒预测：
+
+①重复基因鉴定+Ks分析+富集图：
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/4.0.dupgene_enrich/dupgene_plot.png)
+
+②着丝粒预测：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/chrA01.CCR.Final_plot.png)
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/all_chromosome.png)
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/genomeview.png)
 
-②LAI评估+LTR插入时间分析+LTR-RTs系统发育树：
+③LAI评估+LTR插入时间分析+LTR-RTs系统发育树：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/2.7.LAI%2BLTRinsertTime/LTR_InsertionTime%2BLAI%2BLTR_Tree.png)
-
-③重复基因鉴定+Ks分析+富集图：
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/4.0.dupgene_enrich/dupgene_plot.png)
 
 ④Subphaser亚基因组分析：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.4.subphaser/00.subphaser_allplot.png)
