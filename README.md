@@ -27,7 +27,7 @@ T2T测序策略：
 9、注释与进化(待更新)
 
 最近更新：
-T2T共线性图（浅蓝色：5S rDNA; 深蓝色：45S rDNA; 黄色：Gap; 黑色：端粒; 蓝色填错图：基因密度;）
+T2T共线性图（浅蓝色:5S rDNA; 深蓝色:45S rDNA; 黄色:Gap; 黑色:端粒; 蓝色填充图:基因密度;）
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.6.syntenic/T2T_syn.png)
 
 ①着丝粒预测：
