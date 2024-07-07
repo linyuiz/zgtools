@@ -1,5 +1,5 @@
 # zgtools流程
-zgtools的T2T水平：   
+zgtools达到的T2T水平：   
 ①0 Gap：最基本的要求；  
 ②全端粒：每条染色体末端端粒重复次数大于100次；  
 ③全rDNA：有rDNA末端的染色体也完善出端粒；  
