@@ -1,7 +1,7 @@
 # zgtools流程
-zgtools-T2T流程图：  
-
 zgtools的T2T水平（无Gap:最基本的要求；全端粒:每条染色体末端端粒重复次数大于100次；全rDNA：有rDNA末端的染色体也完善出端粒；全着丝粒：整个基因组准确鉴定着丝粒）
+
+zgtools-T2T流程图： 
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/%E6%B5%81%E7%A8%8B%E5%9B%BE.svg)
 T2T测序策略：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg)
