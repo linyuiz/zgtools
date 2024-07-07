@@ -9,7 +9,7 @@
 ├──  2.2.polish_for_ont_genome       racon+plion纠错(常规ONT基因组纠错)
 ├──  2.3.purge                       去冗余流程
 ├──  2.4.busco                       BUSCO评估
-├──  2.5.qv                          ONT评估
+├──  2.5.qv                          QV评估
 ├──  2.6.mappingdata                 Mapping回比评估
 ├──  2.7.LAI+LTRinsertTime           LAI评估+LTR插入时间分析+LTR-RT系统发育树
 ├──  3.1.hicup                       HiCUP评估
