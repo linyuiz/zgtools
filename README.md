@@ -5,13 +5,27 @@ T2T测序策略：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg)
 
 结果文件请见示例【example】，要求作图与结果均达到CNS水平
-欢迎交流，需要代做分析（主做T2T，包括动物的T2T-Y组装）可联系 QQ：1954616586  
-目前可做的分析，请见底部的【模块】↓
+欢迎交流，需要代做分析(主做T2T，包括动物的T2T-Y组装)可联系 QQ：1954616586  
+目前可代做的分析(由于考虑到三代二代数据可能比较大的原因，目前只能寄盘过来。其他数据大小比较小的文件，可以直接百度网盘上传)
+1、Survey分析+倍型分析+二代/三代NT比对去污染
+2、常规基因组组装/分型基因组组装/T2T基因组组装(端粒延伸、补Gap、全rDNA)+各项评估
+3、HiCUP评估(HiC小测/HiC大测)+HiC挂载调图+染色体级别基因组生成+HiC热图
+4、Subphaser亚基因组分型+亚基因组特有分析（SV分析/等位基因表达不平衡分析/亚基因组优势分析/KaKs差异分析）
+5、LAI评估+LTR插入时间分析+LTR-RTs系统发育树（最大似然法）
+6、着丝粒预测（优于目前已发表的所有生信鉴定着丝粒软件）
+7、重复基因鉴定+KaKs分析+功能富集
+8、圈图、基因共线性
+9、注释与进化(待更新)
+
+最近更新：
+T2T共线性图（浅蓝色：5S rDNA; 深蓝色：45S rDNA; 黄色：Gap; 黑色：端粒; 蓝色填错图：基因密度;）
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.6.syntenic/T2T_syn.png)
 
 ①着丝粒预测：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/chrA01.CCR.Final_plot.png)
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/all_chromosome.png)
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/genomeview.png)
+
 ②LAI评估+LTR插入时间分析+LTR-RTs系统发育树：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/2.7.LAI%2BLTRinsertTime/LTR_InsertionTime%2BLAI%2BLTR_Tree.png)
 
