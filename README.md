@@ -33,7 +33,7 @@ T2T测序策略：
 9、注释与进化(待更新)
 
 最近更新：   
-☆T2T圈图
+☆T2T圈图   
 ①展示所有共线性
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/7.0.Circos/GenomeCircos_AllSyntenic.png)
 ②ID保持邻近，只展示Chr01A_vs_Chr01B,...的共线性
