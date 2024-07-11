@@ -42,7 +42,6 @@ T2T测序策略：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/7.0.Circos/GenomeCircos_Symmetry.png)
 ☆T2T共线性图（浅蓝色：5S rDNA；深蓝色：45S rDNA；黄色：Gap；黑色：端粒；蓝色填充：Ref基因组的基因密度；）
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.6.syntenic/T2T_syn.png)
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/6.0.genomesyn/18.Chr09B_GenomeSyn.png)
 其他可交付：
 
 ①重复基因鉴定+Ks分析+富集图：
