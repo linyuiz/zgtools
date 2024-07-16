@@ -33,7 +33,7 @@ T2T测序策略：
 9、注释与进化(待更新)
 
 最近更新：   
-☆Gap填补后Gap区的Reads覆盖图（从上到下: 其他组装版本、HIFI数据、ONT数据reads覆盖图）
+☆Gap填补后（速度非常快）+Gap区的Reads覆盖图（从上到下: 其他组装版本、HIFI数据、ONT数据reads覆盖图）
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/8.0.GapArea_ReadsCoverage/Reads_Coverage.png)
 ☆T2T圈图   
 ①展示所有共线性
