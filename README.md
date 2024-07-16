@@ -7,7 +7,7 @@ zgtools达到的T2T水平：
 ④全着丝粒：整个基因组准确鉴定着丝粒。  
 zgtools-T2T流程图： 
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/%E6%B5%81%E7%A8%8B%E5%9B%BE.svg)
-T2T测序策略：
+T2T测序策略：（Pacbio revio 1cell 60G~80G: 1w5; Ont 1cell 20G: 1w）  
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/T2T%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg)
 
 结果文件请见示例【example】，要求作图与结果均达到CNS水平
