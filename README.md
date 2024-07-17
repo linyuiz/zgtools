@@ -4,6 +4,8 @@
 【个人商业项目，非开源项目，支持个性化分析】  
 【可代做T2T，价格私聊，根据基因组大小按照报价表适当调整】  
 【交付数据，按照比公司还多还细致的结果交付】   
+T2T测序策略：（Pacbio revio 1cell 60G~80G: 1万5; Ont 1cell 20G: 1万块）  
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/T2T%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg)
 zgtools达到的T2T水平：    
 ①0 Gap：最基本的要求；  
 ②全端粒：每条染色体末端端粒重复次数大于100次（一般1000次以上比较好）；  
@@ -11,12 +13,8 @@ zgtools达到的T2T水平：
 ④全着丝粒：整个基因组准确鉴定着丝粒。  
 zgtools-T2T流程图： 
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/%E6%B5%81%E7%A8%8B%E5%9B%BE.svg)
-T2T测序策略：（Pacbio revio 1cell 60G~80G: 1w5; Ont 1cell 20G: 1w）  
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/T2T%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg)
-
 结果文件请见示例【example】，要求作图与结果均达到CNS水平
-欢迎交流，需要代做分析（主做T2T，包括动物的T2T-Y组装）可联系 QQ：1954616586  
-
+欢迎交流，需要代做分析（主做T2T，包括动物的T2T-Y组装）可联系 QQ：1954616586   
 目前可代做的分析（由于考虑到二代/三代数据可能比较大的原因，如果需要分析，目前只能寄盘过来。其他数据大小比较小的文件，比如基因组文件，可以直接百度网盘上传）
 
 1、Survey分析+倍型分析+二代/三代NT比对去污染
