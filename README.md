@@ -13,7 +13,7 @@ zgtools达到的T2T水平：
 zgtools-T2T流程图： 
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/%E6%B5%81%E7%A8%8B%E5%9B%BE.svg)
 结果文件请见示例【example】，要求作图与结果均达到CNS水平
-目前可代做的分析（由于考虑到二代/三代数据可能比较大的原因，如果需要分析，目前只能寄盘过来。其他数据大小比较小的文件，比如基因组文件，可以直接百度网盘上传）
+目前zgtools能做的分析  
 
 1、Survey分析+倍型分析+二代/三代NT比对去污染
 
