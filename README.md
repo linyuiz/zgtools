@@ -10,8 +10,6 @@ zgtools达到的T2T水平：
 ②全端粒：每条染色体末端端粒重复次数大于100次（一般1000次以上比较好）；  
 ③全rDNA：有rDNA末端的染色体也完善出端粒；  
 ④全着丝粒：整个基因组准确鉴定着丝粒。  
-zgtools-T2T流程图： 
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/%E6%B5%81%E7%A8%8B%E5%9B%BE.svg)
 结果文件请见示例【example】，要求作图与结果均达到CNS水平
 目前zgtools能做的分析  
 
