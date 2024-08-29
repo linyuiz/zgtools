@@ -3,7 +3,12 @@
 【需要zgtools软件的部分模块，可联系QQ：1954616586】  
 【个人项目，非开源项目，支持个性化分析】  
 【交付数据，按照比公司还多还细致的结果交付】   
-T2T测序策略：（Pacbio revio 1cell 60G~80G: 1万5; Ont 1cell 20G: 1万块）  
+T2T测序策略：
+①HIFI 13500一个Cell，保底80g 一般可以测到90g；
+如果需要测少量的HIFI，即散测。散测费用是建库2000 测序180/g。
+②HIC 是一个文库4000 测序10/g；
+③ONT 默认N50:100K，目前11000一个Cell，单个Cell产出植物15G，哺乳动物20G以上，水产和昆虫这些暂不承诺。
+④二代数据：提取建库110 测序10/G
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/T2T%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg)
 zgtools达到的T2T水平：    
 ①0 Gap：最基本的要求；  
