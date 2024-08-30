@@ -41,7 +41,7 @@ zgtools达到的T2T水平：
 ①TGS-Gapcloser很容易给基因组补出许多序列，补gap前后可能多出好几M，其次缺点还有就是容易爆内存。  
 ②quarTeT的补gap也有问题，效果差，补完gap，多出100多M也不说了。如果实在要补gap还是用TGS-Gapcloser吧，慢慢跑，慢慢补应该不会爆内存。其他的例如，LR-gapcloser也效果不是很好。  
 ☆Gap填补后的新区域的Reads覆盖图（从上到下: 其他组装版本、HIFI数据、ONT数据reads覆盖图）  
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/8.0.GapArea_ReadsCoverage/Reads_Coverage.png)
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/8.0.GapArea_ReadsCoverage/GapFilled_ReadsCoverage.png)
 ☆T2T圈图   
 ①展示所有共线性
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/7.0.Circos/GenomeCircos_AllSyntenic.png)
