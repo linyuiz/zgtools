@@ -40,6 +40,8 @@ zgtools达到的T2T水平：
 最近更新：   
 ☆GapCloser 2.0（速度再提升）  
 搭配最新的telomere_repair模块，对于600M基因组，12分钟延伸/修补完的6个不完整末端的端粒，8分钟补完11个Gap并且全有超多reads覆盖补Gap后的区域。  
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/9.0.Telomere_repair/allhap.png) 
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/9.0.Telomere_repair/eachStream.png) 
 ☆端粒延伸/修补（速度非常快，内存消耗小）  
 测试：900M基因组有6个末端没有端粒，通过检测repeat序列的分布以及鉴定rDNA，将不存在端粒的末端进行分类，使用三代数据/组装序列保证序列高一致性的情况下进行延伸修补。时间花费：半小时；    
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/9.0.Telomere_repair/telomere_repair.png)  
