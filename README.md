@@ -8,7 +8,6 @@
 【需要HIC调图教程或者测序服务请联系QQ】  
 
 ## 目录 
-
 - [zgtools-pipeline](#zgtools-pipeline)
   - [流程图](#流程图)
   - [测序咨询](#测序咨询)
@@ -18,6 +17,7 @@
 
 ## 流程图
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/pipeline-flow.png)   
+
 ## 测序咨询
 ①HIFI 12000一个Cell，保底80g 一般可以测到90g；如果需要测少量的HIFI，即散测。散测费用是建库2000 测序180/g；   
 ②HIC 一个文库4000 测序10/g；   
@@ -26,7 +26,6 @@
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/T2T%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg)
 
 ## 完成度
-
 zgtools达到的T2T水平：    
 ①0 Gap：最基本的要求；          
 ②全端粒：每条染色体末端端粒重复次数大于100次（一般1000次以上比较好)；      
@@ -56,7 +55,11 @@ zgtools达到的T2T水平：
 &emsp;&emsp;最理想的情况为右图，原Gap周围没有复杂的冗余与未切断序列，可以被很好的填补上。   
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/updata.24.11.18-ReadsCovergae.png)   
 
-### ☆2024/11/18---端粒修补（同源比较）  
+### ☆2024/11/18---端粒修补（同源比较）
+&emsp;&emsp;获得 0 Gap的基因组后通过端粒鉴定，发现端粒有不完整的时，开始进行端粒修补，此时，使用的是zgtools homotelo模块，原理是将其他组装版本与0 Gap基因组进行比较，基于高质量的共线性与其他限制性参数对基因组末端进行末端替换，homotelo的末端替换不只限于端粒的替换，还能够检查当前T2T骨架版本是否有未装出来的部分，生成.hic文件，导入Juicebox验证准确性。
+![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.18-homotelo.png)    
+![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.18-homotelo-chr7.png)   
+
 ### ☆GapCloser 2.0（速度再提升）  
 &emsp;&emsp;搭配最新的telomere_repair模块，对于600M基因组，12分钟延伸/修补完的6个不完整末端的端粒，8分钟补完11个Gap并且全有超多reads覆盖补Gap后的区域。  
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/9.0.Telomere_repair/allhap.png) 
