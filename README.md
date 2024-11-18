@@ -64,18 +64,14 @@ zgtools达到的T2T水平：
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.18-homotelo.png)    
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.18-homotelo-chr7.png)   
 
-### ☆GapCloser 2.0（速度再提升）  
-&emsp;&emsp;搭配最新的telomere_repair模块，对于600M基因组，12分钟延伸/修补完的6个不完整末端的端粒，8分钟补完11个Gap并且全有超多reads覆盖补Gap后的区域。  
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/9.0.Telomere_repair/allhap.png) 
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/9.0.Telomere_repair/eachStream.png) 
-
-### ☆端粒延伸/修补（速度非常快，内存消耗小）  
-&emsp;&emsp;测试：900M基因组有6个末端没有端粒，通过检测repeat序列的分布以及鉴定rDNA，将不存在端粒的末端进行分类，使用三代数据/组装序列保证序列高一致性的情况下进行延伸修补。时间花费：半小时；    
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/9.0.Telomere_repair/telomere_repair.png)  
+### ☆2024/11/18---蜗牛图：snailplot
+&emsp;&emsp;蜗牛图（Snail Plot），其主要是根据 Scaffold 的（或 Contigs）N50/N90 指标，QV 评估结果以及 BUSCO 评估结果，对基因组组装质量进行直观的可视化展示，结果如下图所示：
+![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/%E8%9C%97%E7%89%9B%E5%9B%BE.png)   
 
 ### 绘制端粒/rDNA/Gap预览图如下：   
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/9.0.Telomere_repair/genomeview.png)  
 注: 端粒/rDNA分布预览图中, 末端的绿色为端粒基序重复次数大于100的端粒, 深蓝色为45 rDNA, 浅蓝色为5S rDNA, 红色为Gap.  
+
 ### ☆Gap填补（速度非常快，内存消耗小）  
 &emsp;&emsp;测试：500M基因组17个gap和2G基因组5个gap，分别用时13分钟和5分钟，填补速度非常快，消耗内存非常小，有补gap绘制reads覆盖图检查HIC调图是否有问题和补gap后对新区域进行reads验证检查是否有问题。目前来说其他软件：  
 &emsp;&emsp;①TGS-Gapcloser很容易给基因组补出许多序列，补gap前后可能多出好几M，其次缺点还有就是容易爆内存。  
@@ -83,6 +79,7 @@ zgtools达到的T2T水平：
 
 ### ☆Gap填补后的新区域的Reads覆盖图（从上到下: 其他组装版本、HIFI数据、ONT数据reads覆盖图）  
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/8.0.GapArea_ReadsCoverage/GapFilled_ReadsCoverage.png)
+
 ### ☆T2T圈图   
 ①展示所有共线性
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/7.0.Circos/GenomeCircos_AllSyntenic.png)
@@ -95,7 +92,6 @@ zgtools达到的T2T水平：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/6.0.genomesyn/Chr09B_GenomeSyn.png)
 
 ### 其他：
-
 ①重复基因鉴定+Ks分析+富集图：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/4.0.dupgene_enrich/dupgene_plot.png)
 
@@ -109,11 +105,6 @@ zgtools达到的T2T水平：
 
 ④Subphaser亚基因组分析：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.4.subphaser/00.subphaser_allplot.png)
-
-⑤多种共线性分析：
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.6.syntenic/jcvi.have_chrlabels.png)
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.6.syntenic/gapplot.png)
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.7.align/dotPloty_sort.png)
 
 ⑥Survey分析+NT比对：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/1.1.survey/02.jellyfish_count_kmer/kmer_depth_and_frequencey_distribution.svg)
