@@ -39,7 +39,15 @@ zgtools达到的T2T水平：
 
 9、注释与进化(待更新)
 
-最近更新：   
+最近更新：  
+☆2024/11/18---Gap填补软件: Midfgap（多重数据迭代填补）   
+    用 winnowmap2/minimap2 将补洞数据（不含N）与基因组 Gap 区间比对（含N），该步骤分为三个水平对 Gap 进行填补，其优先级为：其他基因组版本 >  HIFI 数据> ONT 数据。①其他版本基因组为组装的各版本ctg级别基因组，除primary嵌合体以外，还包括hap1和hap2的基因组；②HIFI数据即环化后的 HIFI 数据；③ONT数据可以为经过纠错后的一致性序列，比如nextdenovo生成的cns序列，也可以是经过HERRO模型纠错后的R10数据。  
+    如果比对上的位置能刚好跨过 Gap 两端，则选取比对上的最长长度区域的最佳比对区域用补gap数据对基因组上包含 Gap 区域的序列进行替换。从理论上说，只要所提供补洞用的 HIFI/ONT 数据量足够大，用于补洞的基因组其他组装版本足够多，就能得到 0 Gap 基因组。   
+![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/updata.24.11.18.png)   
+    左图为ONT数据填补的结果；中间图为HIFI数据填补的结果；右图为其他组装版本填补的结果。   
+    如图所示，由于HIFI数据一般比较短，在一些Gap区域，往往需要通过“搭桥”的形式通过Gap替换区域的两端，对于一些复杂的Gap区域，ONT序列也可能需要“搭桥”通过。   
+    最理想的情况为右图，原Gap周围没有复杂的冗余与未切断序列，可以被很好的填补上。   
+![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/updata.24.11.18-ReadsCovergae.png)   
 ☆GapCloser 2.0（速度再提升）  
 搭配最新的telomere_repair模块，对于600M基因组，12分钟延伸/修补完的6个不完整末端的端粒，8分钟补完11个Gap并且全有超多reads覆盖补Gap后的区域。  
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/9.0.Telomere_repair/allhap.png) 
