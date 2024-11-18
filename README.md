@@ -1,11 +1,17 @@
 ## zgtools-pipeline
 &emsp;&emsp;zgtools是一款自编写的模块集合，该软件下包含100多个模块，涉及Survey、组装、HIC、T2T、注释、进化、着丝粒预测和各种个性化分析，旨在用一个启动器管理所有的基因组分析内容，相较于nextflow流程更加自由，对于许多标准分析都进行了优化与自动化更新，目标是“更快、更准、更好”  。此类软件还有rgtools（主要负责转录组分析）和agtools（主要负责Chip和ATAC分析）。其他介绍与示例如下：       
 &emsp;&emsp;【已完成十多个物种的T2T组装，结果在HR/NC等期刊均有发表】   
+
 &emsp;&emsp;【对于绝大部份植物和哺乳动物、鱼类、含ZW/XY，轻松做到T2T和完整PAR】   
+
 &emsp;&emsp;【对zgtools模块感兴趣的，可联系QQ：1954616586】   
+
 &emsp;&emsp;【300M-1G基因组，Survey+组装+HIC只需要3-7天】   
+
 &emsp;&emsp;【300M-1G基因组，T2T组装+Gap填补+端粒延伸修补+评估只需要7-14天】   
+
 &emsp;&emsp;【个人项目，暂不开源，也有科研咨询服务~】  
+
 &emsp;&emsp;【需要HIC调图教程或者测序服务请联系QQ】  
 
 ## 目录 
