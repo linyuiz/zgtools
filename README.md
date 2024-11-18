@@ -46,7 +46,7 @@ zgtools达到的T2T水平：
 10、注释与进化(待更新)   
 
 ## 最近更新 
-### ☆2024/11/18---Gap填补软件: Midfgap（多重数据迭代填补）  
+### ☆2024/11/18---Gap填补软件：Midfgap（多重数据迭代填补）  
 &emsp;&emsp;使用 winnowmap2/minimap2 将补洞数据（不含N）与基因组 Gap 区间比对（含N），该步骤分为三个水平对 Gap 进行填补，其优先级为：其他基因组版本 >  HIFI 数据> ONT 数据。①其他版本基因组为组装的各版本ctg级别基因组，除primary嵌合体以外，还包括hap1和hap2的基因组；②HIFI数据即环化后的 HIFI 数据；③ONT数据可以为经过纠错后的一致性序列，比如nextdenovo生成的cns序列，也可以是经过HERRO模型纠错后的R10数据。  
 &emsp;&emsp;如果比对上的位置能刚好跨过 Gap 两端，则选取比对上的最长长度区域的最佳比对区域用补gap数据对基因组上包含 Gap 区域的序列进行替换。从理论上说，只要所提供补洞用的 HIFI/ONT 数据量足够大，用于补洞的基因组其他组装版本足够多，就能得到 0 Gap 基因组。   
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/updata.24.11.18.png)   
@@ -55,8 +55,8 @@ zgtools达到的T2T水平：
 &emsp;&emsp;最理想的情况为右图，原Gap周围没有复杂的冗余与未切断序列，可以被很好的填补上。   
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/updata.24.11.18-ReadsCovergae.png)   
 
-### ☆2024/11/18---端粒修补（同源比较）
-&emsp;&emsp;获得 0 Gap的基因组后通过端粒鉴定，发现端粒有不完整的时，开始进行端粒修补，此时，使用的是zgtools homotelo模块，原理是将其他组装版本与0 Gap基因组进行比较，基于高质量的共线性与其他限制性参数对基因组末端进行末端替换，homotelo的末端替换不只限于端粒的替换，还能够检查当前T2T骨架版本是否有未装出来的部分，生成.hic文件，导入Juicebox验证准确性。
+### ☆2024/11/18---端粒修补：homotelo（同源比较）
+&emsp;&emsp;获得 0 Gap的基因组后通过端粒鉴定，发现端粒有不完整的时，开始进行端粒修补，此时，使用的是zgtools homotelo模块，原理是将其他组装版本与0 Gap基因组进行比较，基于高质量的共线性与其他限制性参数对基因组末端进行末端替换，homotelo的末端替换不只限于端粒的替换，还能够检查当前T2T骨架版本是否有未装出来的部分，生成.hic文件，导入Juicebox验证准确性。如果还有修补失败的末端，再使用zgtools homorDNA和zgtools telofix进行rDNA与三代数据的端粒延伸。    
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.18-homotelo.png)    
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.18-homotelo-chr7.png)   
 
