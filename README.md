@@ -1,17 +1,19 @@
-##  zgtools 自动化流程（已完成十几个T2T的组装，HR/NC都有文章）
-##  对于绝大部份植物和哺乳动物、鱼类、含ZW/XY，轻松做到T2T和完整PAR
+## zgtools 自动化流程（已完成十几个T2T的组装，HR/NC都有文章）
+## 对于绝大部份植物和哺乳动物、鱼类、含ZW/XY，轻松做到T2T和完整PAR
 【对zgtools模块感兴趣的，可联系QQ：1954616586】   
 【300M-1G基因组，Survey+组装+HIC只需要3-7天】   
 【300M-1G基因组，T2T组装+Gap填补+端粒延伸修补+评估只需要7-14天】   
 【个人项目，暂不开源，也有科研咨询服务~】  
 【需要HIC调图教程或者测序服务请联系QQ】  
-## 测序项目：  
+## 流程图
+![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/pipeline-flow.png)   
+## 测序项目 
 ①HIFI 12000一个Cell，保底80g 一般可以测到90g；如果需要测少量的HIFI，即散测。散测费用是建库2000 测序180/g；②HIC 一个文库4000 测序10/g；③ONT 默认N50:100K，目前11000一个Cell，单个Cell产出植物15G，哺乳动物20G以上，水产和昆虫这些暂不承诺；④二代数据：提取建库110 测序10/G   
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/T2T%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg)
 zgtools达到的T2T水平：    
 ①0 Gap：最基本的要求；②全端粒：每条染色体末端端粒重复次数大于100次（一般1000次以上比较好）；③全rDNA：有rDNA末端的染色体也完善出端粒； ④全着丝粒：整个基因组准确鉴定着丝粒。  
 结果文件请见示例【example】，要求作图与结果均达到CNS水平。   
-## 目前zgtools可完成的分析内容：   
+## 目前可分析的内容   
 0、T2T端粒延伸+Gap填补+T2T纠错+T2T各项评估   
 1、Survey分析+倍型分析+二代/三代NT比对去污染   
 2、常规基因组组装/分型基因组组装/T2T基因组组装（端粒延伸、补Gap、全rDNA和动物T2T-Y染色体的PAR区）+各项评估   
@@ -31,6 +33,7 @@ zgtools达到的T2T水平：
 如图所示，由于HIFI数据一般比较短，在一些Gap区域，往往需要通过“搭桥”的形式通过Gap替换区域的两端，对于一些复杂的Gap区域，ONT序列也可能需要“搭桥”通过。   
 最理想的情况为右图，原Gap周围没有复杂的冗余与未切断序列，可以被很好的填补上。   
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/updata.24.11.18-ReadsCovergae.png)   
+### ☆2024/11/18---端粒修补（同源比较）  
 ### ☆GapCloser 2.0（速度再提升）  
 搭配最新的telomere_repair模块，对于600M基因组，12分钟延伸/修补完的6个不完整末端的端粒，8分钟补完11个Gap并且全有超多reads覆盖补Gap后的区域。  
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/9.0.Telomere_repair/allhap.png) 
