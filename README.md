@@ -22,10 +22,10 @@
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/pipeline-flow.png)   
 
 ## 测序咨询
-①HIFI 12000一个Cell，保底80g，一般可以测到90g；如果需要测少量的HIFI，即散测。散测费用是建库2000 测序180/g；   
-②HIC 一个文库4000 测序10/g；   
-③ONT 默认N50:100K，目前11000一个Cell，单个Cell产出植物15G，哺乳动物20G以上，水产和昆虫这些暂不承诺；   
-④二代数据：提取建库110 测序10/G；   
+①HIFI数据，12000一个Cell，保底80g，一般可以测到90g；如果需要测少量的HIFI，即散测。散测费用是建库2000，测序180/g；   
+②HIC数据，一个文库4000，测序10/g；   
+③ONT数据，默认N50:100K，目前11000一个Cell，单个Cell产出植物15G，哺乳动物20G以上，水产和昆虫这些暂不承诺；   
+④二代数据：提取建库110，测序10/G；   
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/T2T%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg)
     
 ## 完成度
