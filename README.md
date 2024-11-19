@@ -67,7 +67,7 @@ zgtools达到的T2T水平：
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.18-homotelo-chr7.png)   
 
 ### ☆2024/11/18---蜗牛图：snailplot
-&emsp;&emsp;蜗牛图（Snail Plot），其主要是根据 Scaffold 的（或 Contigs）N50/N90 指标，QV 评估结果以及 BUSCO 评估结果，对基因组组装质量进行直观的可视化展示，结果如下图所示：
+&emsp;&emsp;蜗牛图（Snail Plot），其主要是根据 Scaffold 的（或 Contigs）N50/N90 指标，QV 评估结果以及 BUSCO 评估结果，对基因组组装质量进行直观的可视化展示，结果如下图所示：    
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/%E8%9C%97%E7%89%9B%E5%9B%BE.png)   
 
 ### 绘制端粒/rDNA/Gap预览图如下：   
