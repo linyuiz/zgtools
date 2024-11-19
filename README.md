@@ -50,7 +50,10 @@ zgtools达到的T2T水平：
 11、多倍体T2T流程(更新中)   
 
 ## 最近更新 
-### ☆2024/11/18---Gap填补软件：mdifgap（多重数据迭代填补）  
+### ☆2024/11/18---Gap填补软件：mdifgap（多重数据迭代填补） 
+&emsp;&emsp;测试：500M基因组17个gap和2G基因组5个gap，分别用时13分钟和5分钟，填补速度非常快，消耗内存非常小，有补gap绘制reads覆盖图检查HIC调图是否有问题和补gap后对新区域进行reads验证检查是否有问题。目前来说其他软件：  
+&emsp;&emsp;①TGS-Gapcloser很容易给基因组补出许多序列，补gap前后可能多出好几M，其次缺点还有就是容易爆内存。  
+&emsp;&emsp;②quarTeT的补gap也有问题，效果差，补完gap，多出100多M也不说了。如果实在要补gap还是用TGS-Gapcloser吧，慢慢跑，慢慢补应该不会爆内存。其他的例如，LR-gapcloser也效果不是很好。  
 &emsp;&emsp;使用 winnowmap2/minimap2 将补洞数据（不含N）与基因组 Gap 区间比对（含N），该步骤分为三个水平对 Gap 进行填补，其优先级为：其他基因组版本>HIFI数据>ONT数据。①其他版本基因组为组装的各版本ctg级别基因组，除primary嵌合体以外，还包括hap1和hap2的基因组；②HIFI数据即环化后的 HIFI 数据；③ONT数据可以为经过纠错后的一致性序列，比如nextdenovo生成的cns序列，也可以是经过HERRO模型纠错后的R10数据。zgtools mdifgap将会进行每种数据做三轮Gap填补，最多进行9轮Gap填补。  
 &emsp;&emsp;如果比对上的位置能刚好跨过 Gap 两端，则选取比对上的最长长度区域的最佳比对区域用补gap数据对基因组上包含 Gap 区域的序列进行替换。从理论上说，只要所提供补洞用的 HIFI/ONT 数据量足够大，用于补洞的基因组其他组装版本足够多，就能得到 0 Gap 基因组。   
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/updata.24.11.18.png)   
@@ -72,14 +75,6 @@ zgtools达到的T2T水平：
 ### 绘制端粒/rDNA/Gap预览图如下：   
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/9.0.Telomere_repair/genomeview.png)  
 注: 端粒/rDNA分布预览图中, 末端的绿色为端粒基序重复次数大于100的端粒, 深蓝色为45 rDNA, 浅蓝色为5S rDNA, 红色为Gap.  
-
-### ☆Gap填补（速度非常快，内存消耗小）  
-&emsp;&emsp;测试：500M基因组17个gap和2G基因组5个gap，分别用时13分钟和5分钟，填补速度非常快，消耗内存非常小，有补gap绘制reads覆盖图检查HIC调图是否有问题和补gap后对新区域进行reads验证检查是否有问题。目前来说其他软件：  
-&emsp;&emsp;①TGS-Gapcloser很容易给基因组补出许多序列，补gap前后可能多出好几M，其次缺点还有就是容易爆内存。  
-&emsp;&emsp;②quarTeT的补gap也有问题，效果差，补完gap，多出100多M也不说了。如果实在要补gap还是用TGS-Gapcloser吧，慢慢跑，慢慢补应该不会爆内存。其他的例如，LR-gapcloser也效果不是很好。  
-
-### ☆Gap填补后的新区域的Reads覆盖图（从上到下: 其他组装版本、HIFI数据、ONT数据reads覆盖图）  
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/8.0.GapArea_ReadsCoverage/GapFilled_ReadsCoverage.png)
 
 ### ☆T2T圈图   
 ①展示所有共线性
