@@ -68,7 +68,7 @@ zgtools达到的T2T水平：
 ### ☆2024/11/18---端粒修补：homotelo（同源比较）
 &emsp;&emsp;获得 0 Gap的基因组后通过端粒鉴定，发现端粒有不完整的时，开始进行端粒修补，此时，使用homotelo模块，原理是将其他组装版本与0 Gap基因组进行比较，基于高质量的共线性与其他限制性参数对基因组末端进行末端替换，homotelo的末端替换不只限于端粒的替换，还能够检查当前T2T骨架版本是否有未装出来的部分，生成.hic文件，导入Juicebox验证准确性。如果还有修补失败的末端，再使用zgtools homorDNA和zgtools telofix进行rDNA与三代数据的端粒延伸。    
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.18-homotelo.png)    
-![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.18-homotelo-chr7.png)   
+&emsp;&emsp;![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.18-homotelo-chr7.png)   
 
 ### ☆2024/11/18---蜗牛图：snailplot
 &emsp;&emsp;蜗牛图（Snail Plot），其主要是根据 Scaffold 的（或 Contigs）N50/N90 指标，QV 评估结果以及 BUSCO 评估结果，对基因组组装质量进行直观的可视化展示，结果如下图所示：    
