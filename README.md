@@ -19,14 +19,14 @@
   - [最近更新 ](#最近更新 )
 
 ## 流程图
-![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/pipeline-flow.png)   
+![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/pipeline-flow.png#pic_center)   
 
 ## 测序咨询
 ①HIFI数据，12000一个Cell，保底80g，一般可以测到90g；如果需要测少量的HIFI，即散测。散测费用是建库2000，测序180/g；   
 ②HIC数据，一个文库4000，测序10/g；   
 ③ONT数据，默认N50:100K，目前11000一个Cell，单个Cell产出植物15G，哺乳动物20G以上，水产和昆虫这些暂不承诺；   
 ④二代数据：提取建库110，测序10/G；   
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/T2T%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg)
+![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/T2T%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg#pic_center)
     
 ## 完成度
 zgtools达到的T2T水平：    
@@ -52,7 +52,7 @@ zgtools达到的T2T水平：
 ## 最近更新 
 ### ☆2024/11/22---着丝粒预测：run_centromere（更新）
 &emsp;&emsp;测试：对TR富集或者LTR富集的植物，以及TR和LTR都比较少的鱼类进行测试，结果很不错，相较于quarTeT和CentIER都有很大的提升：使用TRF软件鉴定串联重复序列，筛选重复次数>100，单元长度>100bp的TR序列，基于社区检测算法，以80%相似度进行构建TR相似性网络，对筛选的单体序列进行重鉴定，对TE和TR高覆盖的区域进行筛选整合，得到着丝粒核心区和近着丝粒区，以下是其中鱼类的测试结果：     
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.22-centromere.png)   
+![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.22-centromere.png#pic_center)   
 
 ### ☆2024/11/18---Gap填补：mdifgap（多重数据迭代填补） 
 &emsp;&emsp;测试：500M基因组17个gap和2G基因组5个gap，分别用时13分钟和5分钟，填补速度非常快，消耗内存非常小，有补gap绘制reads覆盖图检查HIC调图是否有问题和补gap后对新区域进行reads验证检查是否有问题。目前来说其他软件：  
