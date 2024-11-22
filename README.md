@@ -51,7 +51,7 @@ zgtools达到的T2T水平：
 
 ## 最近更新 
 ### ☆2024/11/22---共线性图：ngenomesyn（多基因组）  
-&emsp;&emsp;多基因组共线性图，无数量上线，图中黑三角为端粒，黄三角为组装的 Gap 序列（T2T基因组则没有），浅蓝色为 5S_rDNA，深蓝色为 45S_rDNA，Syntenic 为共线性区域，Inversion 为倒位区域，Translocation 为易位区域，Duplication为重复区域。  
+&emsp;&emsp;多基因组共线性图，无数量上限，图中黑三角为端粒，黄三角为组装的 Gap 序列（T2T基因组则没有），浅蓝色为 5S_rDNA，深蓝色为 45S_rDNA，Syntenic 为共线性区域，Inversion 为倒位区域，Translocation 为易位区域，Duplication为重复区域。  
 <div align="center"><img src="https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.22-ngenomesyn.png" alt="Your Image Description" /></div>
 
 ### ☆2024/11/22---着丝粒预测：run_centromere（更新）
