@@ -54,7 +54,7 @@ zgtools达到的T2T水平：
 
 ## 最近更新 
 ### ☆2024/11/28---SV断点自动检查：run_CheckSV（Reads覆盖图）  
-&emsp;&emsp;首先，使用zgtools工具集中的syntenic和genomesyn功能进行共线性分析。这一过程将产生基因组共线性图以及名为Ref_vs_Query.syri.out的变异检测结果文件。随后，我们对SV（结构变异）进行长度过滤，仅保留长度大于500,000bp的SV，并从中提取SV的起始和终止位置信息。接着，利用minimap2工具将HIFI数据和ONT数据回比到基因组上。在此基础上，我们对已确定的SV位置进行左右两侧各拓展5,000bp的处理。之后，批量绘制这些区域的Reads覆盖图，并自动检测Reads的覆盖情况。示例图如下：  
+&emsp;&emsp;首先，使用zgtools工具集中的syntenic和genomesyn功能进行共线性分析。这一过程将产生基因组共线性图以及名为Ref_vs_Query.syri.out的变异检测结果文件。随后，对SV（结构变异）进行长度过滤，仅保留长度大于500,000bp的SV，并从中提取SV的起始和终止位置信息。接着，利用minimap2工具将HIFI数据和ONT数据回比到基因组上。在此基础上，我们对已确定的SV位置进行左右两侧各拓展5,000bp的处理。之后，批量绘制这些区域的Reads覆盖图，并自动检测Reads的覆盖情况。示例图如下：  
 <div align="center"><img src="https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.28-syn-part.png" alt="Your Image Description" /></div>
 <div align="center"><img src="https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.28-SVcheck.png" alt="Your Image Description" /></div>
 
