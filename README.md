@@ -100,58 +100,6 @@ zgtools达到的T2T水平：
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.6.syntenic/T2T_syn.png)
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/6.0.genomesyn/Chr09B_GenomeSyn.png)
 
-### 其他：
-①重复基因鉴定+Ks分析+富集图：
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/4.0.dupgene_enrich/dupgene_plot.png)
-
-②着丝粒预测：
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/chrA01.CCR.Final_plot.png)
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/all_chromosome.png)
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/5.0.centromere/genomeview.png)
-
-③LAI评估+LTR插入时间分析+LTR-RTs系统发育树：
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/2.7.LAI%2BLTRinsertTime/LTR_InsertionTime%2BLAI%2BLTR_Tree.png)
-
-④Subphaser亚基因组分析：
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/3.4.subphaser/00.subphaser_allplot.png)
-
-⑥Survey分析+NT比对：
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/1.1.survey/02.jellyfish_count_kmer/kmer_depth_and_frequencey_distribution.svg)
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/1.1.survey/04.smudgeplot%E5%85%B6%E4%BB%96%E9%A1%B9%E7%9B%AE/smudgeplot_smudgeplot_log10.png)
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/1.2.nt/NT.plot1.png)
-
-⑦组装：
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/2.1.hifiasm/kmer_depth.distribution.png)
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/2.4.busco/busco_figure.png)
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/2.5.qv/genome.genome.spectra-cn.fl.png)
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/2.6.mappingdata/GC_Depth.png)
-![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/example/2.6.mappingdata/each_depth/chr1.density.png)
-
-示例：
-
-           example
-           ├──  1.1.survey                      Survey流程
-           ├──  1.2.nt                          NT比对, 去细菌污染
-           ├──  2.1.hifiasm                     hifiasm组装
-           ├──  2.2.nextpolish2_for_T2T_genome  HIFI+NGS纠错(针对T2T基因组+提升QV)
-           ├──  2.2.polish_for_ont_genome       racon+plion纠错(常规ONT基因组纠错)
-           ├──  2.3.purge                       去冗余流程
-           ├──  2.4.busco                       BUSCO评估
-           ├──  2.5.qv                          QV评估
-           ├──  2.6.mappingdata                 Mapping回比评估
-           ├──  2.7.LAI+LTRinsertTime           LAI评估+LTR插入时间分析+LTR-RT系统发育树
-           ├──  3.1.hicup                       HiCUP评估
-           ├──  3.2.haphic                      HapHiC(HIC互作流程)
-           ├──  3.3.makechr                     生成染色体级别基因组, 检查Gap与小ctg
-           ├──  3.4.subphaser                   SubPhaser亚基因组分型
-           ├──  3.5.ragtag                      Ragtag同源挂载/排序
-           ├──  3.6.syntenic                    各种共线性图
-           ├──  3.7.align                       minimap2比对出dotploty图
-           ├──  3.8.genomeview                  检测基因组的rDNA/端粒/Gap并出图
-           ├──  3.9.hicplot                     HIC热图
-           ├──  4.0.dupgene_enrich              DupGene富集图
-           └──  5.0.centromere                  着丝粒预测(优于市面上所有的软件)  
-
 ## 运行教程
 
 ### Survey流程自动化
