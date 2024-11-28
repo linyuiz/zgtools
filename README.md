@@ -27,7 +27,6 @@
 ③ONT数据，默认N50:100K，目前11000一个Cell，单个Cell产出植物15G，哺乳动物20G以上，水产和昆虫这些暂不承诺；   
 ④二代数据：提取建库110，测序10/G；   
 ![image text](https://github.com/linyuiz/zgtools-pipeline/blob/master/T2T%E6%B5%8B%E5%BA%8F%E7%AD%96%E7%95%A5.jpg#pic_center)
-    
 
 ## 完成度
 zgtools达到的T2T水平：    
@@ -51,6 +50,11 @@ zgtools达到的T2T水平：
 11、多倍体T2T流程(更新中)   
 
 ## 最近更新 
+### ☆2024/11/28---SV断点自动检查：（Reads覆盖图）  
+&emsp;&emsp;①使用zgtools syntenic和zgtools genomesyn进行共线性分析，得到基因组共线性图与Ref_vs_Query.syri.out，对SV结果文件进行长度过滤(>500,000bp)，提取SV的起始和终止位置；②使用minimap2将hifi/ont数据回比基因组，再对SV的位置进行左右拓展5,000bp再批量绘制Reads覆盖图，并且自动检测Reads覆盖情况。示例如下：  
+<div align="center"><img src="https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.28-syn-part.png" alt="Your Image Description" /></div>
+<div align="center"><img src="https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.28-SVcheck.png" alt="Your Image Description" /></div>
+
 ### ☆2024/11/22---共线性图：ngenomesyn（多基因组）  
 &emsp;&emsp;多基因组共线性图，无数量上限，图中黑三角为端粒，黄三角为组装的 Gap 序列（T2T基因组则没有），浅蓝色为 5S_rDNA，深蓝色为 45S_rDNA，Syntenic 为共线性区域，Inversion 为倒位区域，Translocation 为易位区域，Duplication为重复区域。  
 <div align="center"><img src="https://github.com/linyuiz/zgtools/blob/master/update_log/update.24.11.28-ngenomesyn.png" alt="Your Image Description" /></div>
@@ -316,7 +320,7 @@ Command: zgtools report_survey XXXX XXX ../Results/data/01.survey/ have_smudgepl
 
 &emsp;&emsp;基因组组装流程：zgtools run_assemble；先运行Example1填写完Run_Assemble.cfg，包括hifiasm的组装策略(是否+HIC数据/+ONT数据组装)、是否做purge_dups去冗余；填写好Run_Survey.cfg，运行Example2，等待自动化分析结束即可。
 
-流程支持nextdenovo和hifiasm，填写zgtools run_assemble example_cfg hifiasm可以自动生成对应的Run_Assemble.cfg。
+&emsp;&emsp;流程支持nextdenovo和hifiasm，填写zgtools run_assemble example_cfg hifiasm可以自动生成对应的Run_Assemble.cfg。
 
 ```
 Usage；
@@ -336,9 +340,9 @@ Example2:
 		
 ```
 
-以下步骤以hifiasm为例，nextdenovo在此基础上只是在纠错方面有不同，其他基本一致。运行前请确保当前目录存在ccs.fa，HIC_raw_1.fq.gz，HIC_raw_2.fq.gz，Survey.clean_R1.fastq.gz，Survey.clean_R2.fastq.gz。
+&emsp;&emsp;以下步骤以hifiasm为例，nextdenovo在此基础上只是在纠错方面有不同，其他基本一致。运行前请确保当前目录存在ccs.fa，HIC_raw_1.fq.gz，HIC_raw_2.fq.gz，Survey.clean_R1.fastq.gz，Survey.clean_R2.fastq.gz。
 
-步骤1：hifiasm初步组装
+&emsp;&emsp;步骤1：hifiasm初步组装
 
 ```
 Usage:
