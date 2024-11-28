@@ -16,7 +16,8 @@
   - [测序咨询](#测序咨询)
   - [完成度](#测序咨询)
   - [分析内容](#分析内容)
-  - [最近更新 ](#最近更新 )
+  - [最近更新](#最近更新)
+  - [运行教程](#运行教程)
 
 ## 流程图
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/pipeline-flow.png#pic_center)   
