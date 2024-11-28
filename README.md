@@ -18,8 +18,8 @@
   - [分析内容](#分析内容)
   - [最近更新](#最近更新)
   - [运行教程](#运行教程)
-    - [Survey流程【自动化】](#☆Survey流程【自动化】)
-    - [组装流程【自动化】](#☆组装流程【自动化】)
+    - [Survey流程【自动化】](#Survey流程自动化)
+    - [组装流程【自动化】](#组装流程自动化)
 
 ## 流程图
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/pipeline-flow.png#pic_center)   
@@ -154,7 +154,7 @@ zgtools达到的T2T水平：
 
 ## 运行教程
 
-### ☆Survey流程【自动化】
+### Survey流程自动化
 
 &emsp;&emsp;基因组Survey流程：zgtools run_survey；先运行Example1填写完Run_Survey.cfg，包括是否使用三代数据Survey、倍型、kmer_histo前多少行、kmer_size(2g以上基因组用21kmer，300M以下用17kmer，其他情况19kmer能够胜任)、是否运行倍型分析；填写好Run_Survey.cfg，运行Example2，等待自动化分析结束即可。
 
@@ -319,7 +319,7 @@ Command: cp -r /project/zgtools/01.project/01.test_zao/01.survey/output_of_surve
 Command: zgtools report_survey XXXX XXX ../Results/data/01.survey/ have_smudgeplot zgtools && touch run_survey-03report.sh.done
 ```
 
-### ☆组装流程【自动化】
+### 组装流程自动化
 
 &emsp;&emsp;基因组组装流程：zgtools run_assemble；先运行Example1填写完Run_Assemble.cfg，包括hifiasm的组装策略(是否+HIC数据/+ONT数据组装)、是否做purge_dups去冗余；填写好Run_Survey.cfg，运行Example2，等待自动化分析结束即可。
 
