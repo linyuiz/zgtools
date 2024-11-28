@@ -18,6 +18,8 @@
   - [分析内容](#分析内容)
   - [最近更新](#最近更新)
   - [运行教程](#运行教程)
+    - [Survey流程【自动化】](#☆Survey流程【自动化】)
+    - [组装流程【自动化】](#☆组装流程【自动化】)
 
 ## 流程图
 ![image text](https://github.com/linyuiz/zgtools/blob/master/update_log/pipeline-flow.png#pic_center)   
