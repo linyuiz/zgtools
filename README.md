@@ -53,7 +53,7 @@ zgtools达到的T2T水平：
 11、多倍体T2T流程(更新中)   
 
 ## 最近更新 
-### ☆2024/12/03---端粒检测与遮掩检测：genomecheck（补充）  
+### ☆2024/12/02---端粒检测与遮掩检测：genomecheck（补充）  
 &emsp;&emsp;使用zgtools genomecheck对基因组（包含未挂载区的序列）进行端粒、Gap和rDNA的鉴定，由此可以①获得基因组的染色体部分的初步端粒情况；②结合未挂载区的端粒与rDNA，可以回捞端粒回染色体部分，比如示例图中的Scaffold19可以通过检查Juicebox图加回至chr3上游的45rDNA末端或者chr8下游的45rDNA末端；③检测是否有端粒序列被其他序列遮挡住，如图中chr6上游的遮掩标识（绿色三角形）表示附近的序列被邻近的序列遮挡，返回Juicebox检查发现前一序列是该序列的冗余部分。  
 <div align="center"><img src="https://s2.loli.net/2024/12/03/xKlZARkGqbiB1dy.png" alt="Your Image Description" /></div>
 
