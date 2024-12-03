@@ -53,6 +53,10 @@ zgtools达到的T2T水平：
 11、多倍体T2T流程(更新中)   
 
 ## 最近更新 
+### ☆2024/12/03---Gap填补：gapjoin（Gap区域拓展检测重复）   
+&emsp;&emsp;使用zgtools mdifgap进行多重数据填补Gap后，仍有填补不上的结果，通过Juicebox检查发现，Gap区域邻近区域存在600k的冗余序列，故而仅依靠Reads是无法填补的，由此引入gapjoin模块，通过对Gap区域左右拓展一定区域，对该区域进行比对检查是否存在重复的部分。筛选高Coverage和长比对区域并限制基因组损失的极限值，将Gap区域附近的冗余删除进而连接起来，实现填补Gap的目的，最后绘制Reads覆盖图进一步检查。示例如下：   
+<div align="center"><img src="https://s2.loli.net/2024/12/03/N6kfGEn29XOyIKD.png" alt="Your Image Description" /></div>
+
 ### ☆2024/12/02---端粒、rDNA、Gap检查：genomecheck（端粒遮掩检测）  
 &emsp;&emsp;使用zgtools genomecheck对基因组（包含未挂载区的序列）进行端粒、Gap和rDNA的鉴定，由此可以①获得基因组的染色体部分的初步端粒情况；②结合未挂载区的端粒与rDNA，可以回捞端粒回染色体部分，比如示例图中的Scaffold19可以通过检查Juicebox图加回至chr3上游的45rDNA末端或者chr8下游的45rDNA末端；③检测是否有端粒序列被其他序列遮挡住，如图中chr6上游的遮掩标识（绿色三角形）表示附近的序列被邻近的序列遮挡，返回Juicebox检查发现前一序列是该序列的冗余部分。  
 <div align="center"><img src="https://s2.loli.net/2024/12/03/xKlZARkGqbiB1dy.png" alt="Your Image Description" /></div>
