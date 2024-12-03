@@ -53,6 +53,10 @@ zgtools达到的T2T水平：
 11、多倍体T2T流程(更新中)   
 
 ## 最近更新 
+### ☆2024/12/03---着丝粒可视化：StaniedGlass（加速而并行）   
+&emsp;&emsp;在原代码的基础上进行修改，加速运行而支持更方便的并行，对于结果文件也进行了精简，对于着丝粒区域的可视化运行速度大大提升。示例结果如下：
+<div align="center"><img src="https://s2.loli.net/2024/12/03/CB1Ten5gPXr3J2s.png" alt="Your Image Description" /></div>
+
 ### ☆2024/12/03---Gap填补：gapjoin（Gap拓展区域重复检测）   
 &emsp;&emsp;使用zgtools mdifgap进行多重数据填补Gap后，仍有填补不上的结果，通过Juicebox检查发现，Gap的邻近区域存在600k的冗余序列，故而仅依靠Reads是无法填补的，由此引入gapjoin模块，通过对Gap区域左右拓展一定区域，对该区域进行比对检查是否存在重复的部分。筛选高Coverage和长比对区域并限制基因组损失的极限值，将Gap区域附近的冗余删除进而连接起来，实现填补Gap的目的，最后绘制Reads覆盖图进一步检查。示例如下：   
 <div align="center"><img src="https://s2.loli.net/2024/12/03/N6kfGEn29XOyIKD.png" alt="Your Image Description" /></div>
