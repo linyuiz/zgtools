@@ -72,7 +72,7 @@ zgtools达到的T2T水平：
 
 ### ☆2024/11/22---共线性图：ngenomesyn（多基因组）  
 &emsp;&emsp;多基因组共线性图，无数量上限，图中黑三角为端粒，黄三角为组装的 Gap 序列（T2T基因组则没有），浅蓝色为 5S_rDNA，深蓝色为 45S_rDNA，Syntenic 为共线性区域，Inversion 为倒位区域，Translocation 为易位区域，Duplication为重复区域。  
-<div align="center"><img src="https://s2.loli.net/2024/12/04/psaPUbxqtS3dKi4.png" alt="Your Image Description" /></div>
+<div align="center"><img src="https://s2.loli.net/2024/12/04/z5VcoZQFMNbKXLa.png" alt="Your Image Description" /></div>
 
 ### ☆2024/11/22---着丝粒预测：run_centromere（更新）
 &emsp;&emsp;测试：对TR富集或者LTR富集的植物，以及TR和LTR都比较少的鱼类进行测试，结果很不错，相较于quarTeT和CentIER都有很大的提升：使用TRF软件鉴定串联重复序列，筛选重复次数>100，单元长度>100bp的TR序列，基于社区检测算法，以80%相似度进行构建TR相似性网络，对筛选的单体序列进行重鉴定，对TE和TR高覆盖的区域进行筛选整合，得到着丝粒核心区和近着丝粒区，以下是其中鱼类的测试结果：    
