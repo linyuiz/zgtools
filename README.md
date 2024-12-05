@@ -53,7 +53,7 @@ zgtools达到的T2T水平：
 11、多倍体T2T流程(更新中)   
 
 ## 最近更新 
-### ☆2024/12/03---染色体SV可视化：GetTwoSyn（展示染色体间的SV）    
+### ☆2024/12/05---染色体SV可视化：GetTwoSyn（展示染色体间的SV）    
 &emsp;&emsp;运行zgtools GetTwoSyn进行syri的切分并行分析，展示基因组共线性（基因共线性建议JCVI）和染色体间的SV：INV（黄色）、TRANS（绿色）和 Dup（蓝色）。以【[T2T骏枣](https://doi.org/10.1093/hr/uhae071) 】的chr5和chr12染色体的移位为例，结果如下：
 <div align="center"><img src="https://s2.loli.net/2024/12/05/lM3AtndoKkqBr9v.png" alt="Your Image Description" /></div>
 &emsp;&emsp;基因共线性圈图：   
