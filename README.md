@@ -66,7 +66,7 @@ zgtools达到的T2T水平：
 ## 最近更新
 ### ☆2024/12/24---候选着丝粒可视化：repeat_plot（展示候选着丝粒区域）
 &emsp;&emsp;运行zgtools repeat_plot进行分析，检查重复序列的分布得到候选着丝粒区域，结果如下：
-<div align="center"><img src="https://s2.loli.net/2024/12/24/MWOkcyNHd2UIhBS.png" alt="Your Image Description" /></div>
+<div align="center"><img src="https://s2.loli.net/2024/12/24/Exavmj7gl2JzRnT.png" alt="Your Image Description" /></div>
 
 ### ☆2024/12/05---染色体SV可视化：GetTwoSyn（展示染色体间的SV）
 
