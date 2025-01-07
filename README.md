@@ -68,8 +68,8 @@ zgtools达到的T2T水平：
 &emsp;&emsp;运行zgtools subphaser进行分析，填写配置文件运行即可，原软件SubPhaser写的很好，我们只在原基础上修改了配色和添加图例，结果如下：
 <div align="center"><img src="https://s2.loli.net/2025/01/07/7TfpsIlb3FJm4Ud.png" alt="Your Image Description" /></div>
 
-### ☆2024/12/24---候选着丝粒可视化：repeat_plot（展示候选着丝粒区域）
-&emsp;&emsp;运行zgtools repeat_plot进行分析，检查重复序列的分布得到候选着丝粒区域，结果如下：
+### ☆2024/12/24---候选着丝粒可视化：plotCCR（展示候选着丝粒区域）
+&emsp;&emsp;运行zgtools plotCCR进行分析，检查重复序列的分布得到候选着丝粒区域，结果如下：
 <div align="center"><img src="https://s2.loli.net/2025/01/07/GbprIunevERKcds.png" alt="Your Image Description" /></div>
 
 ### ☆2024/12/05---染色体SV可视化：GetTwoSyn（展示染色体间的SV）
