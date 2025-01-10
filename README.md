@@ -1,4 +1,5 @@
-<div align="center"><img src="https://s2.loli.net/2025/01/10/5A4iFyWVDr98XzS.webp" alt="Your Image Description" /></div>
+<div align="center"><img src="https://s2.loli.net/2025/01/10/WzwaHxSGMrKl8st.png" alt="Your Image Description" /></div>
+
 ## zgtools-pipeline
 
 - zgtools是一款自主编写的模块集合软件，其中包含了超过100个模块用于处理常规基因组与T2T基因组，其涵盖Survey、组装、HIC、T2T、注释、进化分析、着丝粒预测以及多种个性化分析功能。该软件旨在通过一个统一的启动器来管理所有基因组分析任务，相较于nextflow流程，它提供了更高的灵活性。   
