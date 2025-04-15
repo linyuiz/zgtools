@@ -69,11 +69,13 @@ zgtools达到的T2T水平：
 ### ☆2025/4/15 ---基因间区统计：intergenic（RNA-reads分布图）
 &emsp;&emsp;运行zgtools intergenic进行分析，一般而言，转录组reads比对到Exon的reads比例最高，因为转录组测序就是对mRNA进行测序。比对到Intron区域的reads可能来源于pre-mRNA的残留或可变剪接过程中发生的内含子保留事件。如果比对到Intergenic区的reads比例高，说明基因组注释不完善。（In general, reads in the【exon】region account for >60%, reads in the【intron】region account between 20% and 30%, and reads in the【intergenic】region account for <20%.）
 <div align="center"><img src="https://s2.loli.net/2025/04/15/8oF5CSVYgX6pZMk.png" alt="Your Image Description" /></div>
+
 ### ☆2025/1/7---亚基因组分型：subphaser（亚基因组分型）
 &emsp;&emsp;运行zgtools subphaser进行分析，填写配置文件运行即可，原软件SubPhaser写的很好，我们只在原基础上修改了配色和添加图例，结果如下：
 <div align="center"><img src="https://s2.loli.net/2025/01/07/7TfpsIlb3FJm4Ud.png" alt="Your Image Description" /></div>
 
 ### ☆2024/12/24---候选着丝粒可视化：plotCCR（展示候选着丝粒区域）
+
 &emsp;&emsp;运行zgtools plotCCR进行分析，检查重复序列的分布得到候选着丝粒区域，结果如下：
 <div align="center"><img src="https://s2.loli.net/2025/01/07/GbprIunevERKcds.png" alt="Your Image Description" /></div>
 
