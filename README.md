@@ -26,11 +26,11 @@
 
 T2T组装流程图：
 
-<div align="center"><img src="https://s2.loli.net/2024/12/05/Y3EO2eFizulj7yK.png" alt="Your Image Description" /></div>
+<div align="center"><img src="https://s2.loli.net/2024/12/05/Y3EO2eFizulj7yK.png" alt="Your Image Description" width=80%/></div>
 
 重复序列注释流程图：
 
-<div align="center"><img src="https://s2.loli.net/2024/12/07/kDXiP5z9gx6oBQC.png" alt="Your Image Description" /></div>
+<div align="center"><img src="https://s2.loli.net/2024/12/07/kDXiP5z9gx6oBQC.png" alt="Your Image Description" width=80%/></div>
 
  
 
@@ -68,7 +68,7 @@ zgtools达到的T2T水平：
 ## 最近更新
 ### ☆2025/4/15 ---基因间区统计：intergenic（RNA-reads分布图）
 &emsp;&emsp;运行zgtools intergenic进行分析，一般而言，转录组reads比对到Exon的reads比例最高，因为转录组测序就是对mRNA进行测序。比对到Intron区域的reads可能来源于pre-mRNA的残留或可变剪接过程中发生的内含子保留事件。如果比对到Intergenic区的reads比例高，说明基因组注释不完善。（In general, reads in the【exon】region account for >60%, reads in the【intron】region account between 20% and 30%, and reads in the【intergenic】region account for <20%.）
-<div align="center"><img src="https://s2.loli.net/2025/04/15/8oF5CSVYgX6pZMk.png" alt="Your Image Description" /></div>
+<div align="center"><img src="https://s2.loli.net/2025/04/15/8oF5CSVYgX6pZMk.png" alt="Your Image Description" width=80%/></div>
 
 ### ☆2025/1/7---亚基因组分型：subphaser（亚基因组分型）
 &emsp;&emsp;运行zgtools subphaser进行分析，填写配置文件运行即可，原软件SubPhaser写的很好，我们只在原基础上修改了配色和添加图例，结果如下：
@@ -83,16 +83,16 @@ zgtools达到的T2T水平：
 
 &emsp;&emsp;运行zgtools GetTwoSyn进行syri的切分并行分析，展示基因组共线性（基因共线性建议JCVI）和染色体间的SV：INV（黄色）、TRANS（绿色）和 Dup（蓝色）。以【[T2T骏枣](https://doi.org/10.1093/hr/uhae071) 】的chr5和chr12染色体的移位为例，结果如下：
 
-<div align="center"><img src="https://s2.loli.net/2024/12/05/lM3AtndoKkqBr9v.png" alt="Your Image Description" /></div>
+<div align="center"><img src="https://s2.loli.net/2024/12/05/lM3AtndoKkqBr9v.png" alt="Your Image Description" width=80%/></div>
 
 &emsp;&emsp;基因共线性圈图：   
-<div align="center"><img src="https://s2.loli.net/2024/12/05/FIc9qywMN4Bduf1.png" alt="Your Image Description" /></div>
+<div align="center"><img src="https://s2.loli.net/2024/12/05/FIc9qywMN4Bduf1.png" alt="Your Image Description" width=80%/></div>
 
 ### ☆2024/12/03---着丝粒可视化：StaniedGlass（提速与并行）
 
 &emsp;&emsp;运行zgtools run_centromere获得着丝粒的候选区域后，可运行zgtools StainedGlass进行可视化，该模块在原代码的基础上进行修改，加速运行而支持更方便的并行，对于结果文件也进行了精简，对于着丝粒区域的可视化运行速度大大提升。示例结果如下：
 
-<div align="center"><img src="https://s2.loli.net/2024/12/03/CB1Ten5gPXr3J2s.png" alt="Your Image Description" /></div>
+<div align="center"><img src="https://s2.loli.net/2024/12/03/CB1Ten5gPXr3J2s.png" alt="Your Image Description" width=80%/></div>
 
 ### ☆2024/12/03---Gap填补：gapjoin（Gap拓展区域重复检测）
 
