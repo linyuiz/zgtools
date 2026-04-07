@@ -15,7 +15,10 @@
 - **T2T 组装 → Gap 填补 → 端粒延伸修复 → 评估** 全流程仅需 **7–14 天**。
 - **RepeatAnno + ncRNA + DenovoAnno + TransAnno + HomoAnno + FuncAnno** 全流程仅需 **3-5 天**。
 
-此外，zgtools 已新增对**超大型基因组**的全面支持，涵盖 T2T 组装与注释。其组装指标表现优异：
+此外，zgtools 已新增对**超大型基因组**和**同源多倍体T2T**的全面支持，涵盖 T2T 组装与注释。其组装指标表现优异：
+
+某裸子植物T2T指标：
+
 - Contig N50 达 **1.7 Gbp**
 - Scaffold N50 达 **2.0 Gbp**
 - 组装 BUSCO 完整性为 **99.81%**
