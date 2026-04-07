@@ -1,0 +1,122 @@
+#!/bin/bash
+shopt -s expand_aliases
+alias cp='/usr/local/bin/cp'
+wkdir=$PWD
+bin_dir=`realpath $0|xargs -n1 dirname`
+if [ "$1" == "example_cfg" ];then
+        echo -e "\033[01;32m##EDTA\033[0m
+☆EDTA_genome=00.used_data/genome.fa        #raw genome file
+☆EDTA_species_type=animal       #animal/plant/fungi
+☆EDTA_threads=60        #threads
+EDTA_parallel_task_num=2        #parallel task num
+☆EDTA_species_model=others      #maize,rice,others
+☆EDTA_blastn_type=do_blastn     #do_blastn/skip_blastn[big genome could skip]
+☆EDTA_split_size=5,000,000      #split size: 5M
+" >Run_EDTA.cfg;
+        cat Run_EDTA.cfg && chmod +x Run_EDTA.cfg && exit 1
+else
+        if [ ! -e $1 ];then echo -e "\nthere isn't exist $1! " && exit 1;fi
+fi
+run_cfg=`realpath $1`
+run_type=$2
+wkdir=$PWD
+EDTA_genome=`grep "EDTA_genome=" $run_cfg|cut -d '=' -f2|awk '{print $1}'|xargs -n1 realpath`
+if [ ! -e $EDTA_genome ];then echo "There isn't exist $EDTA_genome" && exit 1;fi
+EDTA_threads=`grep "EDTA_threads=" $run_cfg|cut -d '=' -f2|awk '{print $1}'`
+EDTA_species_model=`grep "EDTA_species_model=" $run_cfg|cut -d '=' -f2|awk '{print $1}'`
+EDTA_species_type=`grep "EDTA_species_type=" $run_cfg|cut -d '=' -f2|awk '{print $1}'`
+EDTA_blastn_type=`grep "EDTA_blastn_type=" $run_cfg|cut -d '=' -f2|awk '{print $1}'`
+EDTA_parallel_task_num=`grep "EDTA_parallel_task_num=" $run_cfg|cut -d '=' -f2|awk '{print $1}'`
+EDTA_split_size=`grep "EDTA_split_size=" $run_cfg|cut -d '=' -f2|awk '{print $1}'`
+echo -e "\033[01;33m#######Pipeline:Data#######\033[0m"
+cat $run_cfg
+
+if [ `cat $wkdir/zg-run_EDTA.err|wc -l` != "0" ];then echo "Some Tasks Failed" && exit 1;fi
+echo -e "\033[01;33m\n#######Pipeline:Run#######\033[0m"
+echo -e "\033[01;32m[1] Run EDTA Pipeline: Discover Raw TE\033[0m"
+mkdir -p 01.rawTE;cd 01.rawTE
+if [ ! -e run_rawTE.sh.done ];then
+	echo "zgtools EDTA-rawTE $EDTA_genome $EDTA_threads $EDTA_species_model $EDTA_species_type $EDTA_blastn_type $EDTA_parallel_task_num $EDTA_split_size && touch run_rawTE.sh.done" >run_rawTE.sh
+	bash run_rawTE.sh
+else
+	sed '/The task/d' zg-EDTA-rawTE.log
+fi
+if [ `grep -E "fail|Fail|error|Error" zg-EDTA*.*|wc -l` != "0" ];then rm -rf run*.done;fi
+if [ `cat zg-EDTA-rawTE.err|wc -l` != "0" ];then rm -rf run_rawTE.sh.done;fi
+if [ ! -e run_rawTE.sh.done ];then echo "Discover Raw TE Failed" && exit 1;fi
+if [ `cat $wkdir/zg-run_EDTA.err|wc -l` != "0" ];then echo "Some Tasks Failed" && exit 1;fi
+
+if [ "$2" == "before_filterTE" ];then
+        echo -e "\033[01;32m\nAll of【$2】's previous tasks have been completed!\033[0m" && exit 0
+else
+        echo -e "\033[01;32m\nStart the task after running【$2】~\033[0m"
+fi
+
+echo -e "\n\033[01;32m[2] Run EDTA Pipeline: Filter Raw TE\033[0m"
+mkdir -p $wkdir/02.filterTE;cd $wkdir/02.filterTE
+if [ ! -e run_filterTE.sh.done ];then
+	echo "#!/bin/bash
+ln -sf ../01.rawTE/output_of_EDTA-rawTE used_data && \\
+echo -e \"
+LTR_raw\\t\$PWD/used_data/LTR/genome.LTR.raw.fa
+LTR_intact\\t\$PWD/used_data/LTR/genome.LTR.intact.raw.fa
+LINE_raw\\t\$PWD/used_data/LINE/genome.LINE.merge.fa
+SINE_raw\\t\$PWD/used_data/SINE/genome.SINE.merge.fa
+TIR_intact\\t\$PWD/used_data/TIR/genome.TIR.intact.raw.fa
+Helitron_intact\\t\$PWD/used_data/Helitron/genome.fa.Helitron.intact.raw.fa\"|sed '/^$/d'|column -t >used_TElib.list && \\
+zgtools EDTA-filterTE ../01.rawTE/tmp_of_EDTA-rawTE/01.transcode_genome/used.genome.fa $EDTA_threads used_TElib.list && \\
+touch run_filterTE.sh.done" >run_filterTE.sh
+	bash run_filterTE.sh
+else
+	sed '/The task/d' zg-EDTA-filterTE.log
+fi
+if [ `grep -E "fail|Fail|error|Error" zg-EDTA*.*|wc -l` != "0" ];then rm -rf run*.done;fi
+if [ `cat zg-EDTA-filterTE.err|wc -l` != "0" ];then rm -rf run_filterTE.sh.done;fi
+if [ ! -e run_filterTE.sh.done ];then echo "Filter Raw TE Failed" && exit 1;fi
+if [ `cat $wkdir/zg-run_EDTA.err|wc -l` != "0" ];then echo "Some Tasks Failed" && exit 1;fi
+if [ "$2" == "before_mergeTE" ];then
+        echo -e "\033[01;32m\nAll of【$2】's previous tasks have been completed!\033[0m" && exit 0
+else
+        echo -e "\033[01;32m\nStart the task after running【$2】~\033[0m"
+fi
+echo -e "\n\033[01;32m[3] Run EDTA Pipeline: Merge TE && Get Intact TE\033[0m"
+mkdir -p $wkdir/03.mergeTE;cd $wkdir/03.mergeTE
+if [ ! -e run_mergeTE.sh.done ];then
+	ln -sf ../02.filterTE/used_data/RepeatModeler2 RM2_data
+	ln -sf ../02.filterTE/output_of_EDTA-filterTE/genome.EDTA.fa.stg1 genome.EDTA.fa.stg1
+	ln -sf ../02.filterTE/output_of_EDTA-filterTE/genome.EDTA.intact.fa.cln genome.EDTA.intact.fa.cln
+	ln -sf ../01.rawTE/tmp_of_EDTA-rawTE/01.transcode_genome/used.genome.fa genome.fa
+	if [ "$EDTA_species_type" == "animal" ];then
+		input_lib=$bin_dir/scripts/software/repeat_lib/TElib/Animal.TElib.fa
+	else
+		input_lib=$bin_dir/scripts/software/repeat_lib/TElib/Plant.TElib.fa
+	fi
+	echo "cat ../01.rawTE/output_of_EDTA-rawTE/*/genome.*.intact.raw.gff3|sort -sV -k1,1 -k4,4|sed '/^#/d' >genome.intact.raw.gff3 && \\
+zgtools EDTA-mergeTE genome.fa $EDTA_threads genome.EDTA.fa.stg1 RM2_data/genome.RM2.merge.fa $input_lib genome.EDTA.intact.fa.cln genome.intact.raw.gff3 $EDTA_species_type && touch run_mergeTE.sh.done" >run_mergeTE.sh
+	bash run_mergeTE.sh
+else
+        sed '/The task/d' zg-EDTA-mergeTE.log
+fi
+if [ `grep -E "fail|Fail|error|Error" zg-EDTA*.*|wc -l` != "0" ];then rm -rf run*.done;fi
+if [ `cat zg-EDTA-mergeTE.err|wc -l` != "0" ];then rm -rf run_mergeTE.sh.done;fi
+if [ ! -e run_mergeTE.sh.done ];then echo "Merge TE && Get Intact TE Failed! " && exit 1;fi
+if [ `cat $wkdir/zg-run_EDTA.err|wc -l` != "0" ];then echo "Some Tasks Failed" && exit 1;fi
+if [ "$2" == "before_annoTE" ];then
+        echo -e "\033[01;32m\nAll of【$2】's previous tasks have been completed!\033[0m" && exit 0
+else
+        echo -e "\033[01;32m\nStart the task after running【$2】~\033[0m"
+fi
+echo -e "\n\033[01;32m[4] Run EDTA Pipeline: Anno TE\033[0m"
+mkdir -p $wkdir/04.annoTE;cd $wkdir/04.annoTE
+if [ ! -e run_annoTE.sh.done ];then
+	ln -sf ../03.mergeTE/genome.fa ./
+	ln -sf ../03.mergeTE/output_of_mergeTE/merged.TElib.fa ./
+	echo "zgtools EDTA-annoTE genome.fa $EDTA_threads merged.TElib.fa $EDTA_split_size 50,000 $EDTA_parallel_task_num && touch run_annoTE.sh.done" >run_annoTE.sh
+	bash run_annoTE.sh
+else
+        sed '/The task/d' zg-EDTA-annoTE.log
+fi
+if [ `cat zg-EDTA-annoTE.log |grep "fail"|wc -l` != "0" ];then rm -rf run_annoTE.sh.done;fi
+if [ `cat zg-EDTA-annoTE.err|wc -l` != "0" ];then rm -rf run_annoTE.sh.done;fi
+if [ ! -e run_annoTE.sh.done ];then echo "Anno TE Failed! " && exit 1;fi
+if [ `cat $wkdir/zg-run_EDTA.err|wc -l` != "0" ];then echo "Some Tasks Failed" && exit 1;fi

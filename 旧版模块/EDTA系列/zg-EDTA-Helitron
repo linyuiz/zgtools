@@ -1,0 +1,91 @@
+#!/bin/bash
+genome=`realpath $1`
+threads=$2
+bin_dir=`realpath $0|xargs -n1 dirname`
+cleanup_tandem=$bin_dir/scripts/software/EDTA-2.2.2/bin/cleanup_tandem.pl
+output_by_list=$bin_dir/scripts/software/EDTA-2.2.2/bin/output_by_list.pl
+cleanup_misclas=$bin_dir/scripts/software/EDTA-2.2.2/bin/cleanup_misclas.pl
+HelitronScanner_Runner=$bin_dir/scripts/software/EDTA-2.2.2/bin/run_helitron_scanner.py
+HelitronScanner=`which HelitronScanner |xargs -n1 dirname`
+flank_filter=$bin_dir/scripts/software/EDTA-2.2.2/bin/flanking_filter.pl
+format_helitronscanner=$bin_dir/scripts/software/EDTA-2.2.2/bin/format_helitronscanner_out.pl
+make_bed=$bin_dir/scripts/software/EDTA-2.2.2/bin/make_bed_with_intact.pl
+bed2gff=$bin_dir/scripts/software/EDTA-2.2.2/bin/bed2gff.pl
+wkdir=$PWD
+echo -e "\033[01;35m#######Data#######\033[0m"
+echo -e "Genome: ${genome}
+Threads: $threads"
+echo -e "\n\033[01;35m#######Run#######\033[0m"
+mkdir -p tmp_of_EDTA-Helitron;cd tmp_of_EDTA-Helitron;now_dir=$PWD
+mkdir -p 01.discover_Helitron;cd 01.discover_Helitron
+echo "1.1. run HelitronScanner ..."
+if [ ! -e run_01HelitronScanner.sh.done ];then
+	ln -sf $genome used.genome.fa
+	echo "#!/bin/bash
+$HelitronScanner_Runner --genome used.genome.fa --cpu $threads --hsdir \"$HelitronScanner\" && touch run_01HelitronScanner.sh.done" >run_01HelitronScanner.sh
+	bash run_01HelitronScanner.sh 1>run_01HelitronScanner.sh.log 2>run_01HelitronScanner.sh.err
+fi
+if [ `cat run_01HelitronScanner.sh.err|wc -l` != "0" ];then rm -rf run_01HelitronScanner.sh.done;fi
+if [ ! -e run_01HelitronScanner.sh.done ];then echo "run HelitronScanner failed" && exit 1;fi
+
+mkdir -p ../02.filter/;cd ../02.filter/
+genome=genome.fa
+echo "2.1. filter candidates based on repeatness of flanking regions ..."
+if [ ! -e run_01filter.sh.done ];then
+	mkdir -p work_of_filter
+	echo "cd work_of_filter
+ln -sf ../../01.discover_Helitron/used.genome.fa.HelitronScanner.draw.hel.fa ./${genome}.HelitronScanner.draw.hel.fa
+ln -sf ../../01.discover_Helitron/used.genome.fa.HelitronScanner.draw.rc.hel.fa ./${genome}.HelitronScanner.draw.rc.hel.fa
+ln -sf ../../01.discover_Helitron/used.genome.fa $genome
+perl $format_helitronscanner -genome $genome -sitefilter 1 -minscore 12 -keepshorter 1 -extlen 30 -extout 0 && \\
+perl $format_helitronscanner -genome $genome -sitefilter 1 -minscore 12 -keepshorter 1 -extlen 30 -extout 1 && \\
+perl $flank_filter -genome $genome -query $genome.HelitronScanner.filtered.ext.fa -miniden 90 -mincov 0.9 -maxct 5 -blastplus $blastplus -t $threads && \\
+perl $output_by_list 1 $genome.HelitronScanner.filtered.fa 1 $genome.HelitronScanner.filtered.ext.fa.pass.fa -FA > $genome.HelitronScanner.filtered.fa.pass.fa && \\
+touch ../run_01filter.sh.done" >run_01filter.sh
+	bash run_01filter.sh 1>run_01filter.sh.log 2>run_01filter.sh.err
+fi
+if [ ! -s work_of_filter/genome.fa.HelitronScanner.filtered.fa ];then echo "genome.fa.HelitronScanner.filtered.fa is empty! " && rm -rf run_01filter.sh.done;fi
+if [ `cat run_01filter.sh.err|wc -l` != "0" ];then rm -rf run_01filter.sh.done;fi
+if [ ! -e run_01filter.sh.done ];then echo "filter candidates based on repeatness of flanking regions failed" && exit 1;fi
+
+echo "2.2. remove simple repeats and candidates with simple repeats at terminals ..."
+if [ ! -e run_02remove_TR.sh.done ];then
+	mkdir -p work_of_remove_TR
+	echo "cd work_of_remove_TR && ln -sf ../work_of_filter/genome.fa.HelitronScanner.filtered.fa.pass.fa ./ && \\
+mdust $genome.HelitronScanner.filtered.fa.pass.fa > $genome.HelitronScanner.filtered.fa.pass.fa.dusted && \\
+perl $cleanup_tandem -misschar N -nc 50000 -nr 0.9 -minlen 100 -minscore 3000 -trf 1 -cleanN 1 -cleanT 1 -f $genome.HelitronScanner.filtered.fa.pass.fa.dusted | perl -nle 's/^(>.*)\\s+(.*)\$/\$1#DNA\\/Helitron\\t\$2/; print \$_' > $genome.HelitronScanner.filtered.fa.pass.fa.dusted.cln && \\
+touch ../run_02remove_TR.sh.done" >run_02remove_TR.sh
+	bash run_02remove_TR.sh 1>run_02remove_TR.sh.log 2>run_02remove_TR.sh.err
+fi
+if [ `cat run_02remove_TR.sh.err|wc -l` != "0" ];then rm -rf run_02remove_TR.sh.done;fi
+if [ ! -e run_02remove_TR.sh.done ];then echo -e "remove simple repeats and candidates with simple repeats at terminals failed" && exit 1;fi
+
+echo "2.3. annotate and remove non-Helitron candidates ..."
+mkdir -p work_of_TEsorter
+if [ ! -e run_03annotate.sh.done ];then
+	echo "#!/bin/bash
+cd work_of_TEsorter
+ln -sf ../work_of_remove_TR/$genome.HelitronScanner.filtered.fa.pass.fa.dusted.cln ./
+if [ -s $genome.HelitronScanner.filtered.fa.pass.fa.dusted.cln ];then
+	TEsorter $genome.HelitronScanner.filtered.fa.pass.fa.dusted.cln --disable-pass2 -p $threads 2>/dev/null && \\
+        perl $cleanup_misclas $genome.HelitronScanner.filtered.fa.pass.fa.dusted.cln.rexdb.cls.tsv && \\
+        ln -sf $genome.HelitronScanner.filtered.fa.pass.fa.dusted.cln.cln $genome.Helitron.intact.raw.fa && \\
+        perl $make_bed $genome.Helitron.intact.raw.fa > $genome.Helitron.intact.raw.bed && \\
+        perl $bed2gff $genome.Helitron.intact.raw.bed HEL > $genome.Helitron.intact.raw.gff3
+else
+	touch $genome.HelitronScanner.filtered.fa.pass.fa.dusted.cln.cln $genome.Helitron.intact.raw.bed $genome.Helitron.intact.raw.gff3 genome.Helitron.intact.raw.fa
+fi && cd ../ && \\
+touch run_03annotate.sh.done" >run_03annotate.sh
+	bash run_03annotate.sh 1>run_03annotate.sh.log 2>run_03annotate.sh.err
+fi
+if [ `cat run_03annotate.sh.err|wc -l` != "0" ];then rm -rf run_03annotate.sh.done;fi
+if [ ! -e run_03annotate.sh.done ];then echo "annotate and remove non-Helitron candidates failed" && exit 1;fi
+ln -sf work_of_TEsorter/genome.fa.Helitron.intact.raw* ./
+mkdir -p $wkdir/output_of_EDTA-Helitron/
+rm -rf $wkdir/output_of_EDTA-Helitron/*
+ln -sf work_of_TEsorter/genome.fa.HelitronScanner.filtered.fa.pass.fa.dusted.cln.cln.list genome.fa.Helitron.intact.raw.fa.anno.list
+cp genome.fa.Helitron.intact.raw* $wkdir/output_of_EDTA-Helitron/
+rename 's/genome.fa/genome/g' $wkdir/output_of_EDTA-Helitron/
+echo -e "\n\033[01;35m#######Results#######\033[0m"
+echo "Output: $wkdir/output_of_EDTA-Helitron/"
+if [ `cat $wkdir/zg-EDTA-Helitron.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi

@@ -1,0 +1,311 @@
+#!/bin/bash
+shopt -s expand_aliases
+alias cp='/usr/local/bin/cp'
+wkdir=$PWD
+bin_dir=`realpath $0|xargs -n1 dirname`
+genome=`realpath $1`
+threads=$2
+telib_list=`realpath $3`
+if [ -z $4 ];then
+	para_n=2
+else
+	para_n=$4
+fi
+# minimum richness difference between $TE1 and $TE2 for a sequence to be considered as REAL to $TE1.
+# Smaller number is more inclusive during purging, hence higher false positives
+mindiff_LTR=1
+mindiff_TIR=1
+mindiff_HEL=1.5;
+mindiff_Helitron=$mindiff_HEL
+script_path=$bin_dir/scripts/software/EDTA-2.2.2
+TE_purifier="$script_path/bin/TE_purifier.pl";
+rename_TE="$script_path/bin/rename_TE.pl";
+cleanup_tandem="$script_path/bin/cleanup_tandem.pl";
+cleanup_nested="$script_path/bin/cleanup_nested.pl";
+cleanup_proteins="$script_path/bin/cleanup_proteins.pl";
+
+echo -e "\033[01;35m#######Data#######\033[0m"
+echo "Genome: $genome
+Threads: $threads
+TE Library List: $telib_list
+Parallel Task Number: $para_n"
+echo -e "\n\033[01;35m#######Run#######\033[0m"
+mkdir -p tmp_of_EDTA-filterTE;cd tmp_of_EDTA-filterTE;now_dir=$PWD
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+mkdir -p used_data/ && cd used_data/
+LTR_raw=`cat $telib_list|awk '$1 == "LTR_raw" {print $2}'`
+ln -sf $LTR_raw genome.LTR.raw.fa
+LTR_intact=`cat $telib_list|awk '$1 == "LTR_intact" {print $2}'`
+ln -sf $LTR_intact genome.LTR.intact.raw.fa
+LINE_raw=`cat $telib_list|awk '$1 == "LINE_raw" {print $2}'`
+ln -sf $LINE_raw genome.LINE.raw.fa
+SINE_raw=`cat $telib_list|awk '$1 == "SINE_raw" {print $2}'`
+ln -sf $SINE_raw genome.SINE.raw.fa
+TIR_intact=`cat $telib_list|awk '$1 == "TIR_intact" {print $2}'`
+ln -sf $TIR_intact genome.TIR.intact.raw.fa
+Helitron_intact=`cat $telib_list|awk '$1 == "Helitron_intact" {print $2}'`
+ln -sf $Helitron_intact genome.Helitron.intact.raw.fa
+ln -sf $genome genome.fa
+
+#perl $TE_purifier -TE1 $TE1 -TE2 $TE2 -t $threads -mindiff $mindiff
+#perl $cleanup_tandem -misschar l -Nscreen 1 -nc 50000 -nr 0.8 -minlen 80 -cleanN 1 -cleanT 1 -minrm 1 -trf 0 -f $TE1-$TE2.fa > $TE1.HQ
+
+echo "1. purify raw LTR ..."
+mkdir -p ../01.purify_LTR;cd ../01.purify_LTR
+ln -sf ../used_data/genome.LTR.raw.fa LTR_raw.fa
+ln -sf ../used_data/genome.TIR.intact.raw.fa TIR_intact.fa
+ln -sf ../used_data/genome.Helitron.intact.raw.fa Helitron_intact.fa
+mkdir -p 01.LTR_vs_TIR;
+echo "1.1. purify raw LTR with TIR ..."
+if [ ! -e run_01LTR_vs_TIR.sh.done ];then
+	echo "cd 01.LTR_vs_TIR && ln -sf ../LTR_raw.fa ./ && ln -sf ../TIR_intact.fa ./ && \\
+TE1=LTR_raw.fa
+TE2=TIR_intact.fa
+perl $TE_purifier -TE1 \$TE1 -TE2 \$TE2 -t $threads -mindiff $mindiff_LTR && \\
+perl $cleanup_tandem -misschar l -Nscreen 1 -nc 50000 -nr 0.8 -minlen 80 -cleanN 1 -cleanT 1 -minrm 1 -trf 0 -f \$TE1-\$TE2.fa >LTR_removeTIR.HQ.fa && \\
+touch ../run_01LTR_vs_TIR.sh.done" >run_01LTR_vs_TIR.sh
+	bash run_01LTR_vs_TIR.sh 1>run_01LTR_vs_TIR.sh.log 2>run_01LTR_vs_TIR.sh.err
+fi
+if [ ! -s 01.LTR_vs_TIR/LTR_removeTIR.HQ.fa ];then rm -rf run_01LTR_vs_TIR.sh.done;fi
+if [ `cat run_01LTR_vs_TIR.sh.err|wc -l` != "0" ];then rm -rf run_01LTR_vs_TIR.sh.done;fi
+if [ ! -e run_01LTR_vs_TIR.sh.done ];then echo "purify raw LTR with TIR failed" && exit 1;fi
+
+echo "1.2. purify LTR_HQ with Helitron ..."
+if [ ! -e run_02LTR_HQ_vs_Helitron.sh.done ];then
+	mkdir -p 02.LTR_HQ_vs_Helitron
+        echo "cd 02.LTR_HQ_vs_Helitron
+ln -sf ../01.LTR_vs_TIR/LTR_removeTIR.HQ.fa ./ && \\
+ln -sf ../Helitron_intact.fa ./
+TE1=LTR_removeTIR.HQ.fa
+TE2=Helitron_intact.fa
+perl $TE_purifier -TE1 \$TE1 -TE2 \$TE2 -t $threads -mindiff $mindiff_LTR && \\
+perl $cleanup_tandem -misschar l -Nscreen 1 -nc 50000 -nr 0.8 -minlen 80 -cleanN 1 -cleanT 1 -minrm 1 -trf 0 -f \$TE1-\$TE2.fa >LTR_removeTIR_and_Helitron.HQ.fa && \\
+touch ../run_02LTR_HQ_vs_Helitron.sh.done" >run_02LTR_HQ_vs_Helitron.sh
+        bash run_02LTR_HQ_vs_Helitron.sh 1>run_02LTR_HQ_vs_Helitron.sh.log 2>run_02LTR_HQ_vs_Helitron.sh.err
+fi
+if [ ! -s 02.LTR_HQ_vs_Helitron/LTR_removeTIR_and_Helitron.HQ.fa ];then rm -rf run_02LTR_HQ_vs_Helitron.sh.done;fi
+if [ `cat run_02LTR_HQ_vs_Helitron.sh.err|wc -l` != "0" ];then rm -rf run_02LTR_HQ_vs_Helitron.sh.done;fi
+if [ ! -e run_02LTR_HQ_vs_Helitron.sh.done ];then echo "purify LTR_HQ with Helitron failed" && exit 1;fi
+
+ln -sf 01.LTR_vs_TIR/LTR_removeTIR.HQ.fa 02.LTR_HQ_vs_Helitron/LTR_removeTIR_and_Helitron.HQ.fa ./
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+mkdir -p ../02.purify_Helitron;cd ../02.purify_Helitron
+echo "2. purify Helitron ..."
+echo "2.1. purify Helitron with TIR ..."
+if [ ! -e run_01Helitron_vs_TIR.sh.done ];then
+        mkdir -p 01.Helitron_vs_TIR
+        echo "cd 01.Helitron_vs_TIR
+ln -sf ../../01.purify_LTR/TIR_intact.fa ./ && \\
+ln -sf ../../01.purify_LTR/Helitron_intact.fa ./
+TE1=Helitron_intact.fa
+TE2=TIR_intact.fa
+perl $TE_purifier -TE1 \$TE1 -TE2 \$TE2 -t $threads -mindiff $mindiff_HEL && \\
+perl $cleanup_tandem -misschar l -Nscreen 1 -nc 50000 -nr 0.8 -minlen 80 -cleanN 1 -cleanT 1 -minrm 1 -trf 0 -f \$TE1-\$TE2.fa >Helitron_removeTIR.HQ.fa && \\
+touch ../run_01Helitron_vs_TIR.sh.done" >run_01Helitron_vs_TIR.sh
+        bash run_01Helitron_vs_TIR.sh 1>run_01Helitron_vs_TIR.sh.log 2>run_01Helitron_vs_TIR.sh.err
+fi
+if [ ! -s 01.Helitron_vs_TIR/Helitron_removeTIR.HQ.fa ];then rm -rf run_01Helitron_vs_TIR.sh.done;fi
+if [ `cat run_01Helitron_vs_TIR.sh.err|wc -l` != "0" ];then rm -rf run_01Helitron_vs_TIR.sh.done;fi
+if [ ! -e run_01Helitron_vs_TIR.sh.done ];then echo "purify Helitron with TIR failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+echo "2.2. purify Helitron_HQ with LTR ..."
+if [ ! -e run_02Helitron_HQ_vs_LTR.sh.done ];then
+        mkdir -p 02.Helitron_HQ_vs_LTR
+        echo "cd 02.Helitron_HQ_vs_LTR
+ln -sf ../01.Helitron_vs_TIR/Helitron_removeTIR.HQ.fa ./ && \\
+ln -sf ../../01.purify_LTR/LTR_raw.fa ./ 
+TE1=Helitron_removeTIR.HQ.fa
+TE2=LTR_raw.fa
+perl $TE_purifier -TE1 \$TE1 -TE2 \$TE2 -t $threads -mindiff $mindiff_LTR && \\
+perl $cleanup_tandem -misschar l -Nscreen 1 -nc 50000 -nr 0.8 -minlen 80 -cleanN 1 -cleanT 1 -minrm 1 -trf 0 -f \$TE1-\$TE2.fa >Helitron_removeTIR_and_LTR.HQ.fa && \\
+touch ../run_02Helitron_HQ_vs_LTR.sh.done" >run_02Helitron_HQ_vs_LTR.sh
+        bash run_02Helitron_HQ_vs_LTR.sh 1>run_02Helitron_HQ_vs_LTR.sh.log 2>run_02Helitron_HQ_vs_LTR.sh.err
+fi
+if [ ! -s 02.Helitron_HQ_vs_LTR/Helitron_removeTIR_and_LTR.HQ.fa ];then rm -rf run_02Helitron_HQ_vs_LTR.sh.done;fi
+if [ `cat run_02Helitron_HQ_vs_LTR.sh.err|wc -l` != "0" ];then rm -rf run_02Helitron_HQ_vs_LTR.sh.done;fi
+if [ ! -e run_02Helitron_HQ_vs_LTR.sh.done ];then echo "purify Helitron_HQ with LTR failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+ln -sf 01.Helitron_vs_TIR/Helitron_removeTIR.HQ.fa 02.Helitron_HQ_vs_LTR/Helitron_removeTIR_and_LTR.HQ.fa ./
+echo "2.3. generate intact Helitron ..."
+if [ ! -e run_03intact.sh.done ];then
+	echo "perl $cleanup_tandem -misschar l -Nscreen 1 -nc 50000 -nr 0.8 -minlen 80 -cleanN 1 -cleanT 0 -minrm 1 -trf 0 -f Helitron_removeTIR_and_LTR.HQ.fa >Helitron.int.cln && \\
+ln -sf Helitron_removeTIR_and_LTR.HQ.fa Helitron.cln && \\
+touch run_03intact.sh.done" >run_03intact.sh
+	bash run_03intact.sh 1>run_03intact.sh.log 2>run_03intact.sh.err
+fi
+if [ ! -s Helitron.cln ];then rm -rf run_03intact.sh.done;fi
+if [ `cat run_03intact.sh.err|wc -l` != "0" ];then rm -rf run_03intact.sh.done;fi
+if [ ! -e run_03intact.sh.done ];then echo "generate intact Helitron failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+mkdir -p ../03.purify_TIR;cd ../03.purify_TIR
+echo "3. purify TIR ..."
+echo "3.1. purify TIR with LTR ..."
+if [ ! -e run_01TIR_vs_LTR.sh.done ];then
+        mkdir -p 01.TIR_vs_LTR
+        echo "cd 01.TIR_vs_LTR
+ln -sf ../../01.purify_*/LTR_raw.fa ./ && \\
+ln -sf ../../01.purify_*/TIR_intact.fa ./
+TE1=TIR_intact.fa
+TE2=LTR_raw.fa
+perl $TE_purifier -TE1 \$TE1 -TE2 \$TE2 -t $threads -mindiff $mindiff_TIR && \\
+perl $cleanup_tandem -misschar l -Nscreen 1 -nc 50000 -nr 0.8 -minlen 80 -cleanN 1 -cleanT 1 -minrm 1 -trf 0 -f \$TE1-\$TE2.fa >TIR_removeLTR.HQ.fa && \\
+touch ../run_01TIR_vs_LTR.sh.done" >run_01TIR_vs_LTR.sh
+        bash run_01TIR_vs_LTR.sh 1>run_01TIR_vs_LTR.sh.log 2>run_01TIR_vs_LTR.sh.err
+fi
+if [ ! -s 01.TIR_vs_LTR/TIR_removeLTR.HQ.fa ];then rm -rf run_01TIR_vs_LTR.sh.done;fi
+if [ `cat run_01TIR_vs_LTR.sh.err|wc -l` != "0" ];then rm -rf run_01TIR_vs_LTR.sh.done;fi
+if [ ! -e run_01TIR_vs_LTR.sh.done ];then echo "purify TIR with LTR failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+echo "3.3. purify TIR_HQ with Helitron ..."
+if [ ! -e run_02TIR_HQ_vs_Helitron.sh.done ];then
+        mkdir -p 02.TIR_HQ_vs_Helitron
+        echo "cd 02.TIR_HQ_vs_Helitron
+ln -sf ../01.TIR_vs_LTR/TIR_removeLTR.HQ.fa ./ && \\
+ln -sf ../../01.purify_*/Helitron_intact.fa ./ 
+TE1=TIR_removeLTR.HQ.fa
+TE2=Helitron_intact.fa
+perl $TE_purifier -TE1 \$TE1 -TE2 \$TE2 -t $threads -mindiff $mindiff_TIR && \\
+perl $cleanup_tandem -misschar l -Nscreen 1 -nc 50000 -nr 0.8 -minlen 80 -cleanN 1 -cleanT 1 -minrm 1 -trf 0 -f \$TE1-\$TE2.fa >TIR_removeLTR_and_Helitron.HQ.fa && \\
+touch ../run_02TIR_HQ_vs_Helitron.sh.done" >run_02TIR_HQ_vs_Helitron.sh
+        bash run_02TIR_HQ_vs_Helitron.sh 1>run_02TIR_HQ_vs_Helitron.sh.log 2>run_02TIR_HQ_vs_Helitron.sh.err
+fi
+if [ ! -s 02.TIR_HQ_vs_Helitron/TIR_removeLTR_and_Helitron.HQ.fa ];then rm -rf run_02TIR_HQ_vs_Helitron.sh.done;fi
+if [ `cat run_02TIR_HQ_vs_Helitron.sh.err|wc -l` != "0" ];then rm -rf run_02TIR_HQ_vs_Helitron.sh.done;fi
+if [ ! -e run_02TIR_HQ_vs_Helitron.sh.done ];then echo "purify TIR_HQ with Helitron failed" && exit 1;fi
+ln -sf 01.TIR_vs_LTR/TIR_removeLTR.HQ.fa 02.TIR_HQ_vs_Helitron/TIR_removeLTR_and_Helitron.HQ.fa ./
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+echo "3.3. generate intact TIR ..."
+if [ ! -e run_03intact.sh.done ];then
+        echo "perl $cleanup_tandem -misschar l -Nscreen 1 -nc 50000 -nr 0.8 -minlen 80 -cleanN 1 -cleanT 0 -minrm 1 -trf 0 -f TIR_removeLTR_and_Helitron.HQ.fa >TIR.int.cln && \\
+ln -sf TIR_removeLTR_and_Helitron.HQ.fa TIR.cln && \\
+touch run_03intact.sh.done" >run_03intact.sh
+        bash run_03intact.sh 1>run_03intact.sh.log 2>run_03intact.sh.err
+fi
+if [ ! -s TIR.cln ];then rm -rf run_03intact.sh.done;fi
+if [ `cat run_03intact.sh.err|wc -l` != "0" ];then rm -rf run_03intact.sh.done;fi
+if [ ! -e run_03intact.sh.done ];then echo "generate intact TIR failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+mkdir -p ../04.other;cd ../04.other
+echo "4.1. purify intact LTR from TIR ..."
+mkdir -p 01.LTR_intact_vs_TIR;
+ln -sf ../used_data/genome.LTR.intact.raw.fa LTR_intact.fa
+ln -sf ../03.purify_TIR/TIR.cln ./
+if [ ! -e run_01LTR_intact_vs_TIR.sh.done ];then
+	echo "#!/bin/bash
+cd 01.LTR_intact_vs_TIR && ln -sf ../LTR_intact.fa ./ && ln -sf ../TIR.cln ./
+TE1=LTR_intact.fa
+TE2=TIR.cln
+perl $TE_purifier -TE1 \$TE1 -TE2 \$TE2 -t $threads -mindiff 10 && \\
+perl $cleanup_tandem -misschar l -Nscreen 1 -nc 50000 -nr 0.8 -minlen 80 -cleanN 1 -cleanT 1 -minrm 1 -trf 0 -f \$TE1-\$TE2.fa >LTR_intact_removeTIR.HQ.fa && \\
+perl $cleanup_tandem -misschar l -Nscreen 1 -nc 50000 -nr 0.8 -minlen 80 -cleanN 1 -cleanT 0 -minrm 1 -trf 0 -f LTR_intact_removeTIR.HQ.fa >LTR.int.cln && \\
+touch ../run_01LTR_intact_vs_TIR.sh.done" >run_01LTR_intact_vs_TIR.sh
+	bash run_01LTR_intact_vs_TIR.sh 1>run_01LTR_intact_vs_TIR.sh.log 2>run_01LTR_intact_vs_TIR.sh.err
+fi
+if [ ! -s 01.LTR_intact_vs_TIR/LTR.int.cln ];then rm -rf run_01LTR_intact_vs_TIR.sh.done;fi
+ln -sf 01.LTR_intact_vs_TIR/LTR.int.cln ./
+if [ `cat run_01LTR_intact_vs_TIR.sh.err|wc -l` != "0" ];then rm -rf run_01LTR_intact_vs_TIR.sh.done;fi
+if [ ! -e run_01LTR_intact_vs_TIR.sh.done ];then echo "generate intact LTR failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+echo "4.2. clean LINE in LTR ..."
+mkdir -p 02.LTR_removeLINE
+ln -sf ../used_data/genome.*INE.raw.fa .
+if [ ! -e run_02LTR_removeLINE.sh.done ];then
+	echo "#!/bin/bash
+cd 02.LTR_removeLINE && ln -sf ../../01.purify_LTR/LTR_raw.fa ./ && \\
+ln -sf ../genome.LINE.raw.fa LINE_raw.fa
+RepeatMasker -e ncbi -pa $threads -q -no_is -nolow -div 40 -lib LINE_raw.fa LTR_raw.fa 2>&1 && \\
+perl $cleanup_tandem -misschar N -nc 50000 -nr 0.9 -minlen 80 -minscore 3000 -trf 0 -cleanN 1 -cleanT 1 -f LTR_raw.fa.masked >LTR.cln && \\
+touch ../run_02LTR_removeLINE.sh.done" >run_02LTR_removeLINE.sh
+	bash run_02LTR_removeLINE.sh 1>run_02LTR_removeLINE.sh.log 2>run_02LTR_removeLINE.sh.err
+fi
+if [ ! -s 02.LTR_removeLINE/LTR.cln ];then rm -rf run_02LTR_removeLINE.sh.done;fi
+ln -sf 02.LTR_removeLINE/LTR.cln ./
+if [ `cat run_02LTR_removeLINE.sh.err|wc -l` != "0" ];then rm -rf run_02LTR_removeLINE.sh.done;fi
+if [ ! -e run_02LTR_removeLINE.sh.done ];then echo "clean LINE in LTR failed" && exit 1;fi
+
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+echo "4.3. clean LINE and LTR in SINE ..."
+if [ ! -e run_03SINE_remove_LINE_LTR.sh.done ];then
+	mkdir -p 03.SINE_remove_LINE_LTR
+	echo "cd 03.SINE_remove_LINE_LTR && \\
+cat ../LTR.cln ../genome.LINE.raw.fa >LINE_LTR.raw.fa && ln -sf ../genome.SINE.raw.fa SINE_raw.fa && \\
+RepeatMasker -e ncbi -pa $threads -q -no_is -nolow -div 40 -lib LINE_LTR.raw.fa SINE_raw.fa 2>&1 && \\
+perl $cleanup_tandem -misschar N -nc 50000 -nr 0.9 -minlen 80 -minscore 3000 -trf 0 -cleanN 1 -f SINE_raw.fa.masked >SINE.cln && \\
+touch ../run_03SINE_remove_LINE_LTR.sh.done" >run_03SINE_remove_LINE_LTR.sh
+	bash run_03SINE_remove_LINE_LTR.sh 1>run_03SINE_remove_LINE_LTR.sh.log 2>run_03SINE_remove_LINE_LTR.sh.err
+fi
+if [ ! -e 03.SINE_remove_LINE_LTR/SINE.cln ];then rm -rf run_03SINE_remove_LINE_LTR.sh.done;fi
+ln -sf 03.SINE_remove_LINE_LTR/SINE.cln ./
+if [ `cat run_03SINE_remove_LINE_LTR.sh.err|wc -l` != "0" ];then rm -rf run_03SINE_remove_LINE_LTR.sh.done;fi
+if [ ! -e run_03SINE_remove_LINE_LTR.sh.done ];then echo "clean LINE and LTR in SINE failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+echo "4.4. clean LTR and nonLTR in TIR and Helitron ..."
+ln -sf ../02.purify_Helitron/Helitron.cln ./
+if [ ! -e run_04clean_TIR_HEL.sh.done ];then
+	mkdir -p 04.clean_TIR_Helitron
+	echo "#!/bin/bash
+cd 04.clean_TIR_Helitron && \\
+cat ../TIR.cln ../Helitron.cln | perl -nle 's/>/\\n>/g unless /^>/; print \$_' >TIR.Helitron.fa.stg1.raw && \\
+cat ../../01.purify_LTR/LTR_removeTIR_and_Helitron.HQ.fa ../SINE.cln ../genome.LINE.raw.fa >LTR.SINE.LINE.fa && \\
+RepeatMasker -e ncbi -pa $threads -q -no_is -nolow -div 40 -lib LTR.SINE.LINE.fa TIR.Helitron.fa.stg1.raw 2>&1 && \\
+perl $cleanup_tandem -misschar N -nc 50000 -nr 0.9 -minlen 80 -minscore 3000 -trf 0 -cleanN 1 -cleanT 1 -f TIR.Helitron.fa.stg1.raw.masked >TIR.Helitron.fa.stg1.raw.cln && \\
+touch ../run_04clean_TIR_HEL.sh.done" >run_04clean_TIR_HEL.sh
+	bash run_04clean_TIR_HEL.sh 1>run_04clean_TIR_HEL.sh.log 2>run_04clean_TIR_HEL.sh.err
+fi
+if [ ! -e 04.clean_TIR_Helitron/TIR.Helitron.fa.stg1.raw.cln ];then rm -rf run_04clean_TIR_HEL.sh.done;fi
+ln -sf 04.clean_TIR_Helitron/TIR.Helitron.fa.stg1.raw.cln ./
+if [ `cat run_04clean_TIR_HEL.sh.err|wc -l` != "0" ];then rm -rf run_04clean_TIR_HEL.sh.done;fi
+if [ ! -e run_04clean_TIR_HEL.sh.done ];then echo "clean LTR and nonLTR in TIR and Helitron failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+mkdir -p ../05.merge;cd ../05.merge
+echo "5.1. cluster TIRs and Helitrons and make stg1 raw library ..."
+if [ ! -e run_01cleanup_nested.sh.done ];then
+	echo "ln -sf ../04.other/TIR.Helitron.fa.stg1.raw.cln ./ && \\
+perl $cleanup_nested -in TIR.Helitron.fa.stg1.raw.cln -threads $threads -minlen 80 -cov 0.95 && \\
+cat ../04.other/LTR.cln ../04.other/genome.LINE.raw.fa ../04.other/SINE.cln TIR.Helitron.fa.stg1.raw.cln.cln >genome.EDTA.fa.stg1 && \\
+echo 'generate clean intact TEs' && \\
+cat ../04.other/LTR.int.cln ../04.other/genome.LINE.raw.fa ../04.other/SINE.cln ../03.purify_TIR/TIR.int.cln ../02.purify_Helitron/Helitron.int.cln >genome.EDTA.intact.fa.cln && touch run_01cleanup_nested.sh.done" >run_01cleanup_nested.sh
+	bash run_01cleanup_nested.sh 1>run_01cleanup_nested.sh.log 2>run_01cleanup_nested.sh.err
+fi
+if [ ! -s genome.EDTA.intact.fa.cln ]||[ ! -s genome.EDTA.fa.stg1 ];then rm -rf run_01cleanup_nested.sh.done;fi
+if [ `cat run_01cleanup_nested.sh.err|wc -l` != "0" ];then rm -rf run_01cleanup_nested.sh.done;fi
+if [ ! -e run_01cleanup_nested.sh.done ];then echo "cluster TIRs and Helitrons and make stg1 raw library failed" && exit 1;fi
+echo "5.2. generate TE lib stat ..."
+if [ ! -e run_02stat.sh.done ];then
+	echo "#!/bin/bash
+cat $LTR_intact $LINE_raw $SINE_raw $TIR_intact $Helitron_intact|sed 's# .*\$##g'|sed 's#\\t.*\$##g' >merge_all.raw.fa
+echo -e \"Type\\tRaw_Len\\tFilter_Len\" >TE.lib.stat.xls
+for i in DTA DTC DTH DTM DTT Helitron LINE Copia Gypsy SINE
+do
+	raw_len=\`seqkit seq -n merge_all.raw.fa|grep \"/*\$i\"|seqtk subseq merge_all.raw.fa -|seqkit stat |awk '{print \$5}'|sed '1d'\`
+	filter_len=\`seqkit seq -n genome.EDTA.fa.stg1|grep \"/*\$i\"|seqtk subseq genome.EDTA.fa.stg1 -|seqkit stat |awk '{print \$5}'|sed '1d'\`
+	echo -e \"\$i\\t\$raw_len\\t\$filter_len\"
+done | \\
+	sed 's#DTA#hAT#g' | \\
+	sed 's#DTC#CACTA#g' | \\
+	sed 's#DTH#PIF-Harbinger#g' | \\
+	sed 's#DTT#Tc1-Mariner#g' | \\
+	sed 's#DTM#Mutator#g' >>TE.lib.stat.xls && touch run_02stat.sh.done
+" >run_02stat.sh
+	bash run_02stat.sh 1>run_02stat.sh.log 2>run_02stat.sh.err
+fi
+if [ `cat run_02stat.sh.err|wc -l` != "0" ];then rm -rf run_02stat.sh.done;fi
+if [ ! -e run_02stat.sh.done ];then echo "generate TE lib stat failed" && exit 1;fi
+cat TE.lib.stat.xls|column -t
+
+mkdir -p $wkdir/output_of_EDTA-filterTE/
+cp -g TE.lib.stat.xls genome.EDTA.intact.fa.cln genome.EDTA.fa.stg1 $wkdir/output_of_EDTA-filterTE/ 1>/dev/null
+echo -e "\n\033[01;35m#######Results#######\033[0m"
+echo "Output: $wkdir/output_of_EDTA-filterTE/"
+if [ `cat $wkdir/zg-EDTA-filterTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi

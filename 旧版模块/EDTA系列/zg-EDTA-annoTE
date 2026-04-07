@@ -1,0 +1,157 @@
+#!/bin/bash
+shopt -s expand_aliases
+alias cp='/usr/local/bin/cp'
+
+genome=`realpath $1`
+threads=$2
+te_lib=`realpath $3`
+chunk_size=$4
+overlap=$5
+par_task_num=$6
+wkdir=$PWD
+bin_dir=`realpath $0|xargs -n1 dirname`
+echo -e "\033[01;35m#######Data#######\033[0m"
+echo "Genome: $genome
+TE Library: $te_lib
+Chunk Size: $chunk_size bp
+Overlap Size: $overlap bp
+Threads: $threads
+Parallel Task Num: $par_task_num"
+chunk_size=`echo $chunk_size|sed 's#,##g'`
+overlap=`echo $overlap|sed 's#,##g'`
+echo -e "\n\033[01;35m#######Run#######\033[0m"
+mkdir -p tmp_of_EDTA-annoTE;cd tmp_of_EDTA-annoTE;now_dir=$PWD
+echo "1. split genome ..."
+mkdir -p 01.split_genome;cd 01.split_genome
+if [ ! -e run_01split_fa.sh.done ];then
+	echo "ln -sf $genome genome.fa && \\
+python $bin_dir/scripts/RepeatAnno/split_genome.py genome.fa -c $chunk_size -o $overlap -d split && touch run_01split_fa.sh.done" >run_01split_fa.sh
+	bash run_01split_fa.sh 1>run_01split_fa.sh.log 2>run_01split_fa.sh.err
+fi
+if [ `cat run_01split_fa.sh.err|wc -l` != "0" ];then rm -rf run_01split_fa.sh.done;fi
+if [ ! -e run_01split_fa.sh.done ];then echo -e "split genome failed" && exit 1;fi
+
+echo "2.1. parallel RepeatMasker ..."
+mkdir -p ../02.RepeatMasker;cd ../02.RepeatMasker
+echo "cd $PWD" >run_00work.sh
+for i in `ls -v ../01.split_genome/split/*.fa`
+do
+	split_fa=`realpath $i`;name=`basename $i`
+	if [ ! -e split/${name}/run_mask.sh.done ];then
+		mkdir -p split/${name}
+                echo "rm -rf RM_* && ln -sf $split_fa ./${name} && RepeatMasker -e ncbi -pa $threads -q -no_is -nolow -div 40 -norna -gff -dir work_of_RepeatMasker -lib $te_lib ${name} 1>run_mask.sh.log 2>&1 && touch run_mask.sh.done" >split/${name}/run_mask.sh
+                echo "cd split/${name}/ && bash run_mask.sh && echo finish"
+	fi
+done >>run_00work.sh
+task_n=`cat run_00work.sh|sed '1d'|wc -l`
+if [ "$task_n" != "0" ];then
+	echo "Total Task Num: $task_n"
+        echo "parallel -j $par_task_num <run_00work.sh |pv -f -s $task_n -p -l -e -t -b >/dev/null && touch run_01parallel.sh.done" >run_01parallel.sh
+        bash run_01parallel.sh 2> >(tee run_01parallel.sh.log >&1)
+fi
+
+for i in `ls -v split/`
+do
+	if [ ! -s split/$i/work_of_RepeatMasker/${i}.out ];then rm -rf split/$i/*.done && echo "$i run repeatmasker failed" && rm -rf run_01parallel.sh.done && exit 1;fi
+done
+if [ ! -e run_01parallel.sh.done ];then echo -e "\nparallel repeatmasker failed" && exit 1;fi
+
+echo "2.2. combine all RepeatMasker output ..."
+mkdir -p work_of_combine
+this_dir=$PWD
+echo "cd $PWD" >run_02merge.sh.cmds
+for i in `ls split/|sed 's#\.\.#\t#g'|cut -f1|sort -V|uniq`
+do
+	cd $this_dir
+	if [ ! -e work_of_combine/${i}/run_01merge.sh.done ];then
+		mkdir -p work_of_combine/${i}/output_of_RM/;cd work_of_combine/${i}/output_of_RM/
+		ln -sf ../../../split/${i}\.\.*\.fa/work_of_RepeatMasker/${i}\.\.*\.fa.out ./
+		echo "echo $i|seqtk subseq $genome -|seqkit seq -u -w60 >genome.fa && \\
+bash $bin_dir/scripts/software/EDTA-2.2.2/merge_RM_out.sh && touch run_01merge.sh.done" >../run_01merge.sh
+		echo "cd work_of_combine/${i}/ && bash run_01merge.sh 1>run_01merge.sh.log 2>run_01merge.sh.err && echo finish" >>$this_dir/run_02merge.sh.cmds
+	fi
+done
+if [ `cat $wkdir/zg-EDTA-annoTE.err|wc -l` != "0" ];then echo -e "Some tasks failed" && exit 1;fi
+cd $this_dir/
+task_n=`cat run_02merge.sh.cmds|sed '1d'|wc -l`
+if [ "$task_n" != "0" ];then
+        echo "Total Task Num: $task_n"
+        echo "parallel -j $par_task_num <run_02merge.sh.cmds |pv -f -s $task_n -p -l -e -t -b >/dev/null && touch run_02merge.sh.done" >run_02merge.sh
+        bash run_02merge.sh 2> >(tee run_02merge.sh.log >&1)
+fi
+for i in `ls work_of_combine/`
+do
+	#if [ `cat work_of_combine/${i}/run_01merge.sh.err|wc -l` != "0" ];then rm -rf work_of_combine/${i}/run_01merge.sh.done;fi
+	if [ `cat work_of_combine/${i}/all.known_denovo.RM.out|sed '1,3d'|sed '/^$/d'|wc -l` == "0" ];then rm -rf work_of_combine/${i}/run_01merge.sh.done;fi
+	if [ ! -e work_of_combine/${i}/run_01merge.sh.done ];then rm -rf run_02merge.sh.done && echo "$i merge output failed" && exit 1;fi
+done
+if [ ! -e run_02merge.sh.done ];then echo "combine all RepeatMasker output failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-annoTE.err|wc -l` != "0" ];then echo -e "Some tasks failed" && exit 1;fi
+
+echo "2.3. generate gff3 file ..."
+if [ ! -e run_03gff.sh.done ];then
+	echo "#!/bin/bash
+cat <(ls -v work_of_combine/*/all.known_denovo.RM.out|head -n1|xargs -n1 head -n3) <(ls -v work_of_combine/*/all.known_denovo.RM.out|while read n;do cat \$n;done|grep -vE \"matching|score\"|sed '/^$/d'|sed 's/^/ /g')|sed 's#\\tunknown\\t#\\tUnknown\\t#g' >all.known_denovo.RM.out && \\
+perl $bin_dir/scripts/RepeatAnno/repeat_to_gff.pl all.known_denovo.RM.out && \\
+cat <(grep \"^#\" all.known_denovo.RM.out.gff) <(cat all.known_denovo.RM.out.gff|grep \"Target=TE_\") >all.denovo.RM.out.gff && \\
+cat <(grep \"^#\" all.known_denovo.RM.out.gff) <(cat all.known_denovo.RM.out.gff|grep -v \"Target=TE_\") >all.known.RM.out.gff && \\
+touch run_03gff.sh.done" >run_03gff.sh
+	bash run_03gff.sh 1>run_03gff.sh.log 2>run_03gff.sh.err
+fi
+if [ `cat run_03gff.sh.err|wc -l` != "0" ];then rm -rf run_03gff.sh.done;fi
+if [ ! -e run_03gff.sh.done ];then echo "generate gff3 file failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-annoTE.err|wc -l` != "0" ];then echo -e "Some tasks failed" && exit 1;fi
+
+echo "2.4. plot sequence divergence rate figure ..."
+if [ ! -e run_04plot.sh.done ];then
+	echo "#!/bin/bash
+total_len=\`seqkit stat ../01.split_genome/genome.fa -T|cut -f5|sed '1d'\`
+cat <(echo -e \"ID\\tTE_Start\\tTE_End\\tClass\\tDiv_Rate\") <(sed '/^#/d' all.known_denovo.RM.out.gff|cut -f1,4,5,9|sed 's/ID=.*Class=//g'|sed 's#;PercDiv=#\\t#g'|sed 's#;PercDel=.*##g')|sed 's#\\tunknown#\\tUnknown#g' >all.known_denovo.RM.out.bed && \\
+Rscript $bin_dir/R/anno/TE_div.R \$total_len all.known_denovo.RM.out.bed && \\
+mv divergence_stackplot.svg Known_Denovo.TE_divergence.svg && \\
+convert -density 300 Known_Denovo.TE_divergence.svg Known_Denovo.TE_divergence.pdf && \\
+convert -density 300 -trim -bordercolor white -border 50x50 Known_Denovo.TE_divergence.pdf Known_Denovo.TE_divergence.png && \\
+cat <(echo -e \"ID\\tTE_Start\\tTE_End\\tClass\\tDiv_Rate\") <(sed '/^#/d' all.denovo.RM.out.gff|cut -f1,4,5,9|sed 's/ID=.*Class=//g'|sed 's#;PercDiv=#\\t#g'|sed 's#;PercDel=.*##g')|sed 's#\\tunknown#\\tUnknown#g' >all.denovo.RM.out.bed &&\\
+Rscript $bin_dir/R/anno/TE_div.R \$total_len all.denovo.RM.out.bed && \\
+mv divergence_stackplot.svg Denovo.TE_divergence.svg && \\
+convert -density 300 Denovo.TE_divergence.svg Denovo.TE_divergence.pdf && \\
+convert -density 300 -trim -bordercolor white -border 50x50 Denovo.TE_divergence.pdf Denovo.TE_divergence.png && \\
+cat <(echo -e \"ID\\tTE_Start\\tTE_End\\tClass\\tDiv_Rate\") <(sed '/^#/d' all.known.RM.out.gff|cut -f1,4,5,9|sed 's/ID=.*Class=//g'|sed 's#;PercDiv=#\\t#g'|sed 's#;PercDel=.*##g')|sed 's#\\tunknown#\\tUnknown#g' >all.known.RM.out.bed &&\\
+Rscript $bin_dir/R/anno/TE_div.R \$total_len all.known.RM.out.bed && \\
+mv divergence_stackplot.svg Known.TE_divergence.svg && \\
+convert -density 300 Known.TE_divergence.svg Known.TE_divergence.pdf && \\
+convert -density 300 -trim -bordercolor white -border 50x50 Known.TE_divergence.pdf Known.TE_divergence.png && \\
+touch run_04plot.sh.done" >run_04plot.sh
+	bash run_04plot.sh 1>run_04plot.sh.log 2>run_04plot.sh.err
+fi
+rm -rf Rplots.pdf
+if [ ! -s Known_Denovo.TE_divergence.png ];then rm -rf run_04plot.sh.done;fi
+if [ ! -e run_04plot.sh.done ];then echo -e "plot sequence divergence rate figure failed" && exit 1;fi
+mkdir -p $wkdir/output_of_EDTA-annoTE
+cp Known_Denovo.TE_divergence.* $wkdir/output_of_EDTA-annoTE
+cp -g all.denovo.RM.out.bed $wkdir/output_of_EDTA-annoTE/known_denovo.TEanno.out
+if [ `cat $wkdir/zg-EDTA-annoTE.err|wc -l` != "0" ];then echo -e "Some tasks failed" && exit 1;fi
+
+mkdir -p ../03.stat;cd ../03.stat
+echo "3. generate TE statistics ..."
+if [ ! -e run_01stat.sh.done ];then
+	ln -sf ../01.split_genome/genome.fa .
+	ln -sf ../02.RepeatMasker/all.known_denovo.RM.out.gff known_denovo.TEanno.gff
+	ln -sf ../02.RepeatMasker/all.denovo.RM.out.gff denovo.TEanno.gff
+	ln -sf ../02.RepeatMasker/all.known.RM.out.gff known.TEanno.gff
+	echo "bash $bin_dir/scripts/RepeatAnno/run_getStat_v3.sh genome.fa known_denovo.TEanno.gff && \\
+rename -f 's/TE.statistics/TE_Repeat.statistics/g' * && \\
+touch run_01stat.sh.done" >run_01stat.sh
+	bash run_01stat.sh 1>run_01stat.sh.log 2>run_01stat.sh.err
+fi
+if [ `cat run_01stat.sh.err|wc -l` != "0" ];then rm -rf run_01stat.sh.done;fi
+if [ ! -e run_01stat.sh.done ];then echo "generate TE statistics failed" && exit 1;fi
+cat TE_Repeat.statistics.txt
+mkdir -p $wkdir/output_of_EDTA-annoTE
+cp TE_Repeat.statistics.xls $wkdir/output_of_EDTA-annoTE/
+if [ `cat $wkdir/zg-EDTA-annoTE.err|wc -l` != "0" ];then echo -e "Some tasks failed" && exit 1;fi
+
+echo -e "\n\033[01;35m#######Results#######\033[0m"
+cp -g known_denovo.TEanno.gff denovo.TEanno.gff known.TEanno.gff $wkdir/output_of_EDTA-annoTE/ 
+echo "Output: $wkdir/output_of_EDTA-annoTE"
+if [ `cat $wkdir/zg-EDTA-annoTE.err|wc -l` != "0" ];then echo -e "Some tasks failed" && exit 1;fi

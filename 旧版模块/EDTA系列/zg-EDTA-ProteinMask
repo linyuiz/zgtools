@@ -1,0 +1,106 @@
+#!/bin/bash
+genome=`realpath $1`
+threads=$2
+spec_type=$3
+para_task_num=$4
+chunk_size=$5
+overlap=50000
+bin_dir=`realpath $0|xargs -n1 dirname`
+wkdir=$PWD
+maxint=5000
+if [ "$spec_type" == "plant" ];then
+	libdir=$bin_dir/scripts/software/repeat_lib/TElib/plant/
+else
+	libdir=$bin_dir/scripts/software/repeat_lib/TElib/animal/
+fi
+echo -e "\033[01;35m#######Data#######\033[0m"
+echo -e "Genome: ${genome}
+Threads: $threads
+Species Type: $spec_type
+Parallel Task Num: $para_task_num
+Split Chunk Size: $chunk_size bp"
+chunk_size=`echo $chunk_size|sed 's#,##g'`
+echo -e "\n\033[01;35m#######Run#######\033[0m"
+mkdir -p tmp_of_EDTA-ProteinMask/01.split_fa;cd tmp_of_EDTA-ProteinMask/01.split_fa
+echo "1. split genome ..."
+if [ ! -e run_01split_fa.sh.done ];then
+        echo "ln -sf $genome genome.fa && \\
+python $bin_dir/scripts/RepeatAnno/split_genome.py genome.fa -c $chunk_size -o $overlap -d genome_split && touch run_01split_fa.sh.done" >run_01split_fa.sh
+        bash run_01split_fa.sh 1>run_01split_fa.sh.log 2>run_01split_fa.sh.err
+fi
+if [ `cat run_01split_fa.sh.err|wc -l` != "0" ];then rm -rf run_01split_fa.sh.done;fi
+if [ ! -e run_01split_fa.sh.done ];then echo -e "split genome failed" && exit 1;fi
+
+mkdir -p ../02.RepeatProteinMask;cd ../02.RepeatProteinMask
+echo "2.1. run RepeatProteinMask ..."
+echo "cd $PWD" >run_01ProteinMask.sh.cmds
+for i in `ls -v ../01.*/genome_split/`
+do
+	this_genome=`realpath ../01.split_fa/genome_split/$i`
+	if [ ! -e split/${i}/run_0*ProteinMask.sh.done ];then
+		mkdir -p split/${i}
+		echo "ln -sf $this_genome split.fa && \\
+$bin_dir/scripts/software/RepeatMasker-4.1.9/RepeatProteinMask_v2 -libdir $libdir -noLowSimple -engine ncbi -pvalue 0.00001 -minscore 50 -threads $threads split.fa
+cat <(echo -e \"pValue\\tScore\\tMethod\\tSeqID\\tSeqStart\\tSeqEnd\\tStrand\\tRepeat\\tType\\tRepeatStart\\tRepeatEnd\\tRepeatLen\") <(cat split.fa.annot|sed '1d' |column -t|sed 's# * #\\t#g'|sed -f $libdir/sed_file|awk '{print \$0\"\\t\"\$9}'|sed 's# * #\\t#g'|cut -f1-8,10-17)|column -t|sed 's# * #\\t#g' >split.fa.annot.txt
+python $bin_dir/scripts/RepeatAnno/merge_annot.py -i split.fa.annot.txt -o merge.annot.txt
+cat <(head -n1 merge.annot.txt) <(sed '1d' merge.annot.txt |sort -k5 -V|awk '\$13 >= 0.8 && \$2 > 500 {print \$0}'|sed 's#\\.\\.#\\t#g'|awk '{print \$1\"\\t\"\$2\"\\t\"\$3\"\\t\"\$4\"\\t\"\$7+\$5-1\"\\t\"\$8+\$5-1\"\\t\"\$0}'|cut -f1-6,15-30)|awk '\$13 >= 0.8 && \$2 > 500 {print \$0}' >merge.annot.txt.filter.annot
+#perl $bin_dir/scripts/RepeatAnno/repeat_to_gff.pl merge.annot.txt.filter.annot
+touch run_01ProteinMask.sh.done" >>split/${i}/run_01ProteinMask.sh
+		echo "cd split/${i} && bash run_01ProteinMask.sh 1>run_01ProteinMask.sh.log 2>run_01ProteinMask.sh.err && echo finish" >>run_01ProteinMask.sh.cmds
+	fi
+done
+task_n=`cat run_01ProteinMask.sh.cmds|sed '1d'|wc -l`
+if [ "$task_n" != "0" ];then
+        echo "Total Task Num: $task_n"
+        echo "parallel -j $para_task_num <run_01ProteinMask.sh.cmds |pv -f -s $task_n -p -l -e -t -b >/dev/null && touch run_01ProteinMask.sh.done" >run_01ProteinMask.sh
+        bash run_01ProteinMask.sh 2> >(tee run_01ProteinMask.sh.log >&1)
+fi
+for i in `ls -v split/`
+do
+	#if [ `cat split/${i}/run_01ProteinMask.sh.err|sed '/pd.read_csv/d'|sed '/invalid escape sequence/d'|wc -l` != "0" ];then rm -rf split/${i}/run_01ProteinMask.sh.done && rm -rf run_01ProteinMask.sh.done;fi
+	if [ ! -e split/${i}/run_01ProteinMask.sh.done ];then echo "$i ProteinMask-Learner failed" && exit 1;fi
+done
+scripts_path=$bin_dir/scripts/GenomicAnalysis/06.structure/bin/02.repeat/bin
+echo "2.2. generate gff ..."
+if [ ! -e run_02get_gff.sh.done ];then
+	echo '#!/bin/bash
+ln -sf ../01.split_fa/genome.fa ./
+cat <(echo -e "pValue\tScore\tMethod\tSeqID\tSeqStart\tSeqEnd\tStrand\tRepeat\tType\tRepeatStart\tRepeatEnd\tRepeatLen\tCoverage") <(for i in `ls -v split/`
+do
+	sed "1d" split/$i/merge.annot.txt.filter.annot
+done) >ProteinMask.annot && \' >run_02get_gff.sh
+	echo "sed -i '/^$/d' ProteinMask.annot && \\
+perl $bin_dir/scripts/RepeatAnno/repeat_to_gff.pl ProteinMask.annot && \\
+cat ProteinMask.annot|sed '1d'|cut -f4-6,9|awk '{print \$0\"\\t\"\$1\"..\"\$2\"..\"\$3\"#\"\$4}'|cut -f1-3,5 >ProteinMask.annot.bed && \\
+awk '{\$2 = \$2 - 1; print}' ProteinMask.annot.bed | tr ' ' '\\t' > ProteinMask.annot.0based.bed && \\
+bedtools getfasta -fi genome.fa -bed ProteinMask.annot.0based.bed -name -fo ProteinMask_sequences.fa && \\
+sed 's#::.*\$##g' ProteinMask_sequences.fa >ProteinMask.annot.TElib.fa && touch run_02get_gff.sh.done
+" >>run_02get_gff.sh
+	bash run_02get_gff.sh 1>run_02get_gff.sh.log 2>run_02get_gff.sh.err
+fi
+if [ `cat run_02get_gff.sh.err|wc -l` != "0" ];then rm -rf run_02get_gff.sh.done;fi
+if [ ! -e run_02get_gff.sh.done ];then echo "generate gff failed" && exit 1;fi
+echo "2.3. split TElib fasta ..."
+if [ ! -e run_03split_fa.sh.done ];then
+	echo "#!/bin/bash
+rm -rf ProteinMask.annot.DNA.TE.fa ProteinMask.annot.LTR.TE.fa ProteinMask.annot.LINE.TE.fa && \\
+touch ProteinMask.annot.DNA.TE.fa ProteinMask.annot.LTR.TE.fa ProteinMask.annot.LINE.TE.fa && \\
+if [ \`seqkit seq -n ProteinMask.annot.TElib.fa|grep \"DNA\"|wc -l\` != \"0\" ];then
+	seqkit seq -n ProteinMask.annot.TElib.fa|grep \"DNA\"|seqtk subseq ProteinMask.annot.TElib.fa - >ProteinMask.annot.DNA.TE.fa
+fi && \\
+if [ \`seqkit seq -n ProteinMask.annot.TElib.fa|grep \"LTR\"|wc -l\` != \"0\" ];then
+	seqkit seq -n ProteinMask.annot.TElib.fa|grep \"LTR\"|seqtk subseq ProteinMask.annot.TElib.fa - >ProteinMask.annot.LTR.TE.fa
+fi && \\
+if [ \`seqkit seq -n ProteinMask.annot.TElib.fa|grep \"LINE\"|wc -l\` != \"0\" ];then
+	seqkit seq -n ProteinMask.annot.TElib.fa|grep \"LINE\"|seqtk subseq ProteinMask.annot.TElib.fa - >ProteinMask.annot.LINE.TE.fa
+fi && touch run_03split_fa.sh.done" >run_03split_fa.sh
+	bash run_03split_fa.sh 1>run_03split_fa.sh.log 2>run_03split_fa.sh.err
+fi
+if [ `cat run_03split_fa.sh.err|wc -l` != "0" ];then rm -rf run_03split_fa.sh.done;fi
+if [ ! -e run_03split_fa.sh.done ];then echo "split TElib fasta failed" && exit 1;fi
+mkdir -p $wkdir/output_of_EDTA-ProteinMask/
+cp ProteinMask.annot ProteinMask.annot.gff ProteinMask.annot.LINE.TE.fa ProteinMask.annot.DNA.TE.fa ProteinMask.annot.LTR.TE.fa ProteinMask.annot.TElib.fa $wkdir/output_of_EDTA-ProteinMask/
+if [ `cat $wkdir/zg-EDTA-ProteinMask.err|wc -l` != "0" ];then echo "Some task failed" && exit 1;fi
+echo -e "\n\033[01;35m#######Results#######\033[0m"
+echo "Output: $wkdir/output_of_EDTA-ProteinMask/"
+

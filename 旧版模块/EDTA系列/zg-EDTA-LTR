@@ -1,0 +1,155 @@
+#!/bin/bash
+genome=`realpath $1`
+threads=$2
+spec_type=$3
+bin_dir=`realpath $0|xargs -n1 dirname`
+call_seq=$bin_dir/scripts/software/EDTA-2.2.2/bin/call_seq_by_list.pl
+rename_LTR=$bin_dir/scripts/software/EDTA-2.2.2/bin/rename_LTR_skim.pl
+cleanup_tandem=$bin_dir/scripts/software/EDTA-2.2.2/bin/cleanup_tandem.pl
+output_by_list=$bin_dir/scripts/software/EDTA-2.2.2/bin/output_by_list.pl
+cleanup_misclas=$bin_dir/scripts/software/EDTA-2.2.2/bin/cleanup_misclas.pl
+filter_gff=$bin_dir/scripts/software/EDTA-2.2.2/bin/filter_gff3.pl
+wkdir=$PWD
+echo -e "\033[01;35m#######Data#######\033[0m"
+echo -e "Genome: ${genome}
+Threads: $threads
+Species Type: $spec_type"
+if [ "$spec_type" == "plant" ];then
+        deepTE_spec=P
+elif [ "$spec_type" == "animal" ];then
+        deepTE_spec=M
+fi
+echo -e "\n\033[01;35m#######Run#######\033[0m"
+mkdir -p tmp_of_EDTA-LTR;cd tmp_of_EDTA-LTR;now_dir=$PWD
+mkdir -p 01.LTR_denovo;cd 01.LTR_denovo
+ln -sf ${genome} used.genome.fa
+##LTR_FINDER_parallel
+echo "cd $now_dir/01.LTR_denovo" >run_00work.sh
+mkdir -p 01.LTR_FINDER;
+if [ ! -e 01.LTR_FINDER/run_LTR_FINDER_parallel.sh.done ];then
+	echo "perl $(which LTR_FINDER_parallel) -seq ../used.genome.fa -threads $[$threads/2] -harvest_out -size 1000000 -time 300 && touch run_LTR_FINDER_parallel.sh.done" >01.LTR_FINDER/run_LTR_FINDER_parallel.sh
+	echo "cd 01.LTR_FINDER/ && bash run_LTR_FINDER_parallel.sh 1>run_LTR_FINDER_parallel.sh.log 2>run_LTR_FINDER_parallel.sh.err && echo finish" >>run_00work.sh
+fi
+mkdir -p 02.LTR_Harvest;
+if [ ! -e 02.LTR_Harvest/run_LTR_Harvest.sh.done ];then
+	echo "perl $(which LTR_HARVEST_parallel) -seq ../used.genome.fa -threads $[$threads/2] -size 1000000 -time 300 && touch run_LTR_Harvest.sh.done" >02.LTR_Harvest/run_LTR_Harvest.sh
+	echo "cd 02.LTR_Harvest/ && bash run_LTR_Harvest.sh 1>run_LTR_Harvest.sh.log 2>run_LTR_Harvest.sh.err && echo finish" >>run_00work.sh
+fi
+echo "1. parallel discover LTR by denovo ..."
+if [ ! -e run_01parallel.sh.done ];then
+        task_n=`cat run_00work.sh|sed '1d'|wc -l`
+        if [ "$task_n" != "0" ];then
+                echo "Total Task Num: $task_n"
+                echo "parallel -j 2 <run_00work.sh |pv -f -s $task_n -p -l -e -t -b >/dev/null && touch run_01parallel.sh.done" >run_01parallel.sh
+                bash run_01parallel.sh 2> >(tee run_01parallel.sh.log >&1)
+        fi
+fi
+check_n=`ls *|grep -E "run_LTR_FINDER_parallel.sh.done|run_LTR_Harvest.sh.done"|wc -l`
+if [ "$check_n" -lt "2" ];then rm -rf run_01parallel.sh.done;fi
+if [ ! -e run_01parallel.sh.done ];then echo "parallel LTR failed" && exit 1;fi
+cat 01.LTR_FINDER/used.genome.fa.finder.combine.scn 02.LTR_Harvest/used.genome.fa.harvest.combine.scn >raw.LTR.combine.scn
+
+mkdir -p $now_dir/02.LTR_Retriever;cd $now_dir/02.LTR_Retriever
+echo "2.1. LTR_retriever -noanno ..."
+ln -sf ../01.LTR_denovo/used.genome.fa ./
+ln -sf ../01.LTR_denovo/raw.LTR.combine.scn ./used.genome.fa.rawLTR.scn
+if [ ! -e run_01LTR_retriever.sh.done ];then
+        echo "$(which LTR_retriever) -genome used.genome.fa -inharvest used.genome.fa.rawLTR.scn -threads $threads -noanno -salvage 1 && touch run_01LTR_retriever.sh.done" >run_01LTR_retriever.sh
+	bash run_01LTR_retriever.sh 1>run_01LTR_retriever.sh.log 2>run_01LTR_retriever.sh.err
+fi
+if [ `cat run_01LTR_retriever.sh.err|wc -l` != "0" ];then rm -rf run_01LTR_retriever.sh.done;fi
+if [ ! -e run_01LTR_retriever.sh.done ];then echo -e "\nLTR_retriever failed! " && exit 1;fi
+
+mkdir -p ../03.filter;cd ../03.filter
+echo "3.1. get full-length LTR from pass.list ..."
+genome=used.genome.fa
+if [ ! -e run_01filter_LTR.sh.done ];then
+	echo "#!/bin/bash
+ln -sf ../02.LTR_Retriever/used.genome.fa used.genome.fa
+ln -sf ../02.LTR_Retriever/used.genome.fa.pass.list ${genome}.pass.list
+ln -sf ../02.LTR_Retriever/used.genome.fa.defalse ${genome}.defalse
+awk '{if (\$1 !~ /#/) print \$1\"\\t\"\$1}' ${genome}.pass.list | perl $call_seq - -C ${genome} >${genome}.LTR.intact.fa.ori && \\
+perl -i -nle 's/\\|.*//; print \$_' ${genome}.LTR.intact.fa.ori && \\
+perl $rename_LTR ${genome}.LTR.intact.fa.ori ${genome}.defalse >${genome}.LTR.intact.fa.anno && \\
+mv ${genome}.LTR.intact.fa.anno ${genome}.LTR.intact.fa.ori && \\
+touch run_01filter_LTR.sh.done" >run_01filter_LTR.sh
+	bash run_01filter_LTR.sh 1>run_01filter_LTR.sh.log 2>run_01filter_LTR.sh.err
+fi
+if [ `cat run_01filter_LTR.sh.err|wc -l` != "0" ];then rm -rf run_01filter_LTR.sh.done;fi
+if [ ! -e run_01filter_LTR.sh.done ];then echo -e "get full-length LTR from pass.list failed" && exit 1;fi
+
+echo "3.2. remove simple repeats ..."
+if [ ! -e run_02remove_TR.sh.done ];then
+	echo "mdust ${genome}.LTR.intact.fa.ori >${genome}.LTR.intact.fa.ori.dusted && \\
+perl $cleanup_tandem -misschar N -nc 50000 -nr 0.9 -minlen 100 -minscore 3000 -trf 1 -cleanN 1 -cleanT 1 -f ${genome}.LTR.intact.fa.ori.dusted >${genome}.LTR.intact.fa.ori.dusted.cln && touch run_02remove_TR.sh.done" >run_02remove_TR.sh
+	bash run_02remove_TR.sh 1>run_02remove_TR.sh.log 2>run_02remove_TR.sh.err
+fi
+if [ ! -s used.genome.fa.LTR.intact.fa.ori.dusted.cln ];then rm -rf run_02remove_TR.sh.done && echo "LTR.intact.fa.ori.dusted.cln is empty! ";fi
+if [ `cat run_02remove_TR.sh.err|wc -l` != "0" ];then rm -rf run_02remove_TR.sh.done;fi
+if [ ! -e run_02remove_TR.sh.done ];then echo "remove simple repeats failed" && exit 1;fi
+echo "3.3. deepTE classify LTR/unknown ..."
+if [ ! -e run_03deepTE.sh.done ];then
+        echo "#/bin/bash
+mkdir -p work_of_deepTE && \\
+cd work_of_deepTE && mkdir -p output_of_DeepTE && \\
+ln -sf ../used.genome.fa.LTR.intact.fa.ori.dusted.cln ${genome}.LTR.intact.fa.ori.dusted.deepTE.cln && \\
+touch ../run_03deepTE.sh.done" >run_03deepTE.sh
+	bash run_03deepTE.sh 1>run_03deepTE.sh.log 2>run_03deepTE.sh.err
+fi
+#if [ ! -s work_of_deepTE/LTR_DeepTE.result.fa ];then rm -rf run_03deepTE.sh.done;fi
+if [ `cat run_03deepTE.sh.err|wc -l` != "0" ];then rm -rf run_03deepTE.sh.done;fi
+if [ ! -e run_03deepTE.sh.done ];then echo -e "deepTE classify LTR/unknown failed" && exit 1;fi
+echo "3.4. annotate and remove not LTR candidates ..."
+if [ ! -e run_04annotate.sh.done ];then
+	echo "#!/bin/bash
+mkdir -p work_of_TEsorter && cd work_of_TEsorter && \\
+ln -sf ../work_of_deepTE/used.genome.fa.LTR.intact.fa.ori.dusted.deepTE.cln ./${genome}.LTR.intact.fa.ori.dusted.cln && \\
+TEsorter ${genome}.LTR.intact.fa.ori.dusted.cln --disable-pass2 -p $threads 2>/dev/null && \\
+perl $cleanup_misclas ${genome}.LTR.intact.fa.ori.dusted.cln.rexdb.cls.tsv && \\
+cd ../ && \\
+ln -sf work_of_TEsorter/${genome}.LTR.intact.fa.ori.dusted.cln.cln ${genome}.LTR.intact.raw.fa && \\
+ln -sf work_of_TEsorter/${genome}.LTR.intact.fa.ori.dusted.cln.cln.list ${genome}.LTR.intact.raw.fa.anno.list && \\
+touch run_04annotate.sh.done" >run_04annotate.sh
+	bash run_04annotate.sh 1>run_04annotate.sh.log 2>run_04annotate.sh.err
+fi
+if [ `cat run_04annotate.sh.err|wc -l` != "0" ];then rm -rf run_04annotate.sh.done;fi
+if [ ! -e run_04annotate.sh.done ];then echo -e "annotate and remove not LTR candidates failed" && exit 1;fi
+
+echo "3.5. generate annotated output and gff ..."
+if [ ! -e run_05output.sh.done ];then
+	echo "ln -sf ../02.LTR_Retriever/used.genome.fa.pass.list.gff3 ./
+cat used.genome.fa.LTR.intact.fa.ori >used.genome.fa.LTR.intact.fa.ori.new && \\
+perl $output_by_list 1 ${genome}.LTR.intact.fa.ori.new 1 ${genome}.LTR.intact.raw.fa -FA -ex|grep \\>|perl -nle 's/>//; print \"Name\\t\$_\"' >${genome}.LTR.intact.fa.ori.rmlist && \\
+cat ${genome}.pass.list.gff3 >${genome}.pass.list.gff3.new && \\
+perl $filter_gff ${genome}.pass.list.gff3.new ${genome}.LTR.intact.fa.ori.rmlist | perl -nle 's/LTR_retriever/EDTA/gi; print \$_'|sed '/^#/d' >${genome}.LTR.intact.raw.gff3 && \\
+touch run_05output.sh.done" >run_05output.sh
+	bash run_05output.sh 1>run_05output.sh.log 2>run_05output.sh.err
+fi
+chmod +x used.genome.fa.LTR.intact.raw.gff3
+if [ `cat run_05output.sh.err|wc -l` != "0" ];then rm -rf run_05output.sh.done;fi
+if [ ! -e run_05output.sh.done ];then echo "generate annotated output and gff failed" && exit 1;fi
+mkdir -p $wkdir/output_of_EDTA-LTR
+cp ../02.LTR_Retriever/used.genome.fa.LTRlib.fa $wkdir/output_of_EDTA-LTR/genome.LTRlib.fa
+if [ -s ${genome}.LTR.intact.fa ];then
+	cp ${genome}.LTR.intact.fa $wkdir/output_of_EDTA-LTR/genome.LTR.intact.raw.fa
+else
+	cp ${genome}.LTR.intact.raw.fa $wkdir/output_of_EDTA-LTR/genome.LTR.intact.raw.fa
+fi
+if [ -s ${genome}.LTR.intact.gff3 ];then
+	cat ${genome}.LTR.intact.gff3 $wkdir/output_of_EDTA-LTR/genome.LTR.intact.raw.gff3
+else
+	cp ${genome}.LTR.intact.raw.gff3 $wkdir/output_of_EDTA-LTR/genome.LTR.intact.raw.gff3
+fi
+cp used.genome.fa.LTR.intact.raw.fa.anno.list $wkdir/output_of_EDTA-LTR/genome.LTR.intact.raw.classify.xls
+a=`echo -e "LTR/Copia\tLTR/Gypsy\tLTR/unknown\tTotal"`
+copia_len=`cat used.genome.fa.LTR.intact.raw.gff3|sed '/^#/d'|cut -f1,4-5,9|grep "LTR/Copia"|cut -f1-3|sort -k1 -V|bedtools merge|awk '{sum+=$3-$2+1}END{print sum}'`
+gypsy_len=`cat used.genome.fa.LTR.intact.raw.gff3|sed '/^#/d'|cut -f1,4-5,9|grep "LTR/Gypsy"|cut -f1-3|sort -k1 -V|bedtools merge|awk '{sum+=$3-$2+1}END{print sum}'`
+unknown_len=`cat used.genome.fa.LTR.intact.raw.gff3|sed '/^#/d'|cut -f1,4-5,9|grep "LTR/unknown"|cut -f1-3|sort -k1 -V|bedtools merge|awk '{sum+=$3-$2+1}END{print sum}'`
+all_len=`cat used.genome.fa.LTR.intact.raw.gff3|sed '/^#/d'|cut -f1,4-5|sort -k1 -V|bedtools merge|awk '{sum+=$3-$2+1}END{print sum}'`
+echo -e "$a\n$copia_len\t$gypsy_len\t$unknown_len\t$all_len"|awk 'BEGIN {OFS="\t"} {for (i=1; i<=NF; i++) if ($i ~ /^[0-9]+$/) $i=sprintf("%\047d", $i)} 1' >all.stat.xls;cat all.stat.xls|column -t >all.stat.txt
+cat all.stat.txt
+cp all.stat.xls $wkdir/output_of_EDTA-LTR/genome.LTR.stat.xls
+if [ `cat $wkdir/zg-EDTA-LTR.err|wc -l` != "0" ];then echo -e "Some tasks failed" && exit 1;fi
+echo -e "\n\033[01;35m#######Results#######\033[0m"
+echo "Output: $wkdir/output_of_EDTA-LTR/"
+

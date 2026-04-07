@@ -1,0 +1,245 @@
+#!/bin/bash
+shopt -s expand_aliases
+alias cp='/usr/local/bin/cp'
+wkdir=$PWD
+bin_dir=`realpath $0|xargs -n1 dirname`
+genome=`realpath $1`
+threads=$2
+input_lib=`realpath $3`
+rm2_lib=`realpath $4`
+curated_lib=$5
+if [ ! -e $curated_lib ];then
+	#curated_lib=$bin_dir/scripts/software/repeat_lib/Curated.TElib.fa
+	echo "There isn't exist $curated_lib" && exit 1
+else
+	curated_lib=`realpath $5`
+fi
+intact_TE=`realpath $6`
+intact_gff=`realpath $7`
+spec_type=$8
+script_path=$bin_dir/scripts/software/EDTA-2.2.2
+TE_purifier="$script_path/bin/TE_purifier.pl";
+rename_TE="$script_path/bin/rename_TE.pl";
+cleanup_tandem="$script_path/bin/cleanup_tandem.pl";
+cleanup_nested="$script_path/bin/cleanup_nested.pl";
+cleanup_proteins="$script_path/bin/cleanup_proteins.pl";
+reclassify="$script_path/bin/classify_by_lib_RM.pl";
+rename_by_list="$script_path/bin/rename_by_list.pl";
+output_by_list="$script_path/bin/output_by_list.pl";
+filter_gff="$script_path/bin/filter_gff3.pl";
+format_TElib="$script_path/bin/format_TElib.pl";
+format_gff3="$script_path/bin/format_gff3.pl";
+add_id="$script_path/bin/add_id.pl";
+echo -e "\033[01;35m#######Data#######\033[0m"
+echo "Genome: $genome
+Threads: $threads
+Input Filter Lib: $input_lib
+RepeatModeler2 Lib: $rm2_lib
+Curated TE Lib: $curated_lib
+Intact TEs Lib: $intact_TE
+Intact TEs Gff3: $intact_gff
+Species Type: $spec_type"
+
+echo -e "\n\033[01;35m#######Run#######\033[0m"
+mkdir -p tmp_of_EDTA-mergeTE;cd tmp_of_EDTA-mergeTE;now_dir=$PWD
+if [ `cat $wkdir/zg-EDTA-mergeTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+mkdir -p 01.merge_RM2_lib;cd 01.merge_RM2_lib
+echo "1. identify remaining TEs in the filtered RM2 library ..."
+ln -sf $rm2_lib genome.RM2.fa
+ln -sf $input_lib genome.EDTA.fa.stg1
+echo "1.1. RepeatMasker check RM2 Lib and Input TE Lib ..."
+if [ ! -e run_01RepeatMasker.sh.done ];then
+	mkdir -p work_of_RepeatMasker
+	echo "rm -rf curated.TElib.fa && cp $curated_lib curated.TElib.fa && \\
+cd work_of_RepeatMasker && ln -sf ../{genome.RM2.fa,genome.EDTA.fa.stg1} ./ && \\
+RepeatMasker -e ncbi -pa $threads -q -no_is -nolow -div 40 -lib genome.EDTA.fa.stg1 genome.RM2.fa 2>/dev/null 1>RepeatMasker.log && \\
+if [ \`grep \"No repetitive sequences were detected\" RepeatMasker.log|wc -l\` != \"0\" ];then cp genome.RM2.fa genome.RM2.fa.masked;fi && \\
+touch ../run_01RepeatMasker.sh.done" >run_01RepeatMasker.sh
+	bash run_01RepeatMasker.sh 1>run_01RepeatMasker.sh.log 2>run_01RepeatMasker.sh.err
+fi
+if [ ! -s work_of_RepeatMasker/genome.RM2.fa.masked ];then rm -rf run_01RepeatMasker.sh.done;fi
+ln -sf work_of_RepeatMasker/genome.RM2.fa.masked ./
+if [ `cat run_01RepeatMasker.sh.err|wc -l` != "0" ];then rm -rf run_01RepeatMasker.sh.done;fi
+if [ ! -e run_01RepeatMasker.sh.done ];then echo "RepeatMasker check RM2 Lib and Input TE Lib failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-mergeTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+echo "1.2. clean up tandem and coding sequences in the RM2 library ..."
+if [ ! -e run_02clean.sh.done ];then
+	mkdir -p work_of_clean_up
+	echo "cd work_of_clean_up && ln -sf ../{genome.RM2.fa.masked,genome.EDTA.fa.stg1} ./ && \\
+perl $cleanup_tandem -misschar N -nc 50000 -nr 0.8 -minlen 80 -minscore 3000 -trf 1 -cleanN 1 -cleanT 1 -f genome.RM2.fa.masked >genome.RM2.fa.stg1 && \\
+perl $cleanup_proteins -seq genome.RM2.fa.stg1 -rmdnate 0 -rmline 0 -rmprot 1 -protlib $protlib -threads $threads && \\
+ln -sf genome.RM2.fa.stg1.clean genome.RM2.fa.stg1.clean.rename
+if [ -s genome.RM2.fa.stg1.clean.rename ];then
+	cat genome.EDTA.fa.stg1 genome.RM2.fa.stg1.clean.rename >genome.EDTA.raw.fa
+else
+	cp genome.EDTA.fa.stg1 genome.EDTA.raw.fa
+fi && touch ../run_02clean.sh.done" >run_02clean.sh
+	bash run_02clean.sh 1>run_02clean.sh.log 2>run_02clean.sh.err
+fi
+if [ `cat run_02clean.sh.err|wc -l` != "0" ];then rm -rf run_02clean.sh.done;fi
+if [ ! -s work_of_clean_up/genome.EDTA.raw.fa ];then rm -rf run_02clean.sh.done;fi
+ln -sf work_of_clean_up/genome.EDTA.raw.fa ./
+if [ ! -e run_02clean.sh.done ];then echo "clean up tandem and coding sequences in the RM2 library failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-mergeTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+echo "1.3. redundancy removal and make final EDTA library ..."
+if [ ! -e run_03redundancy.sh.done ];then
+	mkdir -p work_of_redundancy
+	echo "cd work_of_redundancy && ln -sf ../genome.EDTA.raw.fa ./genome.EDTA.raw.fa.cln && \\
+perl $cleanup_nested -in genome.EDTA.raw.fa.cln -threads $threads -minlen 80 -cov 0.95 2>/dev/null && \\
+ln -sf genome.EDTA.raw.fa.cln.cln denovo.TElib.raw.fa && \\
+perl $rename_TE denovo.TElib.raw.fa >denovo.TElib.rename.fa && \\
+touch ../run_03redundancy.sh.done" >run_03redundancy.sh
+	bash run_03redundancy.sh 1>run_03redundancy.sh.log 2>run_03redundancy.sh.err
+fi
+if [ `cat run_03redundancy.sh.err|wc -l` != "0" ];then rm -rf run_03redundancy.sh.done;fi
+if [ ! -s work_of_redundancy/denovo.TElib.rename.fa ]|| [ ! -e work_of_redundancy/denovo.TElib.raw.fa ];then rm -rf run_03redundancy.sh.done;fi
+ln -sf work_of_redundancy/denovo.TElib.rename.fa ./
+if [ ! -e run_03redundancy.sh.done ];then echo "redundancy removal and make final EDTA library failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-mergeTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+mkdir -p ../02.merge_HQ_lib;cd ../02.merge_HQ_lib
+echo "2. identify novel TEs using the user provided ..."
+echo "2.1. remove known TEs in the EDTA library ..."
+ln -sf ../01.merge_RM2_lib/curated.TElib.fa ./
+ln -sf ../01.merge_RM2_lib/denovo.TElib.rename.fa EDTA.TElib.fa
+#perl $bin_dir/scripts/software/LTR_retriever-3.0.4/bin/run_RM_split.pl --lib EDTA.TElib.fa --input curated.TElib.fa --jobs 3 --cpus $threads --chunk_size 1000000 2>/dev/null
+if [ ! -e run_01remove_knownTE.sh.done ];then
+	mkdir -p work_of_remove_knownTE
+	echo "cd work_of_remove_knownTE && ln -sf ../curated.TElib.fa ./ && ln -sf ../EDTA.TElib.fa ./EDTA.TElib.fa && \\
+RepeatMasker -e ncbi -pa $threads -q -no_is -nolow -div 40 -lib EDTA.TElib.fa curated.TElib.fa 2>/dev/null 1>log && \\
+if [ \`grep \"No repetitive sequences were detected\" log|wc -l\` != \"0\" ];then cp curated.TElib.fa curated.TElib.fa.masked;fi && \\
+perl $cleanup_tandem -misschar N -nc 50000 -nr 0.8 -minlen 80 -minscore 3000 -trf 0 -cleanN 1 -cleanT 0 -f curated.TElib.fa.masked >curated.TElib.remain.fa && \\
+cat EDTA.TElib.fa curated.TElib.remain.fa >merged.TElib.fa && \\
+ln -sf merged.TElib.fa genome.EDTA.TElib.fa && \\
+touch ../run_01remove_knownTE.sh.done" >run_01remove_knownTE.sh
+	echo "cd work_of_remove_knownTE && ln -sf ../curated.TElib.fa ./ && ln -sf ../EDTA.TElib.fa ./EDTA.TElib.fa && \\
+cat ./EDTA.TElib.fa curated.TElib.fa|seqkit rmdup -n|seqkit seq -u -w0 >merged.TElib.fa && \\
+cat curated.TElib.fa|seqkit rmdup -n|seqkit seq -u -w0 >curated.TElib.remain.fa && \\
+touch ../run_01remove_knownTE.sh.done" >run_01remove_knownTE.sh
+	bash run_01remove_knownTE.sh 1>run_01remove_knownTE.sh.log 2>run_01remove_knownTE.sh.err
+fi
+if [ ! -s work_of_remove_knownTE/merged.TElib.fa ];then rm -rf run_01remove_knownTE.sh.done;fi
+if [ `cat run_01remove_knownTE.sh.err|wc -l` != "0" ];then rm -rf run_01remove_knownTE.sh.done;fi
+if [ ! -e run_01remove_knownTE.sh.done ];then echo "remove known TEs in the EDTA library failed" && exit 1;fi
+ln -sf work_of_remove_knownTE/merged.TElib.fa ./
+ln -sf work_of_remove_knownTE/curated.TElib.remain.fa ./
+if [ `cat $wkdir/zg-EDTA-mergeTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+mkdir -p $wkdir/output_of_mergeTE/
+cp -g curated.TElib.remain.fa merged.TElib.fa EDTA.TElib.fa $wkdir/output_of_mergeTE/ 1>/dev/null
+if [ `cat $wkdir/zg-EDTA-mergeTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+mkdir -p ../03.intact_TEs;cd ../03.intact_TEs
+ln -sf ../02.merge_HQ_lib/merged.TElib.fa ./
+ln -sf $intact_TE ./intact_TEs.fa
+echo "3.1. reclassify intact TEs with the TE lib ..."
+if [ ! -e run_01reclassify.sh.done ];then
+	echo "mkdir -p work_of_reclassify;cd work_of_reclassify
+ln -sf ../{intact_TEs.fa,merged.TElib.fa} ./
+RepeatMasker -e ncbi -pa $threads -q -no_is -nolow -div 40 -lib merged.TElib.fa intact_TEs.fa 2>/dev/null && \\
+perl $reclassify -seq intact_TEs.fa -RM intact_TEs.fa.out -cov 80 -len 80 -iden 60 && \\
+perl $output_by_list 1 intact_TEs.fa.rename 1 intact_TEs.fa.false.list -ex -FA >genome.EDTA.intact.fa && chmod +x genome.EDTA.intact.fa && touch ../run_01reclassify.sh.done" >run_01reclassify.sh
+	bash run_01reclassify.sh 1>run_01reclassify.sh.log 2>run_01reclassify.sh.err
+fi
+if [ `sed '/not be used to rename/d' run_01reclassify.sh.err|wc -l` != "0" ];then rm -rf run_01reclassify.sh.done;fi
+ln -sf work_of_reclassify/genome.EDTA.intact.fa ./
+if [ ! -s work_of_reclassify/genome.EDTA.intact.fa ];then rm -rf run_01reclassify.sh.done;fi
+if [ ! -e run_01reclassify.sh.done ];then echo "reclassify intact TEs with the TE lib failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-mergeTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+echo "3.2. generate clean intact gff3 ..."
+intact_gff_head="##This file follows the ENSEMBL standard: https://useast.ensembl.org/info/website/upload/gff3.html
+##Column 3: Sequence Ontology of repeat features. Please refer to the SO database for more details: http://www.sequenceontology.org/. In cases where the SO database does not have the repeat feature, tentative SO names are used, with a full list included in EDTA/bin/TE_Sequence_Ontology.txt (Enhancement notes), and the sequence_ontology in Column 9 uses the closest parent SO.
+##Column 9: 
+##      ID: unique ID for this feature in the genome.
+##      classification: Same as Column 3 but formatted following the RepeatMasker naming convention.
+##      sequence_ontology: Sequence Ontology ID of the feature.
+##      identity: Sequence identity (0-1) between terminal sequences for structurally annotated TIR elements.
+##      ltr_identity: Sequence identity (0-1) between the left and right LTR regions for structurally annotated LTR elements.
+##      Name: Repeat family name. Some may be shown as coordinates, which are single-copy and structrually identified elements that are not included in the repeat library.
+##      method=structural: Indicate this entry is produced by structural annotation.
+##      motif/TSD/TIR: structural features of structurally annotated LTR and TIR elements.
+##For more details about this file, please refer to the EDTA wiki: https://github.com/oushujun/EDTA/wiki/Making-sense-of-EDTA-usage-and-outputs---Q&A
+##seqid source sequence_ontology start end score strand phase attributes"
+if [ ! -e run_02intact_gff.sh.done ];then
+	mkdir -p work_of_intact_gff
+	echo "cd work_of_intact_gff && \\
+ln -sf $intact_gff intact.raw.gff3 && ln -sf ../work_of_reclassify/intact_TEs.fa.rename.list ./ && \\
+echo 'update the family names in the intact.raw.gff3 file ...' && \\
+perl $rename_by_list intact.raw.gff3 intact_TEs.fa.rename.list 1 >intact.raw.gff3.rename && \\
+sed 's/.*Name=//; s/;Classifica.*//' intact.raw.gff3.rename | sort -u >intact.raw.gff3.rename.famlist && \\
+echo 'get a dirty list of intact.gff' && \\
+grep '>' ../genome.EDTA.intact.fa | sed 's/>//; s/#.*//' | perl $output_by_list 1 intact.raw.gff3.rename.famlist 1 - -ex | awk '{print \"Name\\t\"\$1\"\\nParent\\t\"\$1\"\\nID\\t\"\$1}' >intact.raw.gff3.rename.dirtlist && \\
+echo 'first attempt purging the gff3 ...' && \\
+perl $filter_gff intact.raw.gff3.rename intact.raw.gff3.rename.dirtlist >genome.EDTA.intact.gff3
+echo 'remake the remove list and purge again ...' && \\
+perl -nle 'my \$id = \$1 if /=(repeat_region[0-9]+);/; print \"Parent\\t\$id\nName\\t\$id\" if defined \$id' intact.raw.gff3.rename.removed >>intact.raw.gff3.rename.dirtlist && \\
+touch ../run_02intact_gff.sh.done" >run_02intact_gff.sh
+	bash run_02intact_gff.sh 1>run_02intact_gff.sh.log 2>run_02intact_gff.sh.err
+fi
+if [ `cat run_02intact_gff.sh.err|wc -l` != "0" ];then rm -rf run_02intact_gff.sh.done;fi
+if [ ! -e run_02intact_gff.sh.done ];then echo "get intact gff failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-mergeTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+echo "3.3. remake the remove list and format gff3 ..."
+if [ ! -e run_03format_gff.sh.done ];then
+	mkdir -p work_of_format_gff
+	echo -e "##gff-version 3\n$intact_gff_head" >work_of_format_gff/genome.EDTA.intact.gff3
+	echo "#!/bin/bash
+cd work_of_format_gff && ln -sf ../work_of_intact_gff/intact.raw.gff3.rename ./ && \\
+ln -sf ../work_of_intact_gff/intact.raw.gff3.rename.dirtlist ./ && \\
+perl $filter_gff intact.raw.gff3.rename intact.raw.gff3.rename.dirtlist >>genome.EDTA.intact.gff3 && \\
+perl $format_gff3 genome.EDTA.intact.gff3 >Final.intact.gff3 && \\
+echo 'add TE_IDs to the intact.fa sequence IDs ...' && \\
+perl $add_id -fa ../intact_TEs.fa -gff Final.intact.gff3 >Final.intact.fa && \\
+touch ../run_03format_gff.sh.done" >run_03format_gff.sh
+	bash run_03format_gff.sh 1>run_03format_gff.sh.log 2>run_03format_gff.sh.err
+fi
+if [ `cat run_03format_gff.sh.err|wc -l` != "0" ];then rm -rf run_03format_gff.sh.done;fi
+if [ ! -s work_of_format_gff/Final.intact.fa ]||[ ! -e work_of_format_gff/Final.intact.gff3 ];then rm -rf run_03format_gff.sh.done;fi
+ln -sf work_of_format_gff/Final.intact.* .
+if [ ! -e run_03format_gff.sh.done ];then echo "format gff3 failed" && exit 1;fi
+cp -g Final.intact.* $wkdir/output_of_mergeTE/ 1>/dev/null
+if [ `cat $wkdir/zg-EDTA-mergeTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+mkdir -p ../04.reclassify;cd ../04.reclassify
+echo "4. reclassify All Unknown TE ..."
+echo "4.1. TEsorter reclassify Unknown TE ..."
+if [ ! -e run_01TEsorter.sh.done ];then
+	mkdir -p work_of_TEsorter;
+	echo "#!/bin/bash
+cd work_of_TEsorter && \\
+bash $bin_dir/scripts/RepeatAnno/reclassify_unknown.sh ../../02.merge_HQ_lib/EDTA.TElib.fa && \\
+ln -sf ../../02.merge_HQ_lib/work_of_remove_knownTE/curated.TElib.remain.fa . && \\
+sed -i 's#RC/Helitron#DNA/Helitron#g' used.TElib.reclassify.fa && \\
+touch ../run_01TEsorter.sh.done" >run_01TEsorter.sh
+	bash run_01TEsorter.sh 1>run_01TEsorter.sh.log 2>run_01TEsorter.sh.err
+fi
+if [ `cat run_01TEsorter.sh.err|wc -l` != "0" ];then rm -rf run_01TEsorter.sh.done;fi
+if [ ! -e run_01TEsorter.sh.done ];then echo "TEsorter reclassify DNA failed" && exit 1;fi
+ln -sf work_of_TEsorter/used.TElib.reclassify.fa 01after_TEsorter.TElib.fa
+echo "4.2. DeepTE reclassify Unknown TE ..."
+if [ ! -e run_02DeepTE.sh.done ];then
+	mkdir -p work_of_deepTE
+	echo "#!/bin/bash
+cd work_of_deepTE && \\
+bash $bin_dir/scripts/software/DeepTE/run_deepTE.sh ../01after_TEsorter.TElib.fa $spec_type && touch ../run_02DeepTE.sh.done" >run_02DeepTE.sh
+	bash run_02DeepTE.sh 1>run_02DeepTE.sh.log 2>run_02DeepTE.sh.err
+fi
+if [ `cat run_02DeepTE.sh.err|wc -l` != "0" ];then rm -rf run_02DeepTE.sh.done;fi
+if [ `grep -E "fail|Fail" run_02DeepTE.sh.log|wc -l` != "0" ];then rm -rf run_02DeepTE.sh.done;fi
+if [ ! -e run_02DeepTE.sh.done ];then echo "DeepTE reclassify DNA failed" && exit 1;fi
+if [ `cat run_02DeepTE.sh.log |grep "Class" -A 500|sed '$d'|wc -l` -gt "10" ];then
+	cat <(cat run_02DeepTE.sh.log |grep "Class" -A 500|sed '$d'|head -n5) <(echo -e "...\t...") <(cat run_02DeepTE.sh.log |grep "Class" -A 500|sed '$d'|tail -n5)|column -t
+else
+	cat run_02DeepTE.sh.log |grep "Class" -A 500|sed '$d'
+fi
+
+echo -e "\n\033[01;35m#######Results#######\033[0m"
+echo "Output: $wkdir/output_of_mergeTE/"
+ln -sf work_of_deepTE/After_DeepTE.TElib.fa 02after_DeepTE.TElib.fa
+ln -sf ../02.merge_HQ_lib/curated.TElib.remain.fa ./
+cat 02after_DeepTE.TElib.fa curated.TElib.remain.fa|seqkit seq -u -w0 >merged.TElib.fa
+cp 02after_DeepTE.TElib.fa $wkdir/output_of_mergeTE/EDTA.TElib.fa
+cp merged.TElib.fa $wkdir/output_of_mergeTE/merged.TElib.fa

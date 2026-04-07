@@ -1,0 +1,148 @@
+#!/bin/bash
+shopt -s expand_aliases
+alias cp='/usr/local/bin/cp'
+wkdir=$PWD
+bin_dir=`realpath $0|xargs -n1 dirname`
+genome=`realpath $1`
+threads=$2
+species=$3
+spec_type=$4
+blastn_type=$5
+para_n=$6
+split_size=$7
+echo -e "\033[01;35m#######Data#######\033[0m"
+echo "Genome: $genome
+Threads: $threads
+Species Model: $species
+Species Type: $spec_type
+Whether Skip Blastn: $blastn_type
+Parallel Task Number: $para_n
+Split Chunk Size: $split_size"
+echo -e "\n\033[01;35m#######Run#######\033[0m"
+mkdir -p tmp_of_EDTA-rawTE;cd tmp_of_EDTA-rawTE;now_dir=$PWD
+echo "1. transcode genome ..."
+mkdir -p 01.transcode_genome;cd 01.transcode_genome
+if [ ! -e run_01transcode.sh.done ];then
+        echo "cat $genome|seqkit seq -u -w 60|sed 's/ .*$//g'|sed 's/\\t.*$//g' >used.genome.fa && samtools faidx used.genome.fa" >run_01transcode.sh
+        echo 'check_n=`cat used.genome.fa.fai |cut -f1|awk danyinhao{print length($0)}danyinhao|awk danyinhao{if($1>13)print $0}danyinhao|wc -l`
+if [ "$check_n" != "0" ];then
+        echo "Some seqs ID are too long (>13 characters) ! " && exit 1
+else
+        echo "The seqs ID are all <13 characters, which is OK~" && touch run_01transcode.sh.done
+fi'|sed "s/danyinhao/'/g" >>run_01transcode.sh
+        bash run_01transcode.sh 1>run_01transcode.sh.log 2>run_01transcode.sh.err
+fi
+if [ `cat run_01transcode.sh.err|wc -l` != "0" ];then rm -rf run_01transcode.sh.done;fi
+if [ ! -e run_01transcode.sh.done ];then echo "transcode genome failed" && exit 1;fi
+genome_size=`cat used.genome.fa.fai|awk '{sum+=$2}END{print sum}'|awk '{printf "%'\''d\n", $1}'`
+genome=`realpath used.genome.fa`
+echo "Genome Size: $genome_size bp"
+if [ `cat $wkdir/zg-EDTA-rawTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+mkdir -p ../02.denovo;cd ../02.denovo
+echo "2. denovo discover raw TEs ..."
+ln -sf $genome genome.fa
+echo "cd $PWD" >run_00work.sh
+if [ ! -e 01.RepeatModeler2/run_RM2.sh.done ];then
+	mkdir -p 01.RepeatModeler2/
+	echo "zgtools EDTA-RepeatModeler2 ../genome.fa $threads && touch run_RM2.sh.done" >01.RepeatModeler2/run_RM2.sh
+	echo "cd 01.RepeatModeler2/ && bash run_RM2.sh 1>run_RM2.sh.log 2>run_RM2.sh.err && echo finish" >>run_00work.sh
+fi
+
+if [ ! -e 02.LTR/run_LTR.sh.done ];then
+	mkdir -p 02.LTR/
+	echo "zgtools EDTA-LTR ../genome.fa $threads $spec_type && touch run_LTR.sh.done" >02.LTR/run_LTR.sh
+	echo "cd 02.LTR/ && bash run_LTR.sh 1>run_LTR.sh.log 2>run_LTR.sh.err && echo finish" >>run_00work.sh
+fi
+
+if [ ! -e 03.TIR/run_TIR.sh.done ];then
+	mkdir -p 03.TIR/
+	echo "zgtools EDTA-TIR ../genome.fa $threads $species $blastn_type 3 $split_size && touch run_TIR.sh.done" >03.TIR/run_TIR.sh
+	echo "cd 03.TIR/ && bash run_TIR.sh 1>run_TIR.sh.log 2>run_TIR.sh.err && echo finish" >>run_00work.sh
+fi
+
+if [ ! -e 04.SINE/run_SINE.sh.done ];then
+	mkdir -p 04.SINE/
+	echo "zgtools EDTA-SINE ../genome.fa $threads && touch run_SINE.sh.done" >04.SINE/run_SINE.sh
+	echo "cd 04.SINE/ && bash run_SINE.sh 1>run_SINE.sh.log 2>run_SINE.sh.err && echo finish" >>run_00work.sh
+fi
+
+if [ ! -e 05.Helitron/run_Helitron.sh.done ];then
+	mkdir -p 05.Helitron/
+	echo "zgtools EDTA-Helitron ../genome.fa $threads && touch run_Helitron.sh.done" >05.Helitron/run_Helitron.sh
+	echo "cd 05.Helitron/ && bash run_Helitron.sh 1>run_Helitron.sh.log 2>run_Helitron.sh.err && echo finish" >>run_00work.sh
+fi
+
+if [ ! -e 06.ProteinMask/run_ProteinMask.sh.done ];then
+	mkdir -p 06.ProteinMask
+	echo "zgtools EDTA-ProteinMask ../genome.fa $threads $spec_type 6 $split_size && touch run_ProteinMask.sh.done" >06.ProteinMask/run_ProteinMask.sh
+	echo "cd 06.ProteinMask && bash run_ProteinMask.sh 1>run_ProteinMask.sh.log 2>run_ProteinMask.sh.err && echo finish" >>run_00work.sh
+fi
+
+if [ `cat $wkdir/zg-EDTA-rawTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+#echo "Command: parallel -j $para_n run_00work.sh" 
+if [ ! -e run_01parallel.sh.done ];then
+        task_n=`cat run_00work.sh|sed '1d'|wc -l`
+        if [ "$task_n" != "0" ];then
+	        echo "Total Task Num: $task_n"
+                echo "parallel -j $para_n <run_00work.sh |pv -f -s $task_n -p -l -e -t -b >/dev/null && touch run_01parallel.sh.done" >run_01parallel.sh
+                bash run_01parallel.sh 2> >(tee run_01parallel.sh.log >&1)
+        fi
+fi
+for i in `ls|grep "^0"`
+do
+	if [ `cat $i/zg-EDTA*.err|wc -l` != "0" ];then rm -rf $i/*.done;fi
+	if [ `grep -E "fail|Fail|error|Error" ${i}/zg-EDTA*.*|wc -l` != "0" ];then rm -rf $i/run*.done;fi
+	if [ ! -e $i/*.done ];then echo -e "$i task failed" && rm -rf run_01parallel.sh.done && exit 1;fi
+done
+if [ ! -e run_01parallel.sh.done ];then echo "parallel rawTE tasks failed" && exit 1;fi
+if [ `cat $wkdir/zg-EDTA-rawTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+echo "2.2. merge all results ..."
+if [ ! -e run_02merge.sh.done ];then
+	echo "#!/bin/bash
+##RM2
+mkdir -p results/RepeatModeler2;cd results/RepeatModeler2
+ln -sf ../../01.RepeatModeler2/output_of_EDTA-RepeatModeler2/genome.RM2.raw.fa ./
+ln -sf ../../01.RepeatModeler2/output_of_EDTA-RepeatModeler2/genome.RM2.without_LINE_SINE.fa genome.RM2.fa
+##LINE
+mkdir -p ../LINE/;cd ../LINE
+ln -sf ../../01.RepeatModeler2/output_of_EDTA-RepeatModeler2/genome.LINE.raw.fa ./
+##LTR
+mkdir -p ../LTR;cd ../LTR
+ln -sf ../../02.LTR/output_of_EDTA-LTR/genome.LTR.intact.raw* ./ && rm -rf genome.LTR.intact.raw.classify.xls
+ln -sf ../../02.LTR/output_of_EDTA-LTR/genome.LTRlib.fa ./genome.LTR.raw.fa
+##TIR
+mkdir -p ../TIR;cd ../TIR
+ln -sf ../../03.TIR/output_of_EDTA-TIR/genome.TIR.intact.raw.* ./
+##SINE
+mkdir -p ../SINE;cd ../SINE
+ln -sf ../../04.SINE/output_of_EDTA-SINE/genome.SINE.* ./
+ln -sf ../../01.RepeatModeler2/output_of_EDTA-RepeatModeler2/genome.SINE.raw.fa ./genome.SINE.RM2.fa
+cat genome.SINE.rename.fa genome.SINE.RM2.fa |seqkit seq -w 0 >genome.SINE.merge.fa
+##Helitron
+mkdir -p ../Helitron;cd ../Helitron
+ln -sf ../../05.Helitron/output_of_EDTA-Helitron/genome.fa.Helitron.intact.raw.* ./ && rm -rf genome.fa.Helitron.intact.raw.fa.anno.list
+##ProteinMask
+mkdir -p ../ProteinMask;cd ../ProteinMask
+ln -sf ../../06.ProteinMask/output_of_EDTA-ProteinMask/* ./
+##Merge
+cd ../
+cat ProteinMask/ProteinMask.annot.LINE.TE.fa LINE/genome.LINE.raw.fa|seqkit seq -w0 >LINE/genome.LINE.merge.fa
+cat ProteinMask/ProteinMask.annot.LTR.TE.fa ProteinMask/ProteinMask.annot.DNA.TE.fa  RepeatModeler2/genome.RM2.fa|seqkit seq -w0 >RepeatModeler2/genome.RM2.merge.fa
+touch ../run_02merge.sh.done" >run_02merge.sh
+	bash run_02merge.sh 1>run_02merge.sh.log 2>run_02merge.sh.err
+fi
+if [ `cat run_02merge.sh.err|wc -l` != "0" ];then rm -rf run_02merge.sh.done;fi
+if [ ! -e run_02merge.sh.done ];then echo "merge all results failed" && exit 1;fi
+for i in `ls results/*/*.fa|sed '/genome.SINE.RM2.fa/d'`
+do
+	name=`basename $i`
+	if [ ! -s $i ];then echo -e "$name is empty! Please check it! ";fi
+done
+
+if [ `cat $wkdir/zg-EDTA-rawTE.err|wc -l` != "0" ];then echo "Some tasks failed" && exit 1;fi
+
+mkdir -p $wkdir/output_of_EDTA-rawTE;rm -rf $wkdir/output_of_EDTA-rawTE/{Helitron,LINE,LTR,RepeatModeler2,SINE,TIR}
+cp -rgL results/* $wkdir/output_of_EDTA-rawTE/ 1>/dev/null
+
+echo -e "\n\033[01;35m#######Results#######\033[0m"
+echo "Output: $wkdir/output_of_EDTA-rawTE/"

@@ -1,0 +1,36 @@
+#!/bin/bash
+#docker pull quay.io/biocontainers/edta:2.2.2--hdfd78af_0
+EDTA_images="edta:2.2.2--hdfd78af_0"
+genome=`realpath $1`
+EDTA_threads=$2
+RepeatModeler_run_type=$3
+curatedlib=$4
+if [ "$curatedlib" != "none" ];then curatedlib=`realpath $4`;fi
+wkdir=$PWD
+echo -e "\033[01;35m#######Data#######\033[0m"
+echo """Genome: $genome
+Threads: $EDTA_threads
+Whether Run RepeatModeler: $RepeatModeler_run_type
+Curated library: $curatedlib"""
+echo -e "\n\033[01;35m#######Run#######\033[0m"
+if [ ! -e tmp_of_EDTA ];then mkdir tmp_of_EDTA;fi;cd tmp_of_EDTA;now_dir=$PWD
+echo "EDTA.pl --genome ${genome} --species others --anno 1 --threads $EDTA_threads --step all" >run_EDTA.sh
+if [ "$curatedlib" != "none" ];then
+	sed -i 's#$# --curatedlib '"$curatedlib"'#g' run_EDTA.sh
+fi
+if [ "$RepeatModeler_run_type" == "run" ];then
+	sed -i 's#$# --sensitive 1#g' run_EDTA.sh
+else
+	sed -i 's#$# --sensitive 0#g' run_EDTA.sh
+fi
+sed -i 's#$# \&\& touch run_EDTA.sh.done#g' run_EDTA.sh
+echo "1. run EDTA ..."
+if [ ! -e run_EDTA.sh.done ];then
+	docker run -i --rm -w `pwd` -v /project:/project -v /home:/home -u $(id -u):$(id -u) edta:2.2.2--hdfd78af_0 sh -c "bash run_EDTA.sh 1>run_EDTA.sh.log 2>run_EDTA.sh.err"
+	if [ ! -e run_EDTA.sh.done ];then echo "some tasks failed, please check and try again! " && exit 1;fi
+fi
+echo -e "\n\033[01;35m#######Results#######\033[0m"
+echo "Output: $wkdir/output_of_EDTA"
+#EDTA2_lib=`realpath result/consensi.fa.classified`
+#cp $EDTA2_lib $wkdir/output_of_EDTA/consensi.fa.classified;
+#echo -e "\033[01;37m\nEDTA Results: $EDTA2_lib\033[0m"
