@@ -1,9 +1,5 @@
 <div align="center"><img src="https://s2.loli.net/2025/01/10/WzwaHxSGMrKl8st.png" alt="Your Image Description" /></div>
 
-## zgtools-pipeline
-
-以下是对您提供的关于 **zgtools** 内容的优化与美化版本，保留了全部技术细节，同时提升了表达的流畅度、专业性与可读性：
-
 ---
 
 ### **zgtools 全能型基因组分析工具集**
