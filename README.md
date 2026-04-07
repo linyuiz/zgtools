@@ -31,8 +31,8 @@
 
 - [zgtools-pipeline](#zgtools-pipeline)
   - [流程图](#流程图)
-  - [测序咨询](#测序咨询)
-  - [完成度](#测序咨询)
+  - [测序建议](#测序建议)
+  - [完成度](#测序建议)
   - [分析内容](#分析内容)
   - [最近更新](#最近更新)
   - [运行教程](#运行教程)
@@ -48,7 +48,7 @@ T2T组装流程图：
 <div align="center"><img src="https://s2.loli.net/2024/12/07/kDXiP5z9gx6oBQC.png" alt="Your Image Description" width=80%/></div>
 
  
-## 测序咨询
+## 测序建议
 
 ①HIFI数据，12000一个Cell，保底80g，一般可以测到90g；如果需要测少量的HIFI，即散测。散测费用是建库2000，测序180/g；   
 ②HIC数据，一个文库4000，测序10/g；   
