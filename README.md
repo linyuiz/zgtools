@@ -41,7 +41,7 @@
 
 T2T组装流程图：
 
-<div align="center"><img src="https://s2.loli.net/2024/12/05/Y3EO2eFizulj7yK.png" alt="Your Image Description" width=80%/></div>
+更新中...
 
 重复序列注释流程图：
 
