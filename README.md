@@ -38,10 +38,14 @@
   - [最近更新](#最近更新)
   - [运行教程](#运行教程)
 
+---
+
 ## 改版软件
 
 ⭐️注释工具EviAnn的改版请见：https://github.com/linyuiz/EviAnn_update (暂不推荐，正在升级中)  
 ⭐️TE转座子注释工具的改版请见：https://github.com/linyuiz/EDTA_update (测试版)  
+
+---
 
 ## 流程图
 
@@ -53,10 +57,13 @@ T2T组装流程图：
 
 <div align="center"><img src="https://s2.loli.net/2024/12/07/kDXiP5z9gx6oBQC.png" alt="Your Image Description" width=80%/></div>
 
- 
+---
+
 ## 测序建议
 
 ![image text](https://s2.loli.net/2024/12/05/TQWN4BAmhC3n8bi.jpg#pic_center)
+
+---
 
 ## 完成度
 
@@ -66,6 +73,8 @@ zgtools达到的T2T水平：
 ③全rDNA：有rDNA末端的染色体也完善出端粒；      
 ④全着丝粒：整个基因组准确鉴定着丝粒。  
 结果文件请见示例【example】，要求作图与结果均达到CNS水平。   
+
+---
 
 ## 分析内容
 
@@ -80,6 +89,8 @@ zgtools达到的T2T水平：
 09、圈图、基因共线性  
 10、注释与进化   
 11、多倍体T2T流程   
+
+---
 
 ## 最近更新
 ### ☆2025/4/15 ---基因间区统计：intergenic（RNA-reads分布图）
@@ -157,7 +168,7 @@ zgtools达到的T2T水平：
 
 <div align="center"><img src="https://s2.loli.net/2024/12/05/7SN8XqtnP9Ff3dM.png" alt="Your Image Description" width=60%/></div>
 
-
+---
 
 ## 运行教程
 
