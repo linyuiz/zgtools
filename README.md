@@ -26,7 +26,6 @@
 - 注释 BUSCO 完整性为 **99.90%**；
 
 ---
-⭐️注释工具EviAnn的改版请见：https://github.com/linyuiz/EviAnn_update  (暂不推荐，正在升级中)
 
 ## 目录
 
