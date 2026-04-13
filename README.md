@@ -40,8 +40,8 @@
 
 ## 改版软件
 
-⭐️注释工具EviAnn的改版请见：https://github.com/linyuiz/EviAnn_update (暂不推荐，正在升级中)
-⭐️TE转座子注释工具的改版请见：https://github.com/linyuiz/EDTA_update (测试版)
+⭐️注释工具EviAnn的改版请见：https://github.com/linyuiz/EviAnn_update (暂不推荐，正在升级中)  
+⭐️TE转座子注释工具的改版请见：https://github.com/linyuiz/EDTA_update (测试版)  
 
 ## 流程图
 
