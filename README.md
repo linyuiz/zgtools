@@ -140,9 +140,7 @@ zgtools达到的T2T水平：
 
 ### ☆2024/11/22---着丝粒预测：run_centromere（更新）
 
-&emsp;&emsp;测试：对TR富集或者LTR富集的植物，以及TR和LTR都比较少的鱼类进行测试，结果很不错，相较于quarTeT和CentIER都有很大的提升：使用TRF软件鉴定串联重复序列，筛选重复次数>100，单元长度>100bp的TR序列，基于社区检测算法，以80%相似度进行构建TR相似性网络，对筛选的单体序列进行重鉴定，对TE和TR高覆盖的区域进行筛选整合，得到着丝粒核心区和近着丝粒区，以下是其中鱼类的测试结果：    
-
-<div align="center"><img src="https://s2.loli.net/2024/12/05/FN9VkMolwKXD18P.png" alt="Your Image Description" width=30%/></div>
+&emsp;&emsp;测试：对TR富集或者LTR富集的植物，以及TR和LTR都比较少的鱼类进行测试，结果很不错，相较于quarTeT和CentIER都有很大的提升：使用TRF软件鉴定串联重复序列，筛选重复次数>100，单元长度>100bp的TR序列，基于社区检测算法，以80%相似度进行构建TR相似性网络，对筛选的单体序列进行重鉴定，对TE和TR高覆盖的区域进行筛选整合，得到着丝粒核心区和近着丝粒区。
 
 ### ☆2024/11/18---Gap填补：mdifgap（多重数据迭代填补）
 
