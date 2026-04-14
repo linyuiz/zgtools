@@ -94,6 +94,10 @@ zgtools达到的T2T水平：
 ---
 
 ## 最近更新
+### ☆2026/4/14 ---T2T组装自动化流程：run_T2T
+&emsp;&emsp;更新run_T2T模块，使其支持slurm集群，现流程除开hic调图，其余已全部自动化处理
+<div align="center"><img walt="image" src="https://github.com/user-attachments/assets/cd1a7d1d-6413-4f4c-9a14-b244f5d652fd" width=60%/></div>
+
 ### ☆2025/4/15 ---基因间区统计：intergenic（RNA-reads分布图）
 &emsp;&emsp;运行zgtools intergenic进行分析，一般而言，转录组reads比对到Exon的reads比例最高，因为转录组测序就是对mRNA进行测序。比对到Intron区域的reads可能来源于pre-mRNA的残留或可变剪接过程中发生的内含子保留事件。如果比对到Intergenic区的reads比例高，说明基因组注释不完善。（In general, reads in the【exon】region account for >60%, reads in the【intron】region account between 20% and 30%, and reads in the【intergenic】region account for <20%.）
 <div align="center"><img src="https://s2.loli.net/2025/04/15/8oF5CSVYgX6pZMk.png" alt="Your Image Description" width=60%/></div>
