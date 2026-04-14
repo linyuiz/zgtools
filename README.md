@@ -95,7 +95,7 @@ zgtools达到的T2T水平：
 
 ## 最近更新
 ### ☆2026/4/14 ---T2T组装自动化流程：run_T2T
-&emsp;&emsp;更新run_T2T模块，使其支持slurm集群，现流程除开hic调图，其余已全部自动化处理
+&emsp;&emsp;更新run_T2T模块，使其支持slurm集群，现流程除开hic调图，其余已全部自动化处理，包含组装、评估、HIC热图、共线性分析（至此该模块已完结）
 <div align="center"><img walt="image" src="https://github.com/user-attachments/assets/cd1a7d1d-6413-4f4c-9a14-b244f5d652fd" width=60%/></div>
 
 ### ☆2025/4/15 ---基因间区统计：intergenic（RNA-reads分布图）
