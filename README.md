@@ -30,12 +30,12 @@ Telomere-to-Telomere (T2T) metrics for a certain gymnosperm (genome size> 20Gbp)
 ## Table of Contents
 
 - [zgtools-pipeline](#zgtools-pipeline)
-  - [Redesigned software](#Redesigned software)
+  - [Redesigned software](#Redesigned-software)
   - [Flowchart](#Flowchart)
-  - [Completion Level](#Completion Level)
-  - [Analyze content](#Analyze content)
-  - [Recently updated](#Recently updated)
-  - [Running tutorial](#Running tutorial)
+  - [Completion Level](#Completion-Level)
+  - [Analyze content](#Analyze-content)
+  - [Recently updated](#Recently-updated)
+  - [Running tutorial](#Running-tutorial)
 
 ---
 
