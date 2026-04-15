@@ -60,87 +60,87 @@ Flowchart of Repeat Sequence Annotation:
 
 ---
 
-## 测序建议
+## Sequencing Recommendations
 
 ![image text](https://s2.loli.net/2024/12/05/TQWN4BAmhC3n8bi.jpg#pic_center)
 
 ---
 
-## 完成度
+## Completion Level  
 
-zgtools达到的T2T水平：    
-①0 Gap：最基本的要求；          
-②全端粒：每条染色体末端端粒重复次数大于100次（一般1000次以上比较好)；      
-③全rDNA：有rDNA末端的染色体也完善出端粒；      
-④全着丝粒：整个基因组准确鉴定着丝粒。  
-结果文件请见示例【example】，要求作图与结果均达到CNS水平。   
-
----
-
-## 分析内容
-
-01、T2T端粒延伸+Gap填补+T2T纠错+T2T各项评估   
-02、Survey分析+倍型分析+二代/三代NT比对去污染   
-03、常规基因组组装/分型基因组组装/T2T基因组组装（端粒延伸、补Gap、全rDNA和动物T2T-Y染色体的PAR区）+各项评估   
-04、HiCUP评估（HiC小测/HiC大测）+HiC挂载调图+染色体级别基因组生成+HiC热图+未挂载区去冗余+共线性分析+各项评估   
-05、Subphaser亚基因组分型+亚基因组特有分析（SV分析/等位基因表达不平衡分析/亚基因组优势分析/KaKs差异分析）    
-06、LAI评估+LTR插入时间分析+LTR-RTs系统发育树（最大似然法）    
-07、着丝粒预测（优于目前已发表的所有生信鉴定着丝粒软件）    
-08、重复基因鉴定+KaKs分析+功能富集   
-09、圈图、基因共线性  
-10、注释与进化   
-11、多倍体T2T流程   
+T2T level achieved by zgtools:  
+① Zero Gap: The most basic requirement;  
+② Full Telomeres: Telomere repeats at each chromosome end exceed 100 times (generally, over 1000 is preferable);  
+③ Full rDNA: Chromosomes with rDNA ends also have complete telomeres;  
+④ Full Centromeres: Accurate identification of centromeres across the entire genome.  
+For result files, please refer to the example [example], with both the visualization and results required to meet CNS standards.
 
 ---
 
-## 最近更新
-### ☆2026/4/14 ---T2T组装自动化流程：run_T2T
-&emsp;&emsp;更新run_T2T模块，使其支持slurm集群，现流程除开hic调图，其余已全部自动化处理，包含组装、评估、HIC热图、共线性分析（至此该模块已完结）下方为全端粒0Gap的动物基因组的结果统计：
+## Analyze content
+
+01. T2T Telomere Extension + Gap Filling + T2T Error Correction + T2T Comprehensive Evaluation  
+02. Survey Analysis + Haplotype Analysis + Second/Third-Generation NT Alignment for Contamination Removal  
+03. Conventional Genome Assembly / Typing Genome Assembly / T2T Genome Assembly (Telomere Extension, Gap Filling, Full rDNA, and PAR Region of Animal T2T-Y Chromosome) + Comprehensive Evaluation  
+04. HiCUP Evaluation (HiC Small-Scale / HiC Large-Scale) + HiC Scaffolding Adjustment + Chromosome-Level Genome Generation + HiC Heatmap + Redundancy Removal in Unmapped Regions + Synteny Analysis + Comprehensive Evaluation  
+05. Subphaser Subgenome Typing + Subgenome-Specific Analysis (SV Analysis / Allele Expression Imbalance Analysis / Subgenome Dominance Analysis / KaKs Differential Analysis)  
+06. LAI Evaluation + LTR Insertion Time Analysis + LTR-RTs Phylogenetic Tree (Maximum Likelihood Method)  
+07. Centromere Prediction (Outperforming All Currently Published Bioinformatics Centromere Identification Tools)  
+08. Duplicate Gene Identification + KaKs Analysis + Functional Enrichment  
+09. Circos Plot, Gene Synteny  
+10. Annotation and Evolution  
+11. Polyploid T2T Workflow
+
+---
+
+## Recently updated
+### ☆2026/4/14 ---T2T assembly automation process: run_T2T
+&emsp;&emsp;Update the ```run_T2T``` module to support SLURM clusters. The current process is now fully automated, except for Hi-C visualization, including assembly, evaluation, Hi-C heatmaps, and synteny analysis (this module is now complete). Below are the statistics for the fully telomere-to-telomere (0Gap) animal genome results:
 <div align="center"><img walt="image" src="https://github.com/user-attachments/assets/cd1a7d1d-6413-4f4c-9a14-b244f5d652fd" width=60%/></div>
 
-### ☆2025/4/15 ---基因间区统计：intergenic（RNA-reads分布图）
-&emsp;&emsp;运行zgtools intergenic进行分析，一般而言，转录组reads比对到Exon的reads比例最高，因为转录组测序就是对mRNA进行测序。比对到Intron区域的reads可能来源于pre-mRNA的残留或可变剪接过程中发生的内含子保留事件。如果比对到Intergenic区的reads比例高，说明基因组注释不完善。（In general, reads in the【exon】region account for >60%, reads in the【intron】region account between 20% and 30%, and reads in the【intergenic】region account for <20%.）
+### ☆2025/4/15 ---Intergenic region statistics: intergenic (RNA-reads distribution map)
+&emsp;&emsp;Run the ```zgtools intergenic``` analysis. Generally, the highest proportion of transcriptome reads align to exons because transcriptome sequencing targets mRNA. Reads aligning to intron regions may originate from residual pre-mRNA or intron retention events during alternative splicing. If a high proportion of reads align to intergenic regions, it suggests incomplete genome annotation.（In general, reads in the【exon】region account for >60%, reads in the【intron】region account between 20% and 30%, and reads in the【intergenic】region account for <20%.）
 <div align="center"><img src="https://s2.loli.net/2025/04/15/8oF5CSVYgX6pZMk.png" alt="Your Image Description" width=60%/></div>
 
-### ☆2025/1/7---亚基因组分型：subphaser（亚基因组分型）
-&emsp;&emsp;运行zgtools subphaser进行分析，填写配置文件运行即可，原软件SubPhaser写的很好，我们只在原基础上修改了配色和添加图例，结果如下：
+### ☆2025/1/7---Subgenotyping: subphaser (subgenotyping)
+&emsp;&emsp;Run ```zgtools subphaser``` for analysis, just fill in the configuration file and execute it. The original software SubPhaser is well-written, and we only modified the color scheme and added a legend based on the original version. The results are as follows:
 <div align="center"><img src="https://s2.loli.net/2025/01/07/7TfpsIlb3FJm4Ud.png" alt="Your Image Description" width=60%/></div>
 
-### ☆2024/12/24---候选着丝粒可视化：plotCCR（展示候选着丝粒区域）
+### ☆2024/12/24---Visualization of candidate centromeres: plotCCR (displaying candidate centromere regions)
 
-&emsp;&emsp;运行zgtools plotCCR进行分析，检查重复序列的分布得到候选着丝粒区域，结果如下：
+&emsp;&emsp;Run ```zgtools plotCCR``` for analysis, examine the distribution of repetitive sequences to identify candidate centromeric regions, with the following results:
 <div align="center"><img src="https://s2.loli.net/2025/01/07/GbprIunevERKcds.png" alt="Your Image Description" /></div>
 
-### ☆2024/12/05---染色体SV可视化：GetTwoSyn（展示染色体间的SV）
+### ☆2024/12/05---Chromosome SV Visualization: GetTwoSyn (Displaying SVs between Chromosomes)
 
-&emsp;&emsp;运行zgtools GetTwoSyn进行syri的切分并行分析，展示基因组共线性（基因共线性建议JCVI）和染色体间的SV：INV（黄色）、TRANS（绿色）和 Dup（蓝色）。以【[T2T骏枣](https://doi.org/10.1093/hr/uhae071) 】的chr5和chr12染色体的移位为例，结果如下：
+&emsp;&emsp;Run ```zgtools GetTwoSyn``` to perform synteny block analysis, displaying genome collinearity (gene collinearity is recommended by JCVI) and interchromosomal SVs: INV (yellow), TRANS (green), and Dup (blue). Taking the translocation between chr5 and chr12 of https://doi.org/10.1093/hr/uhae071 as an example, the results are as follows:
 
 <div align="center"><img src="https://s2.loli.net/2024/12/05/lM3AtndoKkqBr9v.png" alt="Your Image Description" width=60%/></div>
 
-&emsp;&emsp;基因共线性圈图：   
+&emsp;&emsp;Gene collinearity circle plot:  
 <div align="center"><img src="https://s2.loli.net/2024/12/05/FIc9qywMN4Bduf1.png" alt="Your Image Description" width=40%/></div>
 
-### ☆2024/12/03---着丝粒可视化：StaniedGlass（提速与并行）
+### ☆2024/12/03---Centromere Visualization: StaniedGlass (Speed Boost & Parallel Processing)
 
-&emsp;&emsp;运行zgtools run_centromere获得着丝粒的候选区域后，可运行zgtools StainedGlass进行可视化，该模块在原代码的基础上进行修改，加速运行而支持更方便的并行，对于结果文件也进行了精简，对于着丝粒区域的可视化运行速度大大提升。示例结果如下：
+&emsp;&emsp;After obtaining candidate regions of centromeres by running "```zgtools run_centromere```," you can visualize them by executing "zgtools StainedGlass." This module has been modified from the original code to accelerate operation and support more convenient parallel processing. The result files have also been streamlined, significantly improving the visualization speed for centromeric regions. Example results are as follows:
 
 <div align="center"><img src="https://s2.loli.net/2024/12/03/CB1Ten5gPXr3J2s.png" alt="Your Image Description" width=60%/></div>
 
-### ☆2024/12/03---Gap填补：gapjoin（Gap拓展区域重复检测）
+### ☆2024/12/03---Gap close：gapjoin(Gap expansion area duplicate detection)
 
-&emsp;&emsp;使用zgtools mdifgap进行多重数据填补Gap后，仍有填补不上的结果，通过Juicebox检查发现，Gap的邻近区域存在600k的冗余序列，故而仅依靠Reads是无法填补的，由此引入zgtools gapjoin模块，通过对Gap区域左右拓展一定区域，对该区域进行比对检查是否存在重复的部分。筛选高Coverage和长比对区域并限制基因组损失的极限值，将Gap区域附近的冗余删除进而连接起来，实现填补Gap的目的，最后绘制Reads覆盖图进一步检查。示例如下：   
+&emsp;&emsp;After using ```zgtools mdifgap``` for multiple data imputation of gaps, there were still some gaps that could not be filled. Juicebox inspection revealed the presence of a 600kb redundant sequence near the gap region, making it impossible to fill solely relying on reads. Therefore, the zgtools gapjoin module was introduced. By extending the gap region left and right by a certain range, the module aligns and checks for duplicated segments in this area. It then filters for high-coverage and long-aligned regions while limiting the maximum allowable genome loss, removes the redundancy near the gap, and connects the sequences to achieve gap filling. Finally, a reads coverage plot is generated for further verification. An example is shown below:   
 
 <div align="center"><img src="https://s2.loli.net/2024/12/03/N6kfGEn29XOyIKD.png" alt="Your Image Description" width=60%/></div>
 
-### ☆2024/12/02---端粒、rDNA、Gap检查：genomecheck（端粒遮掩检测）
+### ☆2024/12/02---Telomere, rDNA, Gap check: genomecheck (telomere masking detection)
 
-&emsp;&emsp;使用zgtools genomecheck对基因组（包含未挂载区的序列）进行端粒、Gap和rDNA的鉴定，由此可以①获得基因组的染色体部分的初步端粒情况；②结合未挂载区的端粒与rDNA，可以回捞端粒回染色体部分，比如示例图中的Scaffold19可以通过检查Juicebox图加回至chr3上游的45rDNA末端或者chr8下游的45rDNA末端；③检测是否有端粒序列被其他序列遮挡住，如图中chr6上游的遮掩标识（绿色三角形）表示附近的序列被邻近的序列遮挡，返回Juicebox检查发现前一序列是该序列的冗余部分。  
+&emsp;&emsp;Use zgtools genomecheck to identify telomeres, gaps, and rDNA in the genome (including sequences from unanchored regions). This allows for: ① obtaining preliminary telomere information for the chromosomal portions of the genome; ② combining telomeres and rDNA from unanchored regions to recover telomeres back into chromosomal sections—for example, Scaffold19 in the sample figure can be reattached to the 45rDNA end upstream of chr3 or the 45rDNA end downstream of chr8 by examining the Juicebox map; ③ detecting whether telomere sequences are obscured by other sequences, as indicated by the green triangle marker upstream of chr6 in the figure, which shows that nearby sequences are blocked by adjacent sequences. A Juicebox check reveals that the preceding sequence is a redundant portion of this sequence.   
 
 <div align="center"><img src="https://s2.loli.net/2024/12/03/xKlZARkGqbiB1dy.png" alt="Your Image Description" width=60%/></div>
 
-### ☆2024/11/28---SV断点自动检查：run_CheckSV（Reads覆盖图）
+### ☆2024/11/28---SV breakpoint auto-check: run_CheckSV (Reads coverage map)
 
-&emsp;&emsp;首先，使用zgtools工具集中的syntenic和genomesyn功能进行共线性分析。这一过程将产生基因组共线性图以及名为Ref_vs_Query.syri.out的变异检测结果文件。随后，对SV（结构变异）进行长度过滤，仅保留长度大于500,000bp的SV，并从中提取SV的起始和终止位置信息。接着，利用minimap2工具将HIFI数据和ONT数据回比到基因组上。在此基础上，我们对已确定的SV位置进行左右两侧各拓展5,000bp的处理。之后，批量绘制这些区域的Reads覆盖图，并自动检测Reads的覆盖情况。示例图如下：  
+&emsp;&emsp;First, use the syntenic and genomesyn functions in the zgtools toolkit to perform collinearity analysis. This process will generate a genome collinearity map and a variant detection result file named Ref_vs_Query.syri.out. Subsequently, filter the structural variations (SVs) by length, retaining only those longer than 500,000 bp, and extract the start and end position information of the SVs. Next, align the HIFI and ONT data back to the genome using the minimap2 tool. Based on this, we extend the identified SV positions by 5,000 bp on both sides. Finally, batch-generate coverage plots for these regions and automatically detect read coverage. An example figure is shown below:    
 
 <div align="center"><img src="https://s2.loli.net/2024/12/05/WhjYXyFtLlfuRw7.png" alt="Your Image Description" width=50%/></div>
 <div align="center"><img src="https://s2.loli.net/2024/12/05/5jmOzugY4D7isNA.png" alt="Your Image Description" width=50%/></div>
