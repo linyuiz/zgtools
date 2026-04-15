@@ -161,12 +161,6 @@ For result files, please refer to the example [example], with both the visualiza
 
 <div align="center"><img src="https://s2.loli.net/2024/12/05/z8mx1koXBPOgMCH.png" alt="Your Image Description" width=99%/></div>
 
-### ☆2024/11/18---Snail Diagram：snailplot
-
-&emsp;&emsp;The Snail Plot primarily provides an intuitive visualization of genome assembly quality based on the N50/N90 metrics of scaffolds (or contigs), QV evaluation results, and BUSCO assessment results, as illustrated in the figure below:
-
-<div align="center"><img src="https://s2.loli.net/2024/12/05/7SN8XqtnP9Ff3dM.png" alt="Your Image Description" width=60%/></div>
-
 ---
 
 ## Running tutorial
