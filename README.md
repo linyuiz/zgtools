@@ -69,10 +69,10 @@ Flowchart of Repeat Sequence Annotation:
 ## Completion Level  
 
 T2T level achieved by zgtools:  
-① Zero Gap: The most basic requirement;  
-② Full Telomeres: Telomere repeats at each chromosome end exceed 100 times (generally, over 1000 is preferable);  
-③ Full rDNA: Chromosomes with rDNA ends also have complete telomeres;  
-④ Full Centromeres: Accurate identification of centromeres across the entire genome.  
+① **0 Gap**: The most basic requirement;  
+② **Full Telomeres**: Telomere repeats at each chromosome end exceed 100 times (generally, over 1000 is preferable);  
+③ **Full rDNA**: Chromosomes with rDNA ends also have complete telomeres;  
+④ **Full Centromeres**: Accurate identification of centromeres across the entire genome.  
 For result files, please refer to the example [example], with both the visualization and results required to meet CNS standards.
 
 ---
