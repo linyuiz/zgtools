@@ -18,7 +18,7 @@ Its application scenarios include but are not limited to: **Survey evaluation, a
 
 Additionally, zgtools now offers comprehensive support for **ultra-large genomes** and **autopolyploid T2T**, covering T2T assembly and annotation. Its assembly metrics demonstrate outstanding performance:
 
-⭐️Telomere-to-Telomere (T2T) metrics for a certain gymnosperm (genome size> 20Gbp):
+⭐️Telomere-to-Telomere (T2T) metrics for a certain gymnosperm (**genome size> 20Gbp**):
 
 - **Complete assembly** of telomeres with **0 gaps**;
 - Contig N50 reaches **1.7 Gbp**;
