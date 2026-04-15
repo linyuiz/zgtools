@@ -50,11 +50,11 @@ Additionally, zgtools now offers comprehensive support for **ultra-large genomes
 
 ## Flowchart
 
-T2T assembly flowchart:
+**T2T assembly flowchart**:
 
 Updating...
 
-Flowchart of Repeat Sequence Annotation:
+**Flowchart of Repeat Sequence Annotation**:
 
 <div align="center"><img src="https://s2.loli.net/2024/12/07/kDXiP5z9gx6oBQC.png" alt="Your Image Description" width=80%/></div>
 
