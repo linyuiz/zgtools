@@ -4,21 +4,21 @@
 
 ### **zgtools All-in-One Genomic Analysis Toolkit**
 
-**zgtools** is a self-developed, highly integrated modular software suite containing over 200 functional modules, comprehensively covering various analysis tasks from conventional genomes to T2T genomes.     
+🗒**zgtools** is a self-developed, highly integrated modular software suite containing over 200 functional modules, comprehensively covering various analysis tasks from conventional genomes to T2T genomes.     
 Its application scenarios include but are not limited to: **Survey evaluation, assembly, Hi-C-assisted assembly, T2T complete assembly, gene annotation, evolutionary analysis, centromere prediction, and various customized analyses**. Through a unified launcher interface, zgtools achieves efficient management of full-process analysis tasks, offering greater flexibility and customizability compared to Nextflow workflows.  
 
-Leveraging practical experience from over 200 genome projects, zgtools has deeply optimized numerous standard analysis pipelines and implemented an automated update mechanism, striving to achieve the analytical goal of **"faster, more accurate, and better."**  
+🚀Leveraging practical experience from over 200 genome projects, zgtools has deeply optimized numerous standard analysis pipelines and implemented an automated update mechanism, striving to achieve the analytical goal of **"faster, more accurate, and better."**  
 
-To date, zgtools has successfully completed T2T-level genome assemblies for more than 50 species, with related findings published in high-impact journals such as *HR*, *PBJ*, *GB*, and *NC*. For the vast majority of plants, mammals, and fish (including species with ZW/XY sex chromosomes), zgtools can effortlessly achieve complete T2T assembly and accurately resolve PAR (pseudoautosomal regions).  
+🚩To date, zgtools has successfully completed T2T-level genome assemblies for more than 50 species, with related findings published in high-impact journals such as *HR*, *PBJ*, *GB*, and *NC*. For the vast majority of plants, mammals, and fish (including species with ZW/XY sex chromosomes), zgtools can effortlessly achieve complete T2T assembly and accurately resolve PAR (pseudoautosomal regions).  
 
-In terms of efficiency, for genomes sized **300M–1G**:  
+🚀In terms of efficiency, for genomes sized **300M–1G**:  
 - The full **Survey → Assembly → Hi-C** pipeline takes only **3–7 days**;  
 - The full **T2T Assembly → Gap Filling → Telomere Extension & Repair → Evaluation** pipeline takes only **7–14 days**;  
 - The full **RepeatAnno + ncRNA + DenovoAnno + TransAnno + HomoAnno + FuncAnno** pipeline takes only **3–5 days**.  
 
 Additionally, zgtools now offers comprehensive support for **ultra-large genomes** and **autopolyploid T2T**, covering T2T assembly and annotation. Its assembly metrics demonstrate outstanding performance:
 
-Telomere-to-Telomere (T2T) metrics for a certain gymnosperm (genome size> 20Gbp):
+⭐️Telomere-to-Telomere (T2T) metrics for a certain gymnosperm (genome size> 20Gbp):
 
 - **Complete assembly** of telomeres with **0 gaps**;
 - Contig N50 reaches **1.7 Gbp**;
