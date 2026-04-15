@@ -99,7 +99,7 @@ For result files, please refer to the example [example], with both the visualiza
 
 ### ☆2025/1/7---Subgenotyping: subphaser (subgenotyping)
 &emsp;&emsp;Run ```zgtools subphaser``` for analysis, just fill in the configuration file and execute it. The original software SubPhaser is well-written, and we only modified the color scheme and added a legend based on the original version. The results are as follows:
-<div align="center"><img src="https://s2.loli.net/2025/01/07/7TfpsIlb3FJm4Ud.png" alt="Your Image Description" width=60%/></div>
+<div align="center"><img src="https://s2.loli.net/2025/01/07/7TfpsIlb3FJm4Ud.png" alt="Your Image Description" width=70%/></div>
 
 ### ☆2024/12/24---Visualization of candidate centromeres: plotCCR (displaying candidate centromere regions)
 
