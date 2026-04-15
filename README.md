@@ -32,7 +32,6 @@ Telomere-to-Telomere (T2T) metrics for a certain gymnosperm (genome size> 20Gbp)
 - [zgtools-pipeline](#zgtools-pipeline)
   - [改版软件](#改版软件)
   - [流程图](#流程图)
-  - [测序建议](#测序建议)
   - [完成度](#测序建议)
   - [分析内容](#分析内容)
   - [最近更新](#最近更新)
@@ -58,11 +57,6 @@ Flowchart of Repeat Sequence Annotation:
 
 <div align="center"><img src="https://s2.loli.net/2024/12/07/kDXiP5z9gx6oBQC.png" alt="Your Image Description" width=80%/></div>
 
----
-
-## Sequencing Recommendations
-
-![image text](https://s2.loli.net/2024/12/05/TQWN4BAmhC3n8bi.jpg#pic_center)
 
 ---
 
