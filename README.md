@@ -2,32 +2,32 @@
 
 ---
 
-### **zgtools 全能型基因组分析工具集**
+### **zgtools All-in-One Genomic Analysis Toolkit**
 
-**zgtools** 是一款自主研发、高度集成的模块化软件套件，内含超过200个功能模块，全面覆盖从常规基因组到T2T基因组的各类分析任务。其应用场景包括但不限于：Survey评估、组装、HIC辅助组装、T2T完整组装、基因注释、进化分析、着丝粒预测及多种个性化分析。通过统一的启动器入口，zgtools 实现了对全流程分析任务的高效管理，相比 Nextflow 流程，具备更高的灵活性与可定制性。
+**zgtools** is a self-developed, highly integrated modular software suite containing over 200 functional modules, comprehensively covering various analysis tasks from conventional genomes to T2T genomes. Its application scenarios include but are not limited to: Survey evaluation, assembly, Hi-C-assisted assembly, T2T complete assembly, gene annotation, evolutionary analysis, centromere prediction, and various customized analyses. Through a unified launcher interface, zgtools achieves efficient management of full-process analysis tasks, offering greater flexibility and customizability compared to Nextflow workflows.  
 
-依托于二百多个基因组项目的实际运行经验，zgtools 对大量标准分析流程进行了深度优化，并实现了自动化更新机制，致力于达成 **“更快、更准、更好”** 的分析目标。
+Leveraging practical experience from over 200 genome projects, zgtools has deeply optimized numerous standard analysis pipelines and implemented an automated update mechanism, striving to achieve the analytical goal of **"faster, more accurate, and better."**  
 
-目前，zgtools 已成功完成五十余个物种的 T2T 级基因组组装，相关成果发表于 *HR*、*PBJ*、*GB*、*NC* 等高水平期刊。对于绝大多数植物、哺乳动物及鱼类（包括含有 ZW/XY 性染色体的物种），zgtools 能够轻松实现完整的 T2T 组装，并准确解析 PAR（伪常染色体区域）。
+To date, zgtools has successfully completed T2T-level genome assemblies for more than 50 species, with related findings published in high-impact journals such as *HR*, *PBJ*, *GB*, and *NC*. For the vast majority of plants, mammals, and fish (including species with ZW/XY sex chromosomes), zgtools can effortlessly achieve complete T2T assembly and accurately resolve PAR (pseudoautosomal regions).  
 
-在分析效率方面，针对 **300M–1G** 大小的基因组：
-- **Survey → 组装 → HIC** 全流程仅需 **3–7 天**；
-- **T2T 组装 → Gap 填补 → 端粒延伸修复 → 评估** 全流程仅需 **7–14 天**。
-- **RepeatAnno + ncRNA + DenovoAnno + TransAnno + HomoAnno + FuncAnno** 全流程仅需 **3-5 天**。
+In terms of efficiency, for genomes sized **300M–1G**:  
+- The full **Survey → Assembly → Hi-C** pipeline takes only **3–7 days**;  
+- The full **T2T Assembly → Gap Filling → Telomere Extension & Repair → Evaluation** pipeline takes only **7–14 days**;  
+- The full **RepeatAnno + ncRNA + DenovoAnno + TransAnno + HomoAnno + FuncAnno** pipeline takes only **3–5 days**.  
 
-此外，zgtools 已新增对**超大型基因组**和**同源多倍体T2T**的全面支持，涵盖 T2T 组装与注释。其组装指标表现优异：
+Additionally, zgtools now offers comprehensive support for **ultra-large genomes** and **autopolyploid T2T**, covering T2T assembly and annotation. Its assembly metrics demonstrate outstanding performance:
 
-某裸子植物T2T指标：
+Telomere-to-Telomere (T2T) metrics for a certain gymnosperm (genome size> 20Gbp):
 
-- 端粒**全部组装**、Gap数量 **0**；
-- Contig N50 达 **1.7 Gbp**；
-- Scaffold N50 达 **2.0 Gbp**；
-- 组装 BUSCO 完整性为 **99.81%**；
-- 注释 BUSCO 完整性为 **99.90%**；
+- **Complete assembly** of telomeres with **0 gaps**;
+- Contig N50 reaches **1.7 Gbp**;
+- Scaffold N50 reaches **2.0 Gbp**;
+- Assembly BUSCO completeness is **99.81%**;
+- Annotation BUSCO completeness is **99.90%**;
 
 ---
 
-## 目录
+## Table of Contents
 
 - [zgtools-pipeline](#zgtools-pipeline)
   - [改版软件](#改版软件)
@@ -40,21 +40,21 @@
 
 ---
 
-## 改版软件
+## Redesigned software
 
-⭐️注释工具EviAnn的改版请见：https://github.com/linyuiz/EviAnn_update (暂不推荐，正在升级中)  
-⭐️TE转座子注释工具的改版请见：https://github.com/linyuiz/EDTA_update (测试版)  
-⭐️组装软件的改版：verkko(待计划)
+⭐️ For the updated version of annotation tool EviAnn, please visit: https://github.com/linyuiz/EviAnn_update (Not recommended for now, currently under upgrade)  
+⭐️ For the updated version of TE transposon annotation tool, please visit: https://github.com/linyuiz/EDTA_update (Beta version)  
+⭐️ Updated version of assembly software: verkko (To be planned)
 
 ---
 
-## 流程图
+## Flowchart
 
-T2T组装流程图：
+T2T assembly flowchart:
 
-更新中...
+Updating...
 
-重复序列注释流程图：
+Flowchart of Repeat Sequence Annotation:
 
 <div align="center"><img src="https://s2.loli.net/2024/12/07/kDXiP5z9gx6oBQC.png" alt="Your Image Description" width=80%/></div>
 
