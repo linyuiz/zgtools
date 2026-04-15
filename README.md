@@ -128,7 +128,11 @@ For result files, please refer to the example [example], with both the visualiza
 
 ### ☆2024/12/02---Telomere, rDNA, Gap check: genomecheck (telomere masking detection)
 
-&emsp;&emsp;Use ```zgtools genomecheck``` to identify telomeres, gaps, and rDNA in the genome (including sequences from unanchored regions). This allows for: ① obtaining preliminary telomere information for the chromosomal portions of the genome; ② combining telomeres and rDNA from unanchored regions to recover telomeres back into chromosomal sections—for example, Scaffold19 in the sample figure can be reattached to the 45rDNA end upstream of chr3 or the 45rDNA end downstream of chr8 by examining the Juicebox map; ③ detecting whether telomere sequences are obscured by other sequences, as indicated by the green triangle marker upstream of chr6 in the figure, which shows that nearby sequences are blocked by adjacent sequences. A Juicebox check reveals that the preceding sequence is a redundant portion of this sequence.   
+&emsp;&emsp;Use ```zgtools genomecheck``` to identify telomeres, gaps, and rDNA in the genome (including sequences from unanchored regions). 
+&emsp;&emsp;This allows for: ① obtaining preliminary telomere information for the chromosomal portions of the genome; 
+&emsp;&emsp;② combining telomeres and rDNA from unanchored regions to recover telomeres back into chromosomal sections—for example, Scaffold19 in the sample figure can be reattached to the 45rDNA end upstream of chr3 or the 45rDNA end downstream of chr8 by examining the Juicebox map; 
+&emsp;&emsp;③ detecting whether telomere sequences are obscured by other sequences, as indicated by the green triangle marker upstream of chr6 in the figure, which shows that nearby sequences are blocked by adjacent sequences. 
+&emsp;&emsp;A Juicebox check reveals that the preceding sequence is a redundant portion of this sequence.   
 
 <div align="center"><img src="https://s2.loli.net/2024/12/03/xKlZARkGqbiB1dy.png" alt="Your Image Description" width=60%/></div>
 
