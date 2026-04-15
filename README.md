@@ -116,19 +116,19 @@ For result files, please refer to the example [example], with both the visualiza
 
 ### ☆2024/12/03---Centromere Visualization: StaniedGlass (Speed Boost & Parallel Processing)
 
-&emsp;&emsp;After obtaining candidate regions of centromeres by running "```zgtools run_centromere```," you can visualize them by executing "zgtools StainedGlass." This module has been modified from the original code to accelerate operation and support more convenient parallel processing. The result files have also been streamlined, significantly improving the visualization speed for centromeric regions. Example results are as follows:
+&emsp;&emsp;After obtaining candidate regions of centromeres by running "```zgtools run_centromere```," you can visualize them by executing "```zgtools StainedGlass```." This module has been modified from the original code to accelerate operation and support more convenient parallel processing. The result files have also been streamlined, significantly improving the visualization speed for centromeric regions. Example results are as follows:
 
 <div align="center"><img src="https://s2.loli.net/2024/12/03/CB1Ten5gPXr3J2s.png" alt="Your Image Description" width=60%/></div>
 
 ### ☆2024/12/03---Gap close：gapjoin(Gap expansion area duplicate detection)
 
-&emsp;&emsp;After using ```zgtools mdifgap``` for multiple data imputation of gaps, there were still some gaps that could not be filled. Juicebox inspection revealed the presence of a 600kb redundant sequence near the gap region, making it impossible to fill solely relying on reads. Therefore, the zgtools gapjoin module was introduced. By extending the gap region left and right by a certain range, the module aligns and checks for duplicated segments in this area. It then filters for high-coverage and long-aligned regions while limiting the maximum allowable genome loss, removes the redundancy near the gap, and connects the sequences to achieve gap filling. Finally, a reads coverage plot is generated for further verification. An example is shown below:   
+&emsp;&emsp;After using ```zgtools mdifgap``` for multiple data imputation of gaps, there were still some gaps that could not be filled. Juicebox inspection revealed the presence of a 600kb redundant sequence near the gap region, making it impossible to fill solely relying on reads. Therefore, the ```zgtools gapjoin``` module was introduced. By extending the gap region left and right by a certain range, the module aligns and checks for duplicated segments in this area. It then filters for high-coverage and long-aligned regions while limiting the maximum allowable genome loss, removes the redundancy near the gap, and connects the sequences to achieve gap filling. Finally, a reads coverage plot is generated for further verification. An example is shown below:   
 
 <div align="center"><img src="https://s2.loli.net/2024/12/03/N6kfGEn29XOyIKD.png" alt="Your Image Description" width=60%/></div>
 
 ### ☆2024/12/02---Telomere, rDNA, Gap check: genomecheck (telomere masking detection)
 
-&emsp;&emsp;Use zgtools genomecheck to identify telomeres, gaps, and rDNA in the genome (including sequences from unanchored regions). This allows for: ① obtaining preliminary telomere information for the chromosomal portions of the genome; ② combining telomeres and rDNA from unanchored regions to recover telomeres back into chromosomal sections—for example, Scaffold19 in the sample figure can be reattached to the 45rDNA end upstream of chr3 or the 45rDNA end downstream of chr8 by examining the Juicebox map; ③ detecting whether telomere sequences are obscured by other sequences, as indicated by the green triangle marker upstream of chr6 in the figure, which shows that nearby sequences are blocked by adjacent sequences. A Juicebox check reveals that the preceding sequence is a redundant portion of this sequence.   
+&emsp;&emsp;Use ```zgtools genomecheck``` to identify telomeres, gaps, and rDNA in the genome (including sequences from unanchored regions). This allows for: ① obtaining preliminary telomere information for the chromosomal portions of the genome; ② combining telomeres and rDNA from unanchored regions to recover telomeres back into chromosomal sections—for example, Scaffold19 in the sample figure can be reattached to the 45rDNA end upstream of chr3 or the 45rDNA end downstream of chr8 by examining the Juicebox map; ③ detecting whether telomere sequences are obscured by other sequences, as indicated by the green triangle marker upstream of chr6 in the figure, which shows that nearby sequences are blocked by adjacent sequences. A Juicebox check reveals that the preceding sequence is a redundant portion of this sequence.   
 
 <div align="center"><img src="https://s2.loli.net/2024/12/03/xKlZARkGqbiB1dy.png" alt="Your Image Description" width=60%/></div>
 
@@ -151,9 +151,9 @@ For result files, please refer to the example [example], with both the visualiza
 
 ### ☆2024/11/18---Gap fill：mdifgap(Multiple Data Iterative Imputation)
 
-&emsp;&emsp;Test: For the 500M genome with 17 gaps and the 2G genome with 5 gaps, the filling times were 13 minutes and 5 minutes respectively, demonstrating very fast gap-filling speed and minimal memory consumption. The process included generating read coverage plots to check for issues in Hi-C scaffolding and validating the newly filled regions with reads to ensure accuracy. Currently, other software...
-&emsp;&emsp;① TGS-Gapcloser can easily fill in many sequences for the genome, potentially adding several million base pairs before and after gap filling. Another drawback is its tendency to consume excessive memory.
-&emsp;&emsp;② The gap-filling function of quarTeT also has issues with poor performance. After filling the gaps, it leaves over 100MB unexplained. If you really need to fill gaps, it's better to use TGS-Gapcloser—run it slowly and fill gaps gradually to avoid memory overload. Other tools like LR-gapcloser don't perform well either.     
+&emsp;&emsp;Test: For the 500M genome with 17 gaps and the 2G genome with 5 gaps, the filling times were 13 minutes and 5 minutes respectively, demonstrating very fast gap-filling speed and minimal memory consumption. The process included generating read coverage plots to check for issues in Hi-C scaffolding and validating the newly filled regions with reads to ensure accuracy. Currently, other software...    
+&emsp;&emsp;① TGS-Gapcloser can easily fill in many sequences for the genome, potentially adding several million base pairs before and after gap filling. Another drawback is its tendency to consume excessive memory.     
+&emsp;&emsp;② The gap-filling function of quarTeT also has issues with poor performance. After filling the gaps, it leaves over 100MB unexplained. If you really need to fill gaps, it's better to use TGS-Gapcloser—run it slowly and fill gaps gradually to avoid memory overload. Other tools like LR-gapcloser don't perform well either.       
 
 <div align="center"><img src="https://s2.loli.net/2024/12/05/FnJsjcO4pKmxAuU.png" alt="Your Image Description" width=80%/></div>
 
