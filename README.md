@@ -30,12 +30,12 @@ Telomere-to-Telomere (T2T) metrics for a certain gymnosperm (genome size> 20Gbp)
 ## Table of Contents
 
 - [zgtools-pipeline](#zgtools-pipeline)
-  - [改版软件](#改版软件)
-  - [流程图](#流程图)
-  - [完成度](#测序建议)
-  - [分析内容](#分析内容)
-  - [最近更新](#最近更新)
-  - [运行教程](#运行教程)
+  - [Redesigned software](#Redesigned software)
+  - [Flowchart](#Flowchart)
+  - [Completion Level](#Completion Level)
+  - [Analyze content](#Analyze content)
+  - [Recently updated](#Recently updated)
+  - [Running tutorial](#Running tutorial)
 
 ---
 
@@ -139,37 +139,37 @@ For result files, please refer to the example [example], with both the visualiza
 <div align="center"><img src="https://s2.loli.net/2024/12/05/WhjYXyFtLlfuRw7.png" alt="Your Image Description" width=50%/></div>
 <div align="center"><img src="https://s2.loli.net/2024/12/05/5jmOzugY4D7isNA.png" alt="Your Image Description" width=50%/></div>
 
-### ☆2024/11/22---共线性图：ngenomesyn（多基因组）
+### ☆2024/11/22---Collinearity plot: ngenomesyn (multi-genome)
 
-&emsp;&emsp;多基因组共线性图，无数量上限，图中黑三角为端粒，黄三角为组装的 Gap 序列（T2T基因组则没有），浅蓝色为 5S_rDNA，深蓝色为 45S_rDNA，Syntenic 为共线性区域，Inversion 为倒位区域，Translocation 为易位区域，Duplication为重复区域。  
+&emsp;&emsp;Multi-genome collinearity plot with no upper limit on the number of genomes. Black triangles in the plot represent telomeres, yellow triangles represent assembled Gap sequences (absent in T2T genomes), light blue represents 5S_rDNA, dark blue represents 45S_rDNA, "Syntenic" indicates collinear regions, "Inversion" denotes inverted regions, "Translocation" refers to translocated regions, and "Duplication" represents duplicated regions.  
 
 <div align="center"><img src="https://s2.loli.net/2024/12/04/z5VcoZQFMNbKXLa.png" alt="Your Image Description" width=60%/></div>
 
-### ☆2024/11/22---着丝粒预测：run_centromere（更新）
+### ☆2024/11/22---Centromere prediction: run_centromere (updated)
 
-&emsp;&emsp;测试：对TR富集或者LTR富集的植物，以及TR和LTR都比较少的鱼类进行测试，结果很不错，相较于quarTeT和CentIER都有很大的提升：使用TRF软件鉴定串联重复序列，筛选重复次数>100，单元长度>100bp的TR序列，基于社区检测算法，以80%相似度进行构建TR相似性网络，对筛选的单体序列进行重鉴定，对TE和TR高覆盖的区域进行筛选整合，得到着丝粒核心区和近着丝粒区。
+&emsp;&emsp;Test: Tests were conducted on plants with TR or LTR enrichment and fish with relatively low levels of both TR and LTR, yielding excellent results. Significant improvements were observed compared to quarTeT and CentIER. The TRF software was used to identify tandem repeat sequences, filtering for TR sequences with repeat counts >100 and unit lengths >100bp. A TR similarity network was constructed based on a community detection algorithm with an 80% similarity threshold. The screened monomer sequences were re-identified, and regions with high TE and TR coverage were filtered and integrated to obtain the core centromeric and pericentromeric regions.
 
-### ☆2024/11/18---Gap填补：mdifgap（多重数据迭代填补）
+### ☆2024/11/18---Gap fill：mdifgap(Multiple Data Iterative Imputation)
 
-&emsp;&emsp;测试：500M基因组17个gap和2G基因组5个gap，分别用时13分钟和5分钟，填补速度非常快，消耗内存非常小，有补gap绘制reads覆盖图检查HIC调图是否有问题和补gap后对新区域进行reads验证检查是否有问题。目前来说其他软件：  
-&emsp;&emsp;①TGS-Gapcloser很容易给基因组补出许多序列，补gap前后可能多出好几M，其次缺点还有就是容易爆内存。  
-&emsp;&emsp;②quarTeT的补gap也有问题，效果差，补完gap，多出100多M也不说了。如果实在要补gap还是用TGS-Gapcloser吧，慢慢跑，慢慢补应该不会爆内存。其他的例如，LR-gapcloser也效果不是很好。  
+&emsp;&emsp;Test: For the 500M genome with 17 gaps and the 2G genome with 5 gaps, the filling times were 13 minutes and 5 minutes respectively, demonstrating very fast gap-filling speed and minimal memory consumption. The process included generating read coverage plots to check for issues in Hi-C scaffolding and validating the newly filled regions with reads to ensure accuracy. Currently, other software...
+&emsp;&emsp;① TGS-Gapcloser can easily fill in many sequences for the genome, potentially adding several million base pairs before and after gap filling. Another drawback is its tendency to consume excessive memory.
+&emsp;&emsp;② The gap-filling function of quarTeT also has issues with poor performance. After filling the gaps, it leaves over 100MB unexplained. If you really need to fill gaps, it's better to use TGS-Gapcloser—run it slowly and fill gaps gradually to avoid memory overload. Other tools like LR-gapcloser don't perform well either.     
 
 <div align="center"><img src="https://s2.loli.net/2024/12/05/FnJsjcO4pKmxAuU.png" alt="Your Image Description" width=80%/></div>
 
-&emsp;&emsp;左图为ONT数据填补的结果；中间图为HIFI数据填补的结果；右图为其他组装版本填补的结果。如图所示，由于HIFI数据一般比较短，在一些Gap区域，往往需要通过“搭桥”的形式通过Gap替换区域的两端，对于一些复杂的Gap区域，ONT序列也可能需要“搭桥”通过。最理想的情况为右图，原Gap周围没有复杂的冗余与未切断序列，可以被很好的填补上。    
+&emsp;&emsp;The left figure shows the results of ONT data filling; the middle figure displays the results of HIFI data filling; and the right figure presents the results from other assembly versions. As illustrated, since HIFI data is generally shorter, in some gap regions, it often requires "bridging" to connect both ends of the gap replacement area. For more complex gap regions, ONT sequences may also need "bridging" to pass through. The ideal scenario is shown in the right figure, where the original gap is free from complex redundancies and uncut sequences, allowing for effective filling.
 
 <div align="center"><img src="https://s2.loli.net/2024/12/05/z8mx1koXBPOgMCH.png" alt="Your Image Description" width=99%/></div>
 
-### ☆2024/11/18---蜗牛图：snailplot
+### ☆2024/11/18---Snail Diagram：snailplot
 
-&emsp;&emsp;蜗牛图（Snail Plot），其主要是根据 Scaffold 的（或 Contigs）N50/N90 指标，QV 评估结果以及 BUSCO 评估结果，对基因组组装质量进行直观的可视化展示，结果如下图所示：    
+&emsp;&emsp;The Snail Plot primarily provides an intuitive visualization of genome assembly quality based on the N50/N90 metrics of scaffolds (or contigs), QV evaluation results, and BUSCO assessment results, as illustrated in the figure below:
 
 <div align="center"><img src="https://s2.loli.net/2024/12/05/7SN8XqtnP9Ff3dM.png" alt="Your Image Description" width=60%/></div>
 
 ---
 
-## 运行教程
+## Running tutorial
 
-&emsp;&emsp;后续更新...
+&emsp;&emsp;Follow-up updates...
 
