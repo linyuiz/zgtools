@@ -56,7 +56,7 @@ Updating...
 
 **Flowchart of Annotation**:
 
-<img alt="anno_flow" src="https://github.com/user-attachments/assets/5e76c797-5a99-400b-8426-d981d6eaf6b8" width=80%/>
+<img alt="anno_flow" src="https://github.com/user-attachments/assets/5e76c797-5a99-400b-8426-d981d6eaf6b8" />
 
 ---
 
