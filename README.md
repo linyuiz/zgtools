@@ -54,10 +54,9 @@ Additionally, zgtools now offers comprehensive support for **ultra-large genomes
 
 Updating...
 
-**Flowchart of Repeat Sequence Annotation**:
+**Flowchart of Annotation**:
 
-<div align="center"><img src="https://s2.loli.net/2024/12/07/kDXiP5z9gx6oBQC.png" alt="Your Image Description" width=80%/></div>
-
+<img alt="anno_flow" src="https://github.com/user-attachments/assets/5e76c797-5a99-400b-8426-d981d6eaf6b8" width=80%/>
 
 ---
 
