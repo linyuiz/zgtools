@@ -55,6 +55,12 @@ Additionally, zgtools now offers comprehensive support for **ultra-large genomes
 <div align="center"><img alt="QQ截图20260421163558" src="https://github.com/user-attachments/assets/952a4b32-038c-4f53-a88a-7710dfe8ef52" width=70%/>
 </div>
 
+**Genome T2T Assemble Flowchart**:
+
+<div align="center"><img alt="image" src="https://github.com/user-attachments/assets/1dd775b5-95bd-48ab-a1f5-7859cf5bc96a" width=70%/>
+</div>
+
+
 **Genome Annotation Flowchart**:
 
 <div align="center"><img width="1604" height="904" alt="image" src="https://github.com/user-attachments/assets/eb43c9db-a47d-4f59-8c4b-8b5931f6c3d2" /></div>
