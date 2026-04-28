@@ -94,7 +94,7 @@ For result files, please refer to the example [example], with both the visualiza
 ---
 
 ## Recently updated
-### ☆2026/4/29 ---Multi-species collinearity：jcvi2/ngenomesyn3
+### ☆2026/4/29 ---Multi-species collinearity：jcvi2 && ngenomesyn3
 &emsp;&emsp;This time, the ```jcvi2``` and ```ngenomesyn3``` modules were developed to support an unlimited number of genomes for collinearity analysis at the genome or protein level. An example diagram is shown below.：     
 <img width="7913" height="9635" alt="fb1589300b5dcc0497d6c14574c5d003" src="https://github.com/user-attachments/assets/167a8b16-9b61-42ed-8769-16fe919f714c" />
 
