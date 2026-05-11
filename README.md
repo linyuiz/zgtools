@@ -94,6 +94,10 @@ For result files, please refer to the example [example], with both the visualiza
 ---
 
 ## Recently updated
+### ☆2026/5/11 ---Multi-evaluation software visualization：gauges
+&emsp;&emsp;Using the ```gauges``` module can improve the visualization of T2T genome requirement assessments.：    
+<img width="1289" height="734" alt="image" src="https://github.com/user-attachments/assets/a3a805f4-4734-4a62-ade3-3829b1a3c616" />
+
 ### ☆2026/4/29 ---Multi-species collinearity：jcvi2 && ngenomesyn3
 &emsp;&emsp;This time, the ```jcvi2``` and ```ngenomesyn3``` modules were developed to support an unlimited number of genomes for collinearity analysis at the genome or protein level. An example diagram is shown below：     
 <img width="7913" height="9635" alt="fb1589300b5dcc0497d6c14574c5d003" src="https://github.com/user-attachments/assets/167a8b16-9b61-42ed-8769-16fe919f714c" />
