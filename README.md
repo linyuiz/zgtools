@@ -21,10 +21,10 @@ Additionally, zgtools now offers comprehensive support for **ultra-large genomes
 ⭐️Telomere-to-Telomere (T2T) metrics for a certain gymnosperm (**genome size> 20Gbp**) by【zgtools】:
 - Sequencing depth(ONT)：**60X**；
 - **Complete assembly** of telomeres with **0 gaps**;
-- Contig N50 reaches **1.7 Gbp**;
-- Scaffold N50 reaches **2.0 Gbp**;
-- Assembly BUSCO completeness is **99.81%**;
-- Annotation BUSCO completeness is **99.90%**;
+- Contig N50 reaches **1.8 Gbp**;
+- Scaffold N50 reaches **2.1 Gbp**;
+- Assembly BUSCO completeness is **99.83%**;
+- Annotation BUSCO completeness is **99.91%**;
 
 ---
 
