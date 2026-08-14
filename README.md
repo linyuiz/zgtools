@@ -94,6 +94,10 @@ For result files, please refer to the example [example], with both the visualiza
 ---
 
 ## Recently updated
+### ☆2026/8/14 ---Multi-species collinearity：ngenomesyn4 
+&emsp;&emsp;Use the ```ngenomesyn4``` module to complete the collinearity plotting of more than 10 genomes. The displayed legends include: SV, rDNA, Gap, Telomere, and Centromere.       
+<img width="1821" height="629" alt="image" src="https://github.com/user-attachments/assets/66f13d22-72a1-4507-94d0-f71c1183e0ba" />
+
 ### ☆2026/5/11 ---Multi-evaluation software visualization：gauges
 &emsp;&emsp;Using the ```gauges``` module can improve the visualization of T2T genome requirement assessments.：    
 <img width="1289" height="734" alt="image" src="https://github.com/user-attachments/assets/a3a805f4-4734-4a62-ade3-3829b1a3c616" />
