@@ -42,9 +42,9 @@ Additionally, zgtools now offers comprehensive support for **ultra-large genomes
 
 ## Redesigned software
 
-⭐️ For the updated version of annotation tool EviAnn, please visit: https://github.com/linyuiz/EviAnn_update (Not recommended for now, currently under upgrade)  
-⭐️ For the updated version of TE transposon annotation tool, please visit: https://github.com/linyuiz/EDTA_update (Beta version)  
-⭐️ Updated version of assembly software: verkko (To be planned)
+⭐️ For the modified version of annotation tool `EviAnn`, please visit: https://github.com/linyuiz/EviAnn_update (Not recommended for now, currently under upgrade)  
+⭐️ For the modified version of TE transposon annotation tool `EDTA`, please visit: https://github.com/linyuiz/EDTA_update (Beta version)  
+⭐️ For the modified version of scaffolding tool `C-Phasing`, please visit: https://github.com/linyuiz/CPhasing-mod (Beta version)   
 
 ---
 
