@@ -10,7 +10,7 @@ ID                    Length         N50          QV     Num  GC(%)   Completene
 HIFI_ONT_HIC.diploid  *,***,170,225  102,414,868  71.60  139  43.36   99.9051
 
 ##⭐️BUSCO(https://github.com/RoyNexus/busco)
-busco -o result -l /project301/zhangyaolong/database/update/BUSCO/Latest/cetartiodactyla_odb10 -m geno -c 60 -i used.genome.fa --offline --long -f --miniprot
+busco -o result -l /database/update/BUSCO/Latest/your_busco_odb10 -m geno -c 60 -i used.genome.fa --offline --long -f --miniprot
 🚀zgtools/overdose
 overdose BUSCO HIFI_ONT_HIC.diploid.fa geno miniprot your_busco_odb10 /database/update/BUSCO/Latest 60 simple
 ##✍️results like this:
