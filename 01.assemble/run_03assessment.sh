@@ -27,11 +27,11 @@ Hifiasm(HIFI+ONT+HIC)  C:99.*%[S:2.8%,D:96.*%],F:0.1%,M:0.3%
 Verkko(HIFI+ONT+HIC)   C:99.*%[S:2.8%,D:96.*%],F:0.1%,M:0.3%
 Hifiasm(ONT+HIC)       C:99.*%[S:3.0%,D:96.*%],F:0.1%,M:0.3%
 
-##⭐️N50plot
+##⭐️N50plot(https://github.com/linyuiz/zgtools/)
 🚀zgtools/overdose
 overdose n50plot HIFI_ONT_HIC.diploid.fa 60 Hifiasm_HIFI+ONT+HIC C:99.*%[S:2.8%,D:96.*%]QV:71.60
 
-##⭐️Telomere Count
+##⭐️Telomere Count(https://github.com/linyuiz/zgtools/)
 🚀zgtools/overdose
 overdose telomere HIFI_ONT_HIC.diploid.fa $spec_type
 ##✍️results like this:
