@@ -20,6 +20,7 @@ export XDG_CACHE_HOME="$PWD/.cache"
 verkko --mbg /opt/conda/envs/verkko/bin//MBG --bwa /opt/conda/envs/verkko/bin/bwa-mem2 -d workdir --no-correction --hifi ccs.fa --nano ass.fq.gz --hic1 hic_raw_R1.fq.gz --hic2 hic_raw_R2.fq.gz --threads 60 --local --local-memory 700 --local-cpus 60
 🚀zgtools/overdose
 overdose Verkko HIFI_ONT_HIC 60 ccs.fa pass.fq.gz hic_raw_R1.fq.gz hic_raw_R2.fq.gz $spec_type
+
 ##✍️results like this:
 Genome                 Seq_Num  Total_Length   N50          GC(%)  Gap_Length
 verkko.diploid.ctg.fa  358      *,***,432,631  102,414,791  43.42  0
