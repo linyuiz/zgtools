@@ -42,11 +42,3 @@ blobtools add --busco full_table.tsv --threads 30 --fasta T2T.fa --replace Asses
 bash /opt/conda/envs/CRAQ/bin/../src/runAQI.sh -g used.genome.fa -z seq.size -e LRout/LR_eff.size -c SRout/SR_putative.RE.RH -C LRout/LR_putative.SE.SH -d SRout/SR_sort.depth -D LRout/LR_sort.depth -r 0.75 -p 0.4 -q 0.6 -R 0.75 -P 0.4 -Q 0.6 -f 0.1 -n 10 -s 51350 -w 500000 -j 1 -u T -v F -b F -y F -x seq.size
 🚀zgtools/overdose
 overdose CRAQ T2T.fa ONT_NGS TGS.bam NGS.bam 20 60 3 slurm
-
-
-
-
-
-
-
-
