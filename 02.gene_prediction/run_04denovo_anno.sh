@@ -19,16 +19,16 @@ augustus --species=XXX --AUGUSTUS CONFIG PATH= config --uniqueGeneld=true --noln
 # --nolnFrameStop=true: transcripts without a stop codon;
 # --gff3=on: Output format gff3
 2️⃣Self-simulated training
-Step 1: Create the training set.
+##create the training set.
 augustus/scripts/gff2gbSmallDNA.pl <prefix>. gff3 reference.fa 1000 <prefix>.gene.raw.gb
-• Create an initialized species HMM file
+##create an initialized species HMM file
 augustus/scripts/new_species.pl --species=for_bad_genes_removing --AUGUSTUS_CONFIG_PATH=config
-• Attempt training and capture errors.
+##attempt training and capture errors.
 augustus/bin/etraining --species=for_bad_genes_removing --stopCodonExcludedFromCDS=false <prefix>.gene.raw.gb 2> train.err
 etraining --species=generic --stopCodonExcludedFromCDS=false <prefix>.gene.raw.gb 2> train.err
 cat train.err | perl -pe 's/.*in sequence (\S+): .*/$1/' > badgenes.lst
 filterGenes.pl badgenes.lst <prefix>.gene.raw.gb > <prefix>.gene.gb
-3️⃣A simple method for model training
+##more cmds: a simple method for model training
 autoAugTrain.pl –genome=$ref --trainingset=$selected_gff --species=XXX --flanking_DNA=5000 --optrounds=5
 Details：https://github.com/Gaius-Augustus/Augustus/blob/master/scripts/autoAugTrain.pl
 
