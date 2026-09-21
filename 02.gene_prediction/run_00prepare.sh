@@ -22,4 +22,3 @@ Flow:
 Steps:
 
         before_ncRNA-->before_TransAnno-->before_DenovoAnno-->before_HomoAnno-->before_IntegrateAnno-->before_Circos-->before_FuncAnno
-                
