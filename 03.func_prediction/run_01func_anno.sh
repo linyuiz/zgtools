@@ -14,4 +14,3 @@ hmmscan --cpu $threads -E $evalue --domtblout pfam.out $pfam_db/Pfam-A.hmm $i
 
 ⭐️InterProScan(https://github.com/ebi-pf-team/interproscan)
 ${interpro_db}/interproscan.sh --input ./input/used.fa.tmp --output-file-base ./input/used.fa -goterms -pa -dp -verbose --tempdir ./temp --cpu $threads
-
