@@ -39,4 +39,3 @@ ID                     Telomere(≥10)  Telomere(≥100)  Telomere(≥500)
 Hifiasm(HIFI+ONT+HIC)  115            85              35
 Verkko(HIFI+ONT+HIC)   112            81              32
 Hifiasm(ONT+HIC)       130            129             129
-
