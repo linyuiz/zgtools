@@ -36,5 +36,3 @@ trf genome.fa 2 7 7 80 10 50 2000 -d -h
 
 ⭐️MISA(https://webblast.ipk-gatersleben.de/misa/)
 perl $bin_dir/scripts/software/MISA/misa.pl genome.fa
-
-
