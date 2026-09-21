@@ -56,12 +56,9 @@ fathom uni.ann uni.dna -export 1000 -plus> uni-plus.log 2>&1
 forge export.ann export.dna > forge.log 2>&1
 perl hmm-assembler.pl SNAP . > SNAP.hmm
 snap SNAP.hmm genome_masked.fa -gff -aa SNAP.faa > SNAP.gff
-#more cmds:
-python ${script}/SNAP_to_GFF3.py SNAP.gff > SNAP.lemonfmt.gff
-python ${script}/frame_checker_and_inframe_eliminator.snap.lemonfmt.py genome_masked.fa SNAP.faa SNAP.lemonfmt.gff >SNAP.lemonfmt.added_frame_infomation.gff
-sed '/^$/d' SNAP.lemonfmt.added_frame_infomation.gff > SNAP.pre_final.gff
-${script}/makefasta -f -i SNAP.pre_final.gff -g genome_unmask.fa -o SNAP.pre_final.fna
-python ${script}/terminal_exon_to_cds_trouble_fix_atSNAP.py SNAP.pre_final.fna SNAP.faa SNAP.pre_final.gff >SNAP.final.gff
 
 ⭐️GeneID(https://github.com/guigolab/geneid)
 geneid -P <parameter_filename> <Sequence_filename>.
+
+⭐️GeneMark-ES(https://exon.gatech.edu/)
+singularity exec braker3_v3.0.10.sif gmes_petap.pl --verbose --ES --sequence used.genome.fa --min_contig 10000 --soft_mask auto --gc_donor 0.001 --cores $threads
