@@ -54,4 +54,3 @@ cphasing_path=~/software/CPhasing_v0.3.2      #C-Phasing software path
 
 2️⃣run CPhasing-mod
 zgtools CPhasing-mod Run_CPhasing.cfg
-
