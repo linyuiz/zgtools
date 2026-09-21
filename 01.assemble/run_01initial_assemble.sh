@@ -34,8 +34,3 @@ Shasta_ONT.ctg.fa  47       52,127,603    1,515,432  47.39
 
 2️⃣flye assemble(https:/github.com/mikolmogorov/Flye)
 python $soft_bin/bin/flye --nano-hq $input_tgs --genome-size $genome_size --threads 60 --iterations 1 --read-error 0.03 --out-dir output_of_flye --asm-coverage 50
-
-
-
-
-
