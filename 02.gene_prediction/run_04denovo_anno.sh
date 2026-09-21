@@ -31,6 +31,7 @@ filterGenes.pl badgenes.lst <prefix>.gene.raw.gb > <prefix>.gene.gb
 ##more cmds: a simple method for model training
 autoAugTrain.pl –genome=$ref --trainingset=$selected_gff --species=XXX --flanking_DNA=5000 --optrounds=5
 Details：https://github.com/Gaius-Augustus/Augustus/blob/master/scripts/autoAugTrain.pl
+##parallel: https://github.com/Daniel-Ze/augustus_parallel
 
 ⭐️GlimmerHmm(https://ccb.jhu.edu/software/glimmerhmm/)
 1️⃣Extract exon locus information from the gff file.
