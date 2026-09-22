@@ -1,9 +1,9 @@
 #!/bin/bash
 🚀zgtools/overdose
-##⭐️mdifgap(https://github.com/linyuiz/zgtools/)
+⭐️mdifgap(https://github.com/linyuiz/zgtools/)
 overdose mdifgap need_gapcloser.fa 1,500 5,000 15,000 all_ctg.fasta ccs.fa ont.pass.fasta
 
-##other software
+⭐️other software
 1️⃣TGS-GapCloser((https://github.com/BGI-Qingdao/TGS-GapCloser2)
 YOUR-INSTALL-DIR/tgsgapcloser  \
         --scaff  scaffold-path/scaffold.fasta \
