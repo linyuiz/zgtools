@@ -15,6 +15,19 @@ $evm_dir/EvmUtils/gff3_file_to_proteins.pl EVM.gene.gff $genome CDS > EVM.cds.fa
 ⭐️EviAnn(https://github.com/alekseyzimin/EviAnn_release)
 eviann.sh -t 60 -r ../paired.txt -g ../genome.fa -p ../proteins.faa -d 2 -s ../uniprot_sprot.fasta --functional --debug --verbose
 
+⭐️GINGER(https://github.com/i10labtitech/GINGER)
+1️⃣create example config
+gingerInitCfg
+2️⃣run ginger_prep.nf
+nextflow run $(which ginger_prep.nf) -c nextflow.config -resume -with-trace
+3️⃣deal with ginger.final.gff
+ginger_phase0.sh nextflow.config
+ginger_phase1_auto.sh nextflow.config > phase1.log
+ginger_phase2.sh 100 #minimum CDS length. 100 is just an example.
+
+⭐️GUSHR(https://github.com/Gaius-Augustus/GUSHR)
+gushr.py -t MAKER.gtf -b RNAseq.bam -g genome.fa -o utrs   #add UTRs by RNAseq.bam
+
 🚀zgtools/overdose
 ⭐️MAKER-mod(https://github.com/linyuiz/zgtools/)
 overdose Maker genome.fa denovo.gff.list homo.gff.list trans.gff.list 60 slurm
