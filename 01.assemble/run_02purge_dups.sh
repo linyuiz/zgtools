@@ -1,5 +1,5 @@
 #!/bin/bash
-##⭐️purge_dups(https://github.com/dfguan/purge_dups)
+⭐️purge_dups(https://github.com/dfguan/purge_dups)
 minimap2 -t $threads -x map-pb $genome $reads | pigz -c - > ${data_type}.mapping.paf.gz
 pbcstat ${data_type}.mapping.paf.gz
 calcuts PB.stat 1>cutoffs
