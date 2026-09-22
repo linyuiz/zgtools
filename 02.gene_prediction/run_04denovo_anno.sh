@@ -61,5 +61,9 @@ snap SNAP.hmm genome_masked.fa -gff -aa SNAP.faa > SNAP.gff
 ⭐️GeneID(https://github.com/guigolab/geneid)
 geneid -P <parameter_filename> <Sequence_filename>.
 
-⭐️GeneMark-ES(https://exon.gatech.edu/)
+⭐️GeneMark(https://exon.gatech.edu/)
+## -ES
 singularity exec braker3_v3.0.10.sif gmes_petap.pl --verbose --ES --sequence used.genome.fa --min_contig 10000 --soft_mask auto --gc_donor 0.001 --cores $threads
+## -EP
+singularity exec braker3_v3.0.10.sif /opt/ETP/bin/gmes/ProtHint/bin/prothint.py --threads=$prothint_threads --geneMarkGtf genemark.gtf used.genome.fa used.homo.pep.fa
+singularity exec braker3_v3.0.10.sif gmes_petap.pl --verbose --sequence used.genome.fa --min_contig 10000 --soft_mask auto --gc_donor 0.001 --cores $genemark_threads --EP genemark_hints_ep.gff --evidence genemark_evidence.gff
