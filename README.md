@@ -96,36 +96,36 @@ For result files, please refer to the example [example], with both the visualiza
 ---
 
 ## Recently updated
-### ☆2026/8/14 ---Multi-species collinearity：ngenomesyn4 
+### ⭐️2026/8/14 ---Multi-species collinearity：ngenomesyn4 
 &emsp;&emsp;Use the ```ngenomesyn4``` module to complete the collinearity plotting of more than 10 genomes. The displayed legends include: SV, rDNA, Gap, Telomere, and Centromere.       
 <img width="1821" height="629" alt="image" src="https://github.com/user-attachments/assets/66f13d22-72a1-4507-94d0-f71c1183e0ba" />
 
-### ☆2026/5/11 ---Multi-evaluation software visualization：gauges
+### ⭐️2026/5/11 ---Multi-evaluation software visualization：gauges
 &emsp;&emsp;Using the ```gauges``` module can improve the visualization of T2T genome requirement assessments.：    
 <img width="1289" height="734" alt="image" src="https://github.com/user-attachments/assets/a3a805f4-4734-4a62-ade3-3829b1a3c616" />
 
-### ☆2026/4/29 ---Multi-species collinearity：jcvi2 && ngenomesyn3
+### ⭐️2026/4/29 ---Multi-species collinearity：jcvi2 && ngenomesyn3
 &emsp;&emsp;This time, the ```jcvi2``` and ```ngenomesyn3``` modules were developed to support an unlimited number of genomes for collinearity analysis at the genome or protein level. An example diagram is shown below：     
 <img width="7913" height="9635" alt="fb1589300b5dcc0497d6c14574c5d003" src="https://github.com/user-attachments/assets/167a8b16-9b61-42ed-8769-16fe919f714c" />
 
-### ☆2026/4/14 ---T2T assembly automation process: run_T2T
+### ⭐️2026/4/14 ---T2T assembly automation process: run_T2T
 &emsp;&emsp;Update the ```run_T2T``` module to support SLURM clusters. The current process is now fully automated, except for Hi-C visualization, including assembly, evaluation, Hi-C heatmaps, and synteny analysis (this module is now complete). Below are the statistics for the fully telomere-to-telomere (0Gap) animal genome results:
 <div align="center"><img walt="image" src="https://github.com/user-attachments/assets/cd1a7d1d-6413-4f4c-9a14-b244f5d652fd" width=60%/></div>
 
-### ☆2025/4/15 ---Intergenic region statistics: intergenic (RNA-reads distribution map)
+### ⭐️2025/4/15 ---Intergenic region statistics: intergenic (RNA-reads distribution map)
 &emsp;&emsp;Run the ```zgtools intergenic``` analysis. Generally, the highest proportion of transcriptome reads align to exons because transcriptome sequencing targets mRNA. Reads aligning to intron regions may originate from residual pre-mRNA or intron retention events during alternative splicing. If a high proportion of reads align to intergenic regions, it suggests incomplete genome annotation.（In general, reads in the【exon】region account for >60%, reads in the【intron】region account between 20% and 30%, and reads in the【intergenic】region account for <20%.）
 <div align="center"><img src="https://s2.loli.net/2025/04/15/8oF5CSVYgX6pZMk.png" alt="Your Image Description" width=60%/></div>
 
-### ☆2025/1/7---Subgenotyping: subphaser (subgenotyping)
+### ⭐️2025/1/7---Subgenotyping: subphaser (subgenotyping)
 &emsp;&emsp;Run ```zgtools subphaser``` for analysis, just fill in the configuration file and execute it. The original software SubPhaser is well-written, and we only modified the color scheme and added a legend based on the original version. The results are as follows:
 <div align="center"><img src="https://s2.loli.net/2025/01/07/7TfpsIlb3FJm4Ud.png" alt="Your Image Description" width=70%/></div>
 
-### ☆2024/12/24---Visualization of candidate centromeres: plotCCR (displaying candidate centromere regions)
+### ⭐️2024/12/24---Visualization of candidate centromeres: plotCCR (displaying candidate centromere regions)
 
 &emsp;&emsp;Run ```zgtools plotCCR``` for analysis, examine the distribution of repetitive sequences to identify candidate centromeric regions, with the following results:
 <div align="center"><img src="https://s2.loli.net/2025/01/07/GbprIunevERKcds.png" alt="Your Image Description" /></div>
 
-### ☆2024/12/05---Chromosome SV Visualization: GetTwoSyn (Displaying SVs between Chromosomes)
+### ⭐️2024/12/05---Chromosome SV Visualization: GetTwoSyn (Displaying SVs between Chromosomes)
 
 &emsp;&emsp;Run ```zgtools GetTwoSyn``` to perform synteny block analysis, displaying genome collinearity (gene collinearity is recommended by JCVI) and interchromosomal SVs: INV (yellow), TRANS (green), and Dup (blue). Taking the translocation between chr5 and chr12 of https://doi.org/10.1093/hr/uhae071 as an example, the results are as follows:
 
@@ -134,19 +134,19 @@ For result files, please refer to the example [example], with both the visualiza
 &emsp;&emsp;Gene collinearity circle plot:  
 <div align="center"><img src="https://s2.loli.net/2024/12/05/FIc9qywMN4Bduf1.png" alt="Your Image Description" width=40%/></div>
 
-### ☆2024/12/03---Centromere Visualization: StaniedGlass (Speed Boost & Parallel Processing)
+### ⭐️2024/12/03---Centromere Visualization: StaniedGlass (Speed Boost & Parallel Processing)
 
 &emsp;&emsp;After obtaining candidate regions of centromeres by running "```zgtools run_centromere```," you can visualize them by executing "```zgtools StainedGlass```." This module has been modified from the original code to accelerate operation and support more convenient parallel processing. The result files have also been streamlined, significantly improving the visualization speed for centromeric regions. Example results are as follows:
 
 <div align="center"><img src="https://s2.loli.net/2024/12/03/CB1Ten5gPXr3J2s.png" alt="Your Image Description" width=60%/></div>
 
-### ☆2024/12/03---Gap close：gapjoin(Gap expansion area duplicate detection)
+### ⭐️2024/12/03---Gap close：gapjoin(Gap expansion area duplicate detection)
 
 &emsp;&emsp;After using ```zgtools mdifgap``` for multiple data imputation of gaps, there were still some gaps that could not be filled. Juicebox inspection revealed the presence of a 600kb redundant sequence near the gap region, making it impossible to fill solely relying on reads. Therefore, the ```zgtools gapjoin``` module was introduced. By extending the gap region left and right by a certain range, the module aligns and checks for duplicated segments in this area. It then filters for high-coverage and long-aligned regions while limiting the maximum allowable genome loss, removes the redundancy near the gap, and connects the sequences to achieve gap filling. Finally, a reads coverage plot is generated for further verification. An example is shown below:   
 
 <div align="center"><img src="https://s2.loli.net/2024/12/03/N6kfGEn29XOyIKD.png" alt="Your Image Description" width=60%/></div>
 
-### ☆2024/12/02---Telomere, rDNA, Gap check: genomecheck (telomere masking detection)
+### ⭐️2024/12/02---Telomere, rDNA, Gap check: genomecheck (telomere masking detection)
 
 &emsp;&emsp;Use ```zgtools genomecheck``` to identify telomeres, gaps, and rDNA in the genome (including sequences from unanchored regions).This allows for:      
 &emsp;&emsp;① obtaining preliminary telomere information for the chromosomal portions of the genome;      
@@ -156,24 +156,24 @@ For result files, please refer to the example [example], with both the visualiza
 
 <div align="center"><img src="https://s2.loli.net/2024/12/03/xKlZARkGqbiB1dy.png" alt="Your Image Description" width=60%/></div>
 
-### ☆2024/11/28---SV breakpoint auto-check: run_CheckSV (Reads coverage map)
+### ⭐️2024/11/28---SV breakpoint auto-check: run_CheckSV (Reads coverage map)
 
 &emsp;&emsp;First, use the syntenic and genomesyn functions in the zgtools toolkit to perform collinearity analysis. This process will generate a genome collinearity map and a variant detection result file named Ref_vs_Query.syri.out. Subsequently, filter the structural variations (SVs) by length, retaining only those longer than 500,000 bp, and extract the start and end position information of the SVs. Next, align the HIFI and ONT data back to the genome using the minimap2 tool. Based on this, we extend the identified SV positions by 5,000 bp on both sides. Finally, batch-generate coverage plots for these regions and automatically detect read coverage. An example figure is shown below:    
 
 <div align="center"><img src="https://s2.loli.net/2024/12/05/WhjYXyFtLlfuRw7.png" alt="Your Image Description" width=50%/></div>
 <div align="center"><img src="https://s2.loli.net/2024/12/05/5jmOzugY4D7isNA.png" alt="Your Image Description" width=50%/></div>
 
-### ☆2024/11/22---Collinearity plot: ngenomesyn (multi-genome)
+### ⭐️2024/11/22---Collinearity plot: ngenomesyn (multi-genome)
 
 &emsp;&emsp;Multi-genome collinearity plot with no upper limit on the number of genomes. Black triangles in the plot represent telomeres, yellow triangles represent assembled Gap sequences (absent in T2T genomes), light blue represents 5S_rDNA, dark blue represents 45S_rDNA, "Syntenic" indicates collinear regions, "Inversion" denotes inverted regions, "Translocation" refers to translocated regions, and "Duplication" represents duplicated regions.  
 
 <div align="center"><img src="https://s2.loli.net/2024/12/04/z5VcoZQFMNbKXLa.png" alt="Your Image Description" width=60%/></div>
 
-### ☆2024/11/22---Centromere prediction: run_centromere (updated)
+### ⭐️2024/11/22---Centromere prediction: run_centromere (updated)
 
 &emsp;&emsp;Test: Tests were conducted on plants with TR or LTR enrichment and fish with relatively low levels of both TR and LTR, yielding excellent results. Significant improvements were observed compared to quarTeT and CentIER. The TRF software was used to identify tandem repeat sequences, filtering for TR sequences with repeat counts >100 and unit lengths >100bp. A TR similarity network was constructed based on a community detection algorithm with an 80% similarity threshold. The screened monomer sequences were re-identified, and regions with high TE and TR coverage were filtered and integrated to obtain the core centromeric and pericentromeric regions.
 
-### ☆2024/11/18---Gap fill：mdifgap(Multiple Data Iterative Imputation)
+### ⭐️2024/11/18---Gap fill：mdifgap(Multiple Data Iterative Imputation)
 
 &emsp;&emsp;Test: For the 500M genome with 17 gaps and the 2G genome with 5 gaps, the filling times were 13 minutes and 5 minutes respectively, demonstrating very fast gap-filling speed and minimal memory consumption. The process included generating read coverage plots to check for issues in Hi-C scaffolding and validating the newly filled regions with reads to ensure accuracy. Currently, other software...    
 &emsp;&emsp;① TGS-Gapcloser can easily fill in many sequences for the genome, potentially adding several million base pairs before and after gap filling. Another drawback is its tendency to consume excessive memory.     
