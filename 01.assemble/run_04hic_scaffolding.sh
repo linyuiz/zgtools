@@ -1,5 +1,5 @@
 #!/bin/bash
-##⭐️CPhasing-mod(https://github.com/linyuiz/CPhasing-mod)
+⭐️CPhasing-mod(https://github.com/linyuiz/CPhasing-mod)
 1️⃣zgtools CPhasing-mod example_cfg
 ✍️edit:
 ##Info
