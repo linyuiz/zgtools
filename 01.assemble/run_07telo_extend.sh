@@ -1,6 +1,6 @@
 #!/bin/bash
 🚀zgtools/overdose
-1️⃣fix_stream(https://github.com/linyuiz/zgtools/)
+1️fix_stream(https://github.com/linyuiz/zgtools/)
 overdose fix_stream gapcloser.fa used.genome.list $telo_motif 500,000 500,000 noN only_telomere
 
 2️⃣telofix(https://github.com/linyuiz/zgtools/)
@@ -8,7 +8,7 @@ overdose telofix gapcloser.fa all_ctg.fasta asm $telo_motif 60 animal 100 150,00
 overdose telofix gapcloser.fa ccs.fa hifi $telo_motif 60 animal 100 150,000 100,000
 overdose telofix gapcloser.fa ont.pass.fa ont $telo_motif 60 animal 100 150,000 100,000
 
-##other software
+⭐️other software
 1️⃣Teloclip(https://github.com/Adamtaranto/teloclip)
 mm2plus -t $threads -ax $map_type genome.fa $tgs_fa >align.sam
 teloclip filter --ref-idx genome.fa.fai --fuzzy --motifs $motif --min-repeats 3 align.sam |samtools sort -@ $threads > overhangs.bam
