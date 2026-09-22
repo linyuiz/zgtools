@@ -1,5 +1,5 @@
 #!/bin/bash
-##⭐️NextPolish2(https://github.com/Nextomics/NextPolish2)
+⭐️NextPolish2(https://github.com/Nextomics/NextPolish2)
 meryl count k=15 output merylDB asm.fa.gz
 meryl print greater-than distinct=0.9998 merylDB > repetitive_k15.txt
 winnowmap -t 5 -W repetitive_k15.txt -ax map-pb asm.fa.gz hifi.fasta.gz|samtools sort -o hifi.map.sort.bam -
@@ -12,3 +12,6 @@ If your genome is assembled via trio binning, use this: https://github.com/Nexto
 
 🚀zgtools/overdose
 overdose NextPolish2 0Gap.fa ccs.fa Survey.clean_R1.fastq.gz Survey.clean_R2.fastq.gz 60
+
+⭐️T2T-Polish(https://github.com/arangrhie/T2T-Polish)
+look at: https://github.com/arangrhie/T2T-Polish/tree/master/automated_polishing
