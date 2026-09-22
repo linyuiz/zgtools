@@ -1,8 +1,8 @@
 #!/bin/bash
-1️⃣QV and BUSCO
+⭐️QV and BUSCO
 look at run_03initial_assessment.sh(https://github.com/linyuiz/zgtools/blob/master/01.assemble/run_03initial_assessment.sh)
 
-2️⃣GCI(https://github.com/yeeus/GCI/)
+️⭐️GCI(https://github.com/yeeus/GCI/)
 ##help:
 # minimap2 
 minimap2 -t $threads -ax map-hifi $mat_asm $mat_hifi > ${mat.minimap2.hifi.sam}   ## mapping ONT reads with -ax map-ont
@@ -24,7 +24,7 @@ python /pipeline/overdose/scripts/software/GCI-main/GCI.py -r T2T.fa -mq 1 --hif
 🚀zgtools/overdose
 overdose GCI T2T.fa hifi.ccs.fa ont.fq.gz 60 1 normal_genome 4 slurm
 
-3️⃣MappingRate
+️⭐️MappingRate
 ##HiFi
 samtools flagstat winnowmap.hifi.bam
 ##ONT
@@ -35,10 +35,10 @@ samtools view -@ $threads -Sb align.sam | samtools sort -@ $threads -m 2g -o ali
 samtools index -@ $threads align.sorted.bam 
 samtools flagstat ngs.align.bam
 
-4️⃣SnailPlot(https://github.com/blobtoolkit/blobtoolkit)
+️⭐️SnailPlot(https://github.com/blobtoolkit/blobtoolkit)
 blobtools add --busco full_table.tsv --threads 30 --fasta T2T.fa --replace Assessment
 
-5️⃣CRAQ(https://github.com/JiaoLaboratory/CRAQ)
+️⭐️CRAQ(https://github.com/JiaoLaboratory/CRAQ)
 bash /opt/conda/envs/CRAQ/bin/../src/runAQI.sh -g used.genome.fa -z seq.size -e LRout/LR_eff.size -c SRout/SR_putative.RE.RH -C LRout/LR_putative.SE.SH -d SRout/SR_sort.depth -D LRout/LR_sort.depth -r 0.75 -p 0.4 -q 0.6 -R 0.75 -P 0.4 -Q 0.6 -f 0.1 -n 10 -s 51350 -w 500000 -j 1 -u T -v F -b F -y F -x seq.size
 🚀zgtools/overdose
 overdose CRAQ T2T.fa ONT_NGS TGS.bam NGS.bam 20 60 3 slurm
