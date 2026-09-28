@@ -14,7 +14,7 @@ singularity exec $bin_dir/scripts/software/images/braker3.sif braker.pl --genome
 apptainer run -B $(pwd):/data $bin_dir/scripts/software/Tiberius-2.0.7/singularity/tiberius_2.0.7.sif python /opt/Tiberius/tiberius.py --genome /data/genome.fa --model_cfg $spec_model --out /data/genome.fa.tiberius.gtf /data/genome.fa.tiberius.gff3
 
 ⭐️Vipsania(https://github.com/Gaius-Augustus/Vipsania)
-vipsania annotate Fungi genome_masked.fa --delta 0.1 --finetune --finetune_B 1 --finetune_epochs 5 --finetune_lr 1e-5 -B 1 --group_limit 10000000 -p 4 -o genome.gff --model_dir $model_dir
+vipsania annotate $model_id genome_masked.fa --delta 0.1 --finetune --finetune_B 1 --finetune_epochs 5 --finetune_lr 1e-5 -B 1 --group_limit 10000000 -p 4 -o genome.gff --model_dir $model_dir
 
 ⭐️AUGUSTUS(https://github.com/gaius-augustus/augustus)
 1️⃣Use an existing model
