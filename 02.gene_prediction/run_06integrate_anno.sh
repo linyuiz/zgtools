@@ -12,6 +12,17 @@ ls -v split_of_EVM/*/evm.out.gff3 |xargs -n1 cat|sed '/^$/d' >EVM.gene.gff
 $evm_dir/EvmUtils/gff3_file_to_proteins.pl EVM.gene.gff $genome prot >EVM.pep.fa
 $evm_dir/EvmUtils/gff3_file_to_proteins.pl EVM.gene.gff $genome CDS > EVM.cds.fa
 
+⭐️EVidenceModeler_rust(https://github.com/hyphaltip/EVidenceModeler_rust)
+EVidenceModeler \
+    --sample_id mygenome \
+    --genome genome.fa \
+    --weights weights.txt \
+    --gene_predictions genes.gff3 \
+    --protein_alignments proteins.gff3 \
+    --transcript_alignments transcripts.gff3 \
+    --segmentSize 100000 \
+    --overlapSize 10000
+
 ⭐️EviAnn(https://github.com/alekseyzimin/EviAnn_release)
 eviann.sh -t 60 -r ../paired.txt -g ../genome.fa -p ../proteins.faa -d 2 -s ../uniprot_sprot.fasta --functional --debug --verbose
 
