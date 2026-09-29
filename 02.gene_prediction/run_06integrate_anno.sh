@@ -23,6 +23,12 @@ EVidenceModeler \
     --segmentSize 100000 \
     --overlapSize 10000
 
+⭐️combinr(https://github.com/BFL-lab/combinr)
+combinr consensus --weights weights.txt --genome genome.fa \
+    --gene-predictions abinitio.gff3 \
+    --protein-alignments proteins.gff3 \
+    --transcript-alignments transcripts.gff3 > consensus.gff3
+
 ⭐️EviAnn(https://github.com/alekseyzimin/EviAnn_release)
 eviann.sh -t 60 -r ../paired.txt -g ../genome.fa -p ../proteins.faa -d 2 -s ../uniprot_sprot.fasta --functional --debug --verbose
 
