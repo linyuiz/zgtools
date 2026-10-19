@@ -48,7 +48,7 @@ Additionally, zgtools now offers comprehensive support for **ultra-large genomes
 
 ⭐️ For the modified version of scaffolding tool `GINGER`, please visit: [GINGER-mod](https://github.com/linyuiz/GINGER-mod)    
 
-⭐️ For the modified version of annotation tool `EviAnn`, please visit: [EviAnn-mod](https://github.com/linyuiz/EviAnn-mod) (Not recommended for now, currently under upgrade)  
+⚠️ For the modified version of annotation tool `EviAnn`, please visit: [EviAnn-mod](https://github.com/linyuiz/EviAnn-mod) (Not recommended for now, currently under upgrade)  
 
 ---
 
