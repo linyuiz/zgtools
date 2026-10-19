@@ -42,11 +42,11 @@ Additionally, zgtools now offers comprehensive support for **ultra-large genomes
 
 ## Redesigned software
 
-⭐️ For the modified version of scaffolding tool `C-Phasing`, please visit: [CPhasing-mod](https://github.com/linyuiz/CPhasing-mod) (Beta version)   
+⭐️ For the modified version of scaffolding tool `C-Phasing`, please visit: [CPhasing-mod](https://github.com/linyuiz/CPhasing-mod)    
 
-⭐️ For the modified version of TE transposon annotation tool `EDTA`, please visit: [EDTA-mod](https://github.com/linyuiz/EDTA-mod) (Beta version)  
+⭐️ For the modified version of TE transposon annotation tool `EDTA`, please visit: [EDTA-mod](https://github.com/linyuiz/EDTA-mod)   
 
-⭐️ For the modified version of scaffolding tool `GINGER`, please visit: [GINGER-mod](https://github.com/linyuiz/GINGER-mod) (Beta version)   
+⭐️ For the modified version of scaffolding tool `GINGER`, please visit: [GINGER-mod](https://github.com/linyuiz/GINGER-mod)    
 
 ⭐️ For the modified version of annotation tool `EviAnn`, please visit: [EviAnn-mod](https://github.com/linyuiz/EviAnn-mod) (Not recommended for now, currently under upgrade)  
 
