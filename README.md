@@ -12,7 +12,7 @@
 <p align="center"><strong>[ <a href="https://github.com/linyuiz/zgtools/wiki/English">English Wiki</a> | <a href="https://github.com/linyuiz/zgtools/wiki/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87">中文维基</a> ]</strong></p>
 
 🗒**zgtools** is a self-developed, highly integrated modular software suite containing over 200 functional modules, comprehensively covering various analysis tasks from conventional genomes to T2T genomes.     
-Its application scenarios include but are not limited to: **Survey evaluation, assembly, Hi-C-assisted assembly, T2T complete assembly, gene annotation, evolutionary analysis, centromere prediction, and various customized analyses**. Through a unified launcher interface, zgtools achieves efficient management of full-process analysis tasks, offering greater flexibility and customizability compared to Nextflow workflows.  
+Its application scenarios include but are not limited to: **Survey evaluation, assembly, Hi-C-assisted assembly, T2T complete assembly, gene annotation, evolutionary analysis, centromere prediction, and various customized analyses**. Through a unified launcher interface, zgtools achieves efficient management of full-process analysis tasks, offering greater flexibility and customizability compared to Nextflow workflows. 
 
 🚀Leveraging practical experience from over 200 genome projects, zgtools has deeply optimized numerous standard analysis pipelines and implemented an automated update mechanism, striving to achieve the analytical goal of **"faster, more accurate, and better."**  
 
@@ -29,7 +29,6 @@ Additionally, zgtools now offers comprehensive support for **ultra-large genomes
 - Annotation BUSCO completeness is **99.92%**;
 
 ## Redesigned modules
-
 
 ⭐️ [**CPhasing-mod**](https://github.com/linyuiz/CPhasing-mod): Revised version of the genome scaffolding software [**C-Phasing**](https://wangyibin.github.io/CPhasing/).
 
