@@ -27,3 +27,13 @@ Additionally, zgtools now offers comprehensive support for **ultra-large genomes
 - Scaffold N50 reaches **2.12 Gbp**;
 - Assembly BUSCO completeness is **99.87%**;
 - Annotation BUSCO completeness is **99.92%**;
+
+## Redesigned modules
+
+⭐️ [**CPhasing-mod**](https://github.com/linyuiz/CPhasing-mod): Revised version of the genome scaffolding software `C-Phasing`.
+
+⭐️ [**EDTA-mod**](https://github.com/linyuiz/EDTA-mod): Revised version of the TE annotation software `EDTA`.
+
+⭐️ [**GINGER-mod**](https://github.com/linyuiz/GINGER-mod): Revised version of the genome annotation software `GINGER`.
+
+---
