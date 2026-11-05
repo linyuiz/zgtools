@@ -1,4 +1,4 @@
-## **zgtools All-in-One Genomic Analysis Toolkit**
+## **zgtools: All-in-One Genomic Analysis Toolkit**
 
 **⭐️Genome T2T Assemble Flowchart**:
 
