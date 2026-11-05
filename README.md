@@ -36,4 +36,3 @@ Additionally, zgtools now offers comprehensive support for **ultra-large genomes
 
 ⭐️ [**GINGER-mod**](https://github.com/linyuiz/GINGER-mod): Revised version of the genome annotation software `GINGER`.
 
----
