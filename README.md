@@ -54,11 +54,6 @@ Additionally, zgtools now offers comprehensive support for **ultra-large genomes
 
 ## Flowchart
 
-**Genome Survey Flowchart**:
-
-<div align="center"><img alt="QQ截图20260421163558" src="https://github.com/user-attachments/assets/952a4b32-038c-4f53-a88a-7710dfe8ef52" width=70%/>
-</div>
-
 **Genome T2T Assemble Flowchart**:
 
 <div align="center"><img alt="image" src="https://github.com/user-attachments/assets/7543b456-c446-4daf-98ed-40e364aeec28" width=70%/>
@@ -78,22 +73,6 @@ T2T level achieved by zgtools:
 ③ **Full rDNA**: Chromosomes with rDNA ends also have complete telomeres;  
 ④ **Full Centromeres**: Accurate identification of centromeres across the entire genome.  
 For result files, please refer to the example [example], with both the visualization and results required to meet CNS standards.
-
----
-
-## Analyze content
-
-01. T2T Telomere Extension + Gap Filling + T2T Error Correction + T2T Comprehensive Evaluation  
-02. Survey Analysis + Haplotype Analysis + Second/Third-Generation NT Alignment for Contamination Removal  
-03. Conventional Genome Assembly / Typing Genome Assembly / T2T Genome Assembly (Telomere Extension, Gap Filling, Full rDNA, and PAR Region of Animal T2T-Y Chromosome) + Comprehensive Evaluation  
-04. HiCUP Evaluation (HiC Small-Scale / HiC Large-Scale) + HiC Scaffolding Adjustment + Chromosome-Level Genome Generation + HiC Heatmap + Redundancy Removal in Unmapped Regions + Synteny Analysis + Comprehensive Evaluation  
-05. Subphaser Subgenome Typing + Subgenome-Specific Analysis (SV Analysis / Allele Expression Imbalance Analysis / Subgenome Dominance Analysis / KaKs Differential Analysis)  
-06. LAI Evaluation + LTR Insertion Time Analysis + LTR-RTs Phylogenetic Tree (Maximum Likelihood Method)  
-07. Centromere Prediction (Outperforming All Currently Published Bioinformatics Centromere Identification Tools)  
-08. Duplicate Gene Identification + KaKs Analysis + Functional Enrichment  
-09. Circos Plot, Gene Synteny  
-10. Annotation and Evolution  
-11. Polyploid T2T Workflow
 
 ---
 
