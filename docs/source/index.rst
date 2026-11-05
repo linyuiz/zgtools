@@ -15,6 +15,7 @@ how to :ref:`installation` the project.
 
 Contents
 --------
+Lumache hosts its documentation on Read the Docs.
 
 .. toctree::
 
