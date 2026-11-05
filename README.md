@@ -8,7 +8,8 @@
 
 <div align="center"><img alt="image" src="https://github.com/user-attachments/assets/eb43c9db-a47d-4f59-8c4b-8b5931f6c3d2" width=80%/></div>
 
-<p align="center"><strong>[ <a href="https://github.com/linyuiz/zgtools/wiki/English">English</a> | <a href="https://github.com/linyuiz/zgtools/wiki/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87">简体中文</a> ]</strong></p>
+
+<p align="center"><strong>[ <a href="https://github.com/linyuiz/zgtools/wiki/English">English Wiki</a> | <a href="https://github.com/linyuiz/zgtools/wiki/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87">中文维基</a> ]</strong></p>
 
 🗒**zgtools** is a self-developed, highly integrated modular software suite containing over 200 functional modules, comprehensively covering various analysis tasks from conventional genomes to T2T genomes.     
 Its application scenarios include but are not limited to: **Survey evaluation, assembly, Hi-C-assisted assembly, T2T complete assembly, gene annotation, evolutionary analysis, centromere prediction, and various customized analyses**. Through a unified launcher interface, zgtools achieves efficient management of full-process analysis tasks, offering greater flexibility and customizability compared to Nextflow workflows.  
@@ -26,17 +27,3 @@ Additionally, zgtools now offers comprehensive support for **ultra-large genomes
 - Scaffold N50 reaches **2.12 Gbp**;
 - Assembly BUSCO completeness is **99.87%**;
 - Annotation BUSCO completeness is **99.92%**;
-
----
-
-## Completion Level  
-
-T2T level achieved by zgtools:  
-① **0 Gap**: The most basic requirement;  
-② **Full Telomeres**: Telomere repeats at each chromosome end exceed 100 times (generally, over 1000 is preferable);  
-③ **Full rDNA**: Chromosomes with rDNA ends also have complete telomeres;  
-④ **Full Centromeres**: Accurate identification of centromeres across the entire genome.  
-For result files, please refer to the example [example], with both the visualization and results required to meet CNS standards.
-
----
-
